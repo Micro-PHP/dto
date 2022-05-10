@@ -10,7 +10,8 @@
                                     <xsd:complexType mixed="true">
                                         <xsd:attribute type="xsd:string" name="name" use="required"/>
                                         <xsd:attribute type="xsd:string" name="type" use="required"/>
-                                        <xsd:attribute type="xsd:string" name="description"/>
+                                        <xsd:attribute type="xsd:boolean" name="required" default="false" />
+                                        <xsd:attribute type="xsd:string" name="description" default=""/>
                                         <xsd:attribute type="xsd:string" name="deprecated" default=""/>
                                     </xsd:complexType>
                                 </xsd:element>

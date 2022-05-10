@@ -1,6 +1,14 @@
 {% macro addproperty(property) %}
     /**
-     * @var {{ property.type }}{% if not property.required %}|null{% endif %}
+{% if property.description %}
+     * {{ property.description }}
+     *
+{% endif %}
+{% if property.deprecated %}
+     * @deprecated {{ property.deprecated }}
+     *
+{% endif %}
+     * @var {{ property.type }}{%- if not property.required %}|null{% endif %}
 
      */
     protected {% if not property.required %}?{% endif %}{{ property.type }} ${{ property.name }}{% if not property.required %} = null{% endif %};

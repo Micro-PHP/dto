@@ -35,5 +35,6 @@ class {{ name }} extends AbstractDto
 {% endfor %}
 
     {{ array_to.addToArrayMethod(properties) }}
-    {{ attributes_meta.addAttributesMetadata(properties) }}
+    {{ attributes_meta.addAttributesMetadata(properties) -}}
 }
+

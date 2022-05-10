@@ -1,6 +1,14 @@
 {% macro addSetGet(property) %}
 
     /**
+{% if property.description %}
+     * {{ property.description }}
+     *
+{% endif %}
+{% if property.deprecated %}
+     * @deprecated {{ property.deprecated }}
+     *
+{% endif %}
      * @return {{ property.type }}{% if not property.required %}|null{% endif %}
 
      */
@@ -10,8 +18,16 @@
     }
 
     /**
+{% if property.description %}
+     * {{ property.description }}
+     *
+{% endif %}
      * @param {{ property.type }}{% if not property.required %}|null{% endif %} ${{property.name}}
      *
+{% if property.deprecated %}
+     * @deprecated {{ property.deprecated }}
+     *
+{% endif %}
      * @return self
      */
     public function set{{ property.actionName }}({% if not property.required %}?{% endif -%}{{ property.type }} ${{ property.name }}): self
