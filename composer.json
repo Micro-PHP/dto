@@ -5,7 +5,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Micro\\Library\\DTO\\": "src/"
+            "Micro\\Library\\DTO\\": "src/",
+            "Transfer\\": "out/"
         }
     },
     "authors": [

@@ -7,7 +7,7 @@ abstract class AbstractDto
     /**
      * @param array|null $sourceData
      */
-    public function __construct(?array $sourceData)
+    public function __construct(?array $sourceData = [])
     {
         $this->fromArray($sourceData);
     }
@@ -25,6 +25,22 @@ abstract class AbstractDto
     {
         if($sourceData === null) {
             return;
+        }
+
+        $attributesMetadata = $this->attributesMetadata();
+        foreach ($sourceData as $attributeName => $value) {
+            if(!array_key_exists($attributeName, $attributesMetadata)) {
+                throw new \RuntimeException(sprintf('Property "%s" is not registered in the %s', $attributeName, __CLASS__));
+            }
+
+            $meta = $attributesMetadata[$attributeName];
+            $dtoClass = $meta['dto'];
+            $resultValue = $value;
+            if($dtoClass) {
+                $resultValue = new $dtoClass($value);
+            }
+
+            $this->{$attributeName} = $resultValue;
         }
     }
 

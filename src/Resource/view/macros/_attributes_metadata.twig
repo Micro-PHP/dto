@@ -10,7 +10,8 @@
     '{{ property.name }}' => [
                 'type'              => '{{ property.type }}',
                 'actionName'        => '{{ property.actionName }}',
-                'required'          => {% if property.required %} true {% else%} false {% endif -%},
+                'required'          => {% if property.required -%} true {%- else -%} false {%- endif -%},
+                'dto'               => {% if property.dto %}'{{property.dto}}' {% else %} false {% endif %},
             ],
 
         {% endfor %}];

@@ -52,6 +52,7 @@ class UseStatementProcessor implements PreparationProcessorInterface
             $propNamespace = $this->classMetadataHelper->generateNamespace($propType);
             $useStatement = $this->classMetadataHelper->generateClassname($propType);
             $propDef['type'] = $this->classMetadataHelper->generateClassnameShort($propType);
+            $propDef['dto'] = $useStatement;
 
             if($classDef['namespace'] === $propNamespace) {
                 continue;
