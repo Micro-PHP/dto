@@ -13,7 +13,10 @@ class ClassGeneratorFacadeDefault extends GeneratorFacade
     public function __construct(
         private readonly array $filesSchemeCollection,
         private readonly string $outputPath,
-        private readonly string $namespaceGeneral = ''
+        private readonly string $namespaceGeneral = '',
+        private readonly string $templatePath = __DIR__ .  DIRECTORY_SEPARATOR . 'Resource' . DIRECTORY_SEPARATOR . 'view',
+        private readonly string $templateName = 'class.php.twig',
+        private readonly string $classSuffix = 'Transfer'
     )
     {
         parent::__construct($this->createDefaultDependencyInjectionObject());
@@ -27,7 +30,10 @@ class ClassGeneratorFacadeDefault extends GeneratorFacade
         return new DependencyInjection(
             $this->filesSchemeCollection,
             $this->namespaceGeneral,
-            $this->outputPath
+            $this->classSuffix,
+            $this->outputPath,
+            $this->templatePath,
+            $this->templateName
         );
     }
 }

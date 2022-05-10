@@ -118,12 +118,13 @@ class XmlReader implements ReaderInterface
         $xsdSchemaCfg = $this->lookupXsd($xml);
         $xsdSchemaLocation = $xsdSchemaCfg[1];
 
+        libxml_use_internal_errors(true);
+
         if($xml->schemaValidate($xsdSchemaLocation)) {
             return $xml;
         }
 
         $errs = [];
-        libxml_use_internal_errors(true);
 
         foreach (libxml_get_errors() as $error) {
             $errs[] = $error->message;
@@ -131,6 +132,6 @@ class XmlReader implements ReaderInterface
 
         libxml_use_internal_errors(false);
 
-        throw new \RuntimeException(sprintf("Schema validation exception: \r\n  %s", implode("\r\n - ", $errs)));
+        throw new \RuntimeException(sprintf("Schema validation exception: \r\n %s\r", implode("\r ", $errs)));
     }
 }

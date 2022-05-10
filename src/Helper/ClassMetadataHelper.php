@@ -7,7 +7,10 @@ class ClassMetadataHelper
     /**
      * @param string $namespaceGeneral
      */
-    public function __construct(private readonly string $namespaceGeneral)
+    public function __construct(
+        private readonly string $namespaceGeneral,
+        private readonly string $classSuffix
+    )
     {
     }
 
@@ -62,9 +65,9 @@ class ClassMetadataHelper
     {
         $exploded = explode('\\', $className);
         if(count($exploded) === 1) {
-            return $className;
+            return $className. ucfirst($this->classSuffix);
         }
 
-        return array_pop($exploded);
+        return array_pop($exploded) . ucfirst($this->classSuffix);
     }
 }

@@ -3,8 +3,11 @@
 {% import 'macros/_array_to.twig' as array_to %}
 {% import 'macros/_attributes_metadata.twig' as attributes_meta %}
 <?php
+declare(strict_types=1);
+{% if namespace %}
 
 namespace {{ namespace }};
+{% endif %}
 
 {% for useStatement in useStatements %}
 use {{ useStatement }};

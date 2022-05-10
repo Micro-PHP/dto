@@ -15,7 +15,6 @@ use Micro\Library\DTO\View\RendererInterface;
 use Micro\Library\DTO\View\Twig\TwigRenderer;
 use Micro\Library\DTO\Writer\WriterFilesystem;
 use Micro\Library\DTO\Writer\WriterInterface;
-use MicroDemo\Client\BookReader\Reader\Impl\Reader;
 use Twig\Environment;
 
 class DependencyInjection implements DependencyInjectionInterface
@@ -26,9 +25,10 @@ class DependencyInjection implements DependencyInjectionInterface
     public function __construct(
         private readonly array $filesSchemeCollection,
         private readonly string $namespaceGeneral,
+        private readonly string $classSuffix,
         private readonly string $outputPath,
-        private readonly string $templatePath = __DIR__ .  DIRECTORY_SEPARATOR . 'Resource' . DIRECTORY_SEPARATOR . 'view',
-        private readonly string $classTemplateName = 'class.php.twig'
+        private readonly string $templatePath,
+        private readonly string $classTemplateName
     )
     {
     }
@@ -56,7 +56,7 @@ class DependencyInjection implements DependencyInjectionInterface
      */
     public function createClassMetadataHelper(): ClassMetadataHelper
     {
-        return new ClassMetadataHelper($this->namespaceGeneral);
+        return new ClassMetadataHelper($this->namespaceGeneral, $this->classSuffix);
     }
 
     /**
