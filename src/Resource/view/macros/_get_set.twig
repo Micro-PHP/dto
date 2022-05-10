@@ -1,0 +1,23 @@
+{% macro addSetGet(property) %}
+
+    /**
+     * @return {{ property.type }}{% if not property.required %}|null{% endif %}
+
+     */
+    public function get{{ property.actionName }}(): {% if not property.required %}?{% endif %}{{ property.type }}
+    {
+        return $this->{{ property.name }};
+    }
+
+    /**
+     * @param {{ property.type }}{% if not property.required %}|null{% endif %} ${{property.name}}
+     *
+     * @return self
+     */
+    public function set{{ property.actionName }}({% if not property.required %}?{% endif -%}{{ property.type }} ${{ property.name }}): self
+    {
+        $this->{{property.name}} = ${{property.name}};
+
+        return $this;
+    }
+{% endmacro %}

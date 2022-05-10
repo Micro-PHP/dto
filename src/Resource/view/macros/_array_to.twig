@@ -1,0 +1,14 @@
+{% macro addToArrayMethod(properties) -%}
+
+   /**
+     * @returns array
+     */
+    public function toArray(): array
+    {
+        return [
+    {% for property in properties %}
+        '{{ property.name }}'       => ($this->{{ property.name }} instanceof AbstractDto ? $this->{{ property.name }}->toArray() : $this->{{ property.name }}),
+    {% endfor %}
+    ];
+    }
+{% endmacro %}

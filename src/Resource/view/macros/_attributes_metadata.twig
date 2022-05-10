@@ -1,0 +1,17 @@
+{% macro addAttributesMetadata(properties) -%}
+
+   /**
+    * {@inheritdoc}
+    */
+    protected function attributesMetadata(): array
+    {
+        return [
+        {% for property in properties %}
+    '{{ property.name }}' => [
+                'type'              => '{{ property.type }}',
+                'actionName'        => '{{ property.actionName }}',
+            ],
+
+        {% endfor %}];
+    }
+{% endmacro %}

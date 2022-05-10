@@ -1,0 +1,20 @@
+{
+    "name": "micro/dto-generator",
+    "description": "DTO class generator",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Micro\\Library\\DTO\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Stanislau Komar",
+            "email": "stanislau_komar@epam.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.3"
+    }
+}

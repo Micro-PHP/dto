@@ -1,0 +1,27 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="micro:dto-01" elementFormDefault="qualified">
+    <xsd:element name="dto">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="class" maxOccurs="unbounded" minOccurs="0">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                                <xsd:element name="property" maxOccurs="unbounded" minOccurs="0">
+                                    <xsd:complexType mixed="true">
+                                        <xsd:attribute type="xsd:string" name="name" use="required"/>
+                                        <xsd:attribute type="xsd:string" name="type" use="required"/>
+                                        <xsd:attribute type="xsd:string" name="description"/>
+                                        <xsd:attribute type="xsd:string" name="deprecated" default=""/>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:choice>
+                        </xsd:sequence>
+                        <xsd:attribute type="xsd:string" name="name" use="required"/>
+                        <xsd:attribute type="xsd:string" name="deprecated"/>
+                        <xsd:attribute type="xsd:string" name="description"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

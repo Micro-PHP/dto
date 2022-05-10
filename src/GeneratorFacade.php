@@ -1,0 +1,30 @@
+<?php
+
+namespace Micro\Library\DTO;
+
+use Micro\Library\DTO\Generator\Generator;
+
+class GeneratorFacade implements GeneratorFacadeInterface
+{
+    public function __construct(
+        private readonly DependencyInjectionInterface $dependencyInjection
+    )
+    {
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public function generate(): void
+    {
+        $generator = new Generator(
+            $this->dependencyInjection->createReader(),
+            $this->dependencyInjection->createWriter(),
+            $this->dependencyInjection->createRenderer(),
+            $this->dependencyInjection->createClassPreparationProcessor(),
+        );
+
+        $generator->generate();
+    }
+}
