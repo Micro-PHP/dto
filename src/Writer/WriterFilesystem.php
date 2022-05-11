@@ -38,13 +38,15 @@ class WriterFilesystem implements WriterInterface
      */
     protected function getClassFileMeta(string $classnameFull): array
     {
-        $shortClassAlias = ltrim(ltrim($classnameFull, $this->namespaceGeneral),'\\');
-        $classExploded = explode('\\', $shortClassAlias);
-        $file = $classExploded[0];
+        $namespaceGeneralExploded = explode('\\', $this->namespaceGeneral);
+        $classExploded = explode('\\', $classnameFull);
+        $explodedFile = array_values(array_diff($classExploded, $namespaceGeneralExploded));
+
+        $file = $explodedFile[0];
         $path = rtrim($this->classFilePath, '\\');
         if(count($classExploded) !== 1) {
-            $file = array_pop($classExploded);
-            $path = $path . '\\' . implode(DIRECTORY_SEPARATOR, $classExploded);
+            $file = array_pop($explodedFile);
+            $path = $path . '\\' . implode(DIRECTORY_SEPARATOR, $explodedFile);
         }
 
         return [
