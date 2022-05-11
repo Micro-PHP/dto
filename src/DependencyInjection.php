@@ -5,6 +5,7 @@ namespace Micro\Library\DTO;
 use Micro\Library\DTO\Helper\ClassMetadataHelper;
 use Micro\Library\DTO\Preparation\ClassCollectionPreparation;
 use Micro\Library\DTO\Preparation\ClassCollectionPreparationInterface;
+use Micro\Library\DTO\Preparation\Processor\DateTimePropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\MergerClassProcessor;
 use Micro\Library\DTO\Preparation\Processor\NamespaceProcessor;
 use Micro\Library\DTO\Preparation\Processor\PropertyProcessor;
@@ -70,7 +71,8 @@ class DependencyInjection implements DependencyInjectionInterface
             new MergerClassProcessor(),
             new NamespaceProcessor($classMetadataHelper),
             new UseStatementProcessor($classMetadataHelper),
-            new PropertyProcessor()
+            new PropertyProcessor(),
+            new DateTimePropertyProcessor(),
         ];
     }
     /**
