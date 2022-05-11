@@ -49,7 +49,7 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSer
         $attributesMetadata = $this->attributesMetadata();
         foreach ($sourceData as $attributeName => $value) {
             if(!array_key_exists($attributeName, $attributesMetadata)) {
-                throw new \RuntimeException(sprintf('Property "%s" is not registered in the %s', $attributeName, __CLASS__));
+                throw new \RuntimeException(sprintf('Property "%s" is not registered in the %s', $attributeName, get_class($this)));
             }
 
             $meta = $attributesMetadata[$attributeName];
