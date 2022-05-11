@@ -25,6 +25,7 @@ composer require micro/dto
     <class name="User\User">
         <property name="email" type="string"/>
         <property name="age" type="int"/>
+        <property name="updatedAt" type="datetime" />
         <property name="parent" type="User\User" /> 
     </class>
 </dto>
@@ -54,6 +55,7 @@ $user = new User();
 $user = new UserTransfer([
    'email'   => 'stas@micro.org',
    'age'     => 32,
+   'updatedAt'  => new \DateTime('11.04.2022 15:30'),
    'parent'  => [
        'email'  => 'papa@micro.org',
        'age'    => 53,
