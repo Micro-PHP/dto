@@ -12,9 +12,10 @@ composer require micro/dto
 
 ## Usage
 
-#### Create DTO Chema
+#### Declare all required classes in the XML Schemes
 
 * example.xml
+* See the full list of possible options in the [XSD scheme](src/Resource/schema/dto-01.xsd)
 
 ``` xml
 <?xml version="1.0"?>
@@ -28,12 +29,14 @@ composer require micro/dto
     </class>
 </dto>
 ```
-
+ * And run generator
 ```php
-$classGenerator = new \Micro\Library\DTO\ClassGeneratorFacadeDefault(
+use Micro\Library\DTO\ClassGeneratorFacadeDefault;
+
+$classGenerator = new ClassGeneratorFacadeDefault(
     ['./example.xml'],    // List of class declaration files
     './out',              // Path to the folder where to generate 
-    'Transfer'            // Suffix (optional)
+    'Transfer'            // Suffix for the all DTO classes (optional)
 );
 
 $classGenerator->generate();
@@ -53,6 +56,9 @@ $user = new UserTransfer([
    ]
 ]);
 
+$user->getParent()->getEmail(); // papa@micro.org
+$user->setAge(33);
+
 // Create new User object
 $user2 = new User();
 
@@ -60,8 +66,6 @@ $user2 = new User();
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
