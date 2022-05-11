@@ -21,7 +21,7 @@ composer require micro/dto
 <?xml version="1.0"?>
 <dto xmlns="micro:dto-01"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:schemaLocation="micro:dto-01 src/Resource/schema/dto-01.xsd">
+     xsi:schemaLocation="micro:dto-01 https://raw.githubusercontent.com/Micro-PHP/dto/master/src/Resource/schema/dto-01.xsd">
     <class name="User\User">
         <property name="email" type="string"/>
         <property name="age" type="int"/>
