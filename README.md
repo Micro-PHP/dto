@@ -43,8 +43,12 @@ $classGenerator->generate();
 
 ```
 
+ * Example usages
+
 ```php
 
+// Create new User object
+$user = new User();
 
 //Restore User object from array
 $user = new UserTransfer([
@@ -57,12 +61,24 @@ $user = new UserTransfer([
 ]);
 
 $user->getParent()->getEmail(); // papa@micro.org
+// OR
+$user['parent']['email']; // papa@micro.org
+
+
 $user->setAge(33);
+//OR
+$user['age'] = 33;
 
-// Create new User object
-$user2 = new User();
+// Serialize to JSON
+$json = json_encode($user);
 
+// Iterate as array
+foreach ($user as $property => $value) {
+    doSomethind();
+}
 ```
+
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
