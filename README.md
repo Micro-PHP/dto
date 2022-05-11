@@ -49,7 +49,7 @@ $classGenerator->generate();
 ```php
 
 // Create new User object
-$user = new User();
+$user = new UserTransfer();
 
 //Restore User object from array
 $user = new UserTransfer([
