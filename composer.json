@@ -1,12 +1,12 @@
 {
     "name": "micro/dto-generator",
-    "description": "DTO class generator",
+    "description": "Micro: Library for generating DTO classes",
+    "keywords": ["dto", "data transfer", "transfer", "data", "object", "generator", "data transfer object", "micro"],
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Micro\\Library\\DTO\\": "src/",
-            "Transfer\\": "out/"
+            "Micro\\Library\\DTO\\": "src/"
         }
     },
     "authors": [
