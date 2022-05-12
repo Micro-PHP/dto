@@ -4,7 +4,7 @@ namespace Micro\Library\DTO\Object;
 
 use Traversable;
 
-abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
+abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, \Serializable
 {
     /**
      * @param array|null $sourceData
@@ -37,6 +37,8 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSer
     }
 
     /**
+     * @TODO: Temporary
+     *
      * @param array|null $sourceData
      * @return void
      */
@@ -53,10 +55,15 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSer
             }
 
             $meta = $attributesMetadata[$attributeName];
+
             $dtoClass = $meta['dto'];
             $resultValue = $value;
             if($dtoClass) {
-                $resultValue = new $dtoClass($value);
+                if($dtoClass === \DateTime::class && is_array($value)) {
+                    $resultValue = new \DateTime($value['date'], new \DateTimeZone($value['timezone']));
+                } else {
+                    $resultValue = new $dtoClass($value);
+                }
             }
 
             $this->{$attributeName} = $resultValue;
@@ -113,6 +120,29 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSer
     public function jsonSerialize(): mixed
     {
         return json_encode($this->toArray());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function serialize(): string
+    {
+        return $this->jsonSerialize();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function unserialize(string $classData): void
+    {
+        $data = json_decode($classData, true);
+        if(!$data) {
+            throw new \RuntimeException(sprintf(
+                'Can not be unserialize to the class "%s". THe source: "%s"', get_class($this), $classData
+            ));
+        }
+
+        $this->fromArray($data);
     }
 
     /**
