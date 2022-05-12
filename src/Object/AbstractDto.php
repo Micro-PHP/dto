@@ -4,7 +4,7 @@ namespace Micro\Library\DTO\Object;
 
 use Traversable;
 
-abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, \Serializable
+abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
 {
     /**
      * @param array|null $sourceData
@@ -120,29 +120,6 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSer
     public function jsonSerialize(): mixed
     {
         return json_encode($this->toArray());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function serialize(): string
-    {
-        return $this->jsonSerialize();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function unserialize(string $classData): void
-    {
-        $data = json_decode($classData, true);
-        if(!$data) {
-            throw new \RuntimeException(sprintf(
-                'Can not be unserialize to the class "%s". THe source: "%s"', get_class($this), $classData
-            ));
-        }
-
-        $this->fromArray($data);
     }
 
     /**

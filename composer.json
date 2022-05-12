@@ -4,7 +4,7 @@
     "keywords": ["dto", "data transfer", "transfer", "data", "object", "generator", "data transfer object", "micro"],
     "type": "library",
     "license": "MIT",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "autoload": {
         "psr-4": {
             "Micro\\Library\\DTO\\": "src/"
