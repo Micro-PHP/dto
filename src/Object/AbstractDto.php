@@ -57,17 +57,39 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSer
             $meta = $attributesMetadata[$attributeName];
 
             $dtoClass = $meta['dto'];
+            $isCollection = $meta['is_collection'];
             $resultValue = $value;
+
+            if(!$dtoClass && $isCollection && ( $value && !is_array($value) )) {
+                throw new \RuntimeException(sprintf('Property "%s" is collection but the type of variables is not declared in it.  %s', $attributeName, get_class($this)));
+            }
+
             if($dtoClass) {
-                if($dtoClass === \DateTime::class && is_array($value)) {
-                    $resultValue = new \DateTime($value['date'], new \DateTimeZone($value['timezone']));
+                if($isCollection && $value !== null) {
+                    foreach ($value as $item) {
+                        $resultValue = $this->createValueFromSource($dtoClass, $item);
+                    }
                 } else {
-                    $resultValue = new $dtoClass($value);
+                    $resultValue = $this->createValueFromSource($dtoClass, $value);
                 }
             }
 
             $this->{$attributeName} = $resultValue;
         }
+    }
+
+    /**
+     * @param string $dtoClass
+     * @param mixed $value
+     * @return mixed
+     *
+     * @throws \Exception
+     */
+    protected function createValueFromSource(string $dtoClass, mixed $value)
+    {
+        return $dtoClass === \DateTime::class && is_array($value) ?
+             new \DateTime($value['date'], new \DateTimeZone($value['timezone'])):
+             new $dtoClass($value);
     }
 
     /**

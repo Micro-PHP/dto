@@ -8,8 +8,13 @@
      * @deprecated {{ property.deprecated }}
      *
 {% endif %}
-     * @var {{ property.type }}{%- if not property.required %}|null{% endif %}
-
-     */
+{% if property.is_collection %}
+    * @var iterable<{{ property.type }}>{%- if not property.required %}|null{% endif %}
+    */
+    protected {% if not property.required %}?{% endif %}iterable ${{ property.name }}{% if not property.required %} = null{% endif %};
+{% else %}
+    * @var {{ property.type }}{%- if not property.required %}|null{% endif %}
+    */
     protected {% if not property.required %}?{% endif %}{{ property.type }} ${{ property.name }}{% if not property.required %} = null{% endif %};
+{% endif %}
 {% endmacro %}

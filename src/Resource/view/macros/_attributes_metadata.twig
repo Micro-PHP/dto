@@ -8,6 +8,7 @@
         return [
         {% for property in properties %}
     '{{ property.name }}' => [
+                'is_collection'     =>  {% if property.is_collection %} true {% else %} false {% endif %},
                 'type'              => '{{ property.type }}',
                 'actionName'        => '{{ property.actionName }}',
                 'required'          => {% if property.required -%} true {%- else -%} false {%- endif -%},

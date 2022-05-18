@@ -6,6 +6,7 @@ use Micro\Library\DTO\Helper\ClassMetadataHelper;
 use Micro\Library\DTO\Merger\MergerFactory;
 use Micro\Library\DTO\Preparation\ClassCollectionPreparation;
 use Micro\Library\DTO\Preparation\ClassCollectionPreparationInterface;
+use Micro\Library\DTO\Preparation\Processor\CollectionPropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\DateTimePropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\NamespaceProcessor;
 use Micro\Library\DTO\Preparation\Processor\PropertyProcessor;
@@ -75,6 +76,7 @@ class DependencyInjection implements DependencyInjectionInterface
             new UseStatementProcessor($classMetadataHelper),
             new PropertyProcessor(),
             new DateTimePropertyProcessor(),
+            new CollectionPropertyProcessor(),
         ];
     }
     /**

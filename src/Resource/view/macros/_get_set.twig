@@ -9,10 +9,11 @@
      * @deprecated {{ property.deprecated }}
      *
 {% endif %}
-     * @return {{ property.type }}{% if not property.required %}|null{% endif %}
+     * @return {% if property.is_collection %}iterable<{{ property.type }}>{% else %}{{ property.type }}{% endif %}{% if not property.required %}|null{% endif %}
 
      */
-    public function get{{ property.actionName }}(): {% if not property.required %}?{% endif %}{{ property.type }}
+    public function get{{ property.actionName }}(): {% if not property.required %}?{% endif %}{% if property.is_collection %}iterable{% else %}{{ property.type }}{% endif %}
+
     {
         return $this->{{ property.name }};
     }
@@ -22,7 +23,11 @@
      * {{ property.description }}
      *
 {% endif %}
+{% if property.is_collection %}
+     * @param iterable<{{ property.type }}>{% if not property.required %}|null{% endif %} ${{property.name}}
+{% else %}
      * @param {{ property.type }}{% if not property.required %}|null{% endif %} ${{property.name}}
+{% endif %}
      *
 {% if property.deprecated %}
      * @deprecated {{ property.deprecated }}
@@ -30,7 +35,7 @@
 {% endif %}
      * @return self
      */
-    public function set{{ property.actionName }}({% if not property.required %}?{% endif -%}{{ property.type }} ${{ property.name }}): self
+    public function set{{ property.actionName }}({% if not property.required %}?{% endif -%}{% if property.is_collection %}iterable {% else %}{{ property.type }}{% endif %} ${{ property.name }}): self
     {
         $this->{{property.name}} = ${{property.name}};
 

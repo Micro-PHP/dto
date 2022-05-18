@@ -13,6 +13,7 @@
                                         <xsd:attribute type="xsd:boolean" name="required" default="false" />
                                         <xsd:attribute type="xsd:string" name="description" default=""/>
                                         <xsd:attribute type="xsd:string" name="deprecated" default=""/>
+                                        <xsd:attribute type="xsd:string" name="is_collection" default="false"/>
                                     </xsd:complexType>
                                 </xsd:element>
                             </xsd:choice>
