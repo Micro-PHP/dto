@@ -9,7 +9,7 @@ interface ClassCollectionPreparationInterface
 {
     /**
      * @param ReaderInterface $reader
-     * @return iterable<DefinitionClass>
+     * @return iterable<array>
      */
     public function process(ReaderInterface $reader): iterable;
 }

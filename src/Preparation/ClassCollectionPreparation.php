@@ -19,11 +19,12 @@ class ClassCollectionPreparation implements ClassCollectionPreparationInterface
     public function process(ReaderInterface $reader): iterable
     {
         $classCollection = $reader->read();
+        foreach ($classCollection as $className => $classDef) {
+            foreach ($this->preparationProcessor as $processor) {
+                $processor->processClassCollection($classDef);
+            }
 
-        foreach ($this->preparationProcessor as $processor) {
-            $classCollection = $processor->processClassCollection($classCollection);
+            yield $classDef;
         }
-
-        return $classCollection;
     }
 }

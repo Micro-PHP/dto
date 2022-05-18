@@ -5,9 +5,9 @@ namespace Micro\Library\DTO\Preparation;
 interface PreparationProcessorInterface
 {
     /**
-     * @param array $classCollection
+     * @param iterable $classDef
      *
-     * @return array
+     * @return void
      */
-    public function processClassCollection(array $classCollection): array;
+    public function processClassCollection(iterable &$classDef): void;
 }

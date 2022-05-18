@@ -14,19 +14,12 @@ class NamespaceProcessor implements PreparationProcessorInterface
     /**
      * {@inheritDoc}
      */
-    public function processClassCollection(array $classCollection): array
+    public function processClassCollection(iterable &$classDef): void
     {
-        $result = [];
-        foreach ($classCollection as $classDef) {
-            $className = $classDef['name'];
+        $className = $classDef['name'];
 
-            $classDef['name'] = $this->classMetaHelper->generateClassnameShort($className);
-            $classDef['namespace'] = $this->classMetaHelper->generateNamespace($className);
-            $classDef['fullName'] = $this->classMetaHelper->generateClassname($className);
-
-            $result[] = $classDef;
-        }
-
-        return $result;
+        $classDef['name'] = $this->classMetaHelper->generateClassnameShort($className);
+        $classDef['namespace'] = $this->classMetaHelper->generateNamespace($className);
+        $classDef['fullName'] = $this->classMetaHelper->generateClassname($className);
     }
 }

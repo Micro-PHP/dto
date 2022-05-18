@@ -2,6 +2,8 @@
 
 namespace Micro\Library\DTO\Reader;
 
+use Micro\Library\DTO\Merger\MergerFactoryInterface;
+
 /**
  * @TODO: Temporary solution. MVP
  * @TODO: Get XSD api version
@@ -12,7 +14,8 @@ class XmlReader implements ReaderInterface
      * @param iterable<string> $classDefinitionFilesCollection
      */
     public function __construct(
-        private readonly iterable $classDefinitionFilesCollection
+        private readonly iterable $classDefinitionFilesCollection,
+        private readonly MergerFactoryInterface $mergerFactory
     )
     {
     }
@@ -36,7 +39,7 @@ class XmlReader implements ReaderInterface
             }
         }
 
-        return $classCollection;
+        return $this->mergerFactory->create($classCollection)->merge();
     }
 
     /**

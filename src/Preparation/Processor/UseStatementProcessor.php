@@ -15,30 +15,12 @@ class UseStatementProcessor implements PreparationProcessorInterface
     }
 
     /**
-     * @param array $classCollection
-     *
-     * @return array
+     * {@inheritDoc}
      */
-    public function processClassCollection(array $classCollection): array
+    public function processClassCollection(iterable &$classDef): void
     {
-        $result = [];
-
-        foreach ($classCollection as $classDef) {
-            $result[] = $this->resolveUseStatements($classDef);
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param array $classDef
-     *
-     * @return array
-     */
-    protected function resolveUseStatements(array $classDef): array
-    {
-        if(!array_key_exists('properties', $classDef)) {
-            return $classDef;
+        if(!is_array($classDef) || !array_key_exists('properties', $classDef)) {
+            return;
         }
 
         $useStatements = [];
@@ -62,7 +44,5 @@ class UseStatementProcessor implements PreparationProcessorInterface
         }
 
         $classDef['useStatements'] = array_unique($useStatements);
-
-        return $classDef;
     }
 }

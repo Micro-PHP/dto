@@ -3,10 +3,10 @@
 namespace Micro\Library\DTO;
 
 use Micro\Library\DTO\Helper\ClassMetadataHelper;
+use Micro\Library\DTO\Merger\MergerFactory;
 use Micro\Library\DTO\Preparation\ClassCollectionPreparation;
 use Micro\Library\DTO\Preparation\ClassCollectionPreparationInterface;
 use Micro\Library\DTO\Preparation\Processor\DateTimePropertyProcessor;
-use Micro\Library\DTO\Preparation\Processor\MergerClassProcessor;
 use Micro\Library\DTO\Preparation\Processor\NamespaceProcessor;
 use Micro\Library\DTO\Preparation\Processor\PropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\UseStatementProcessor;
@@ -49,7 +49,10 @@ class DependencyInjection implements DependencyInjectionInterface
      */
     public function createReader(): ReaderInterface
     {
-        return new XmlReader($this->filesSchemeCollection);
+        return new XmlReader(
+            $this->filesSchemeCollection,
+            new MergerFactory()
+        );
     }
 
     /**
@@ -68,7 +71,6 @@ class DependencyInjection implements DependencyInjectionInterface
         $classMetadataHelper = $this->createClassMetadataHelper();
 
         return [
-            new MergerClassProcessor(),
             new NamespaceProcessor($classMetadataHelper),
             new UseStatementProcessor($classMetadataHelper),
             new PropertyProcessor(),

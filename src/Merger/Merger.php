@@ -1,31 +1,32 @@
 <?php
 
-namespace Micro\Library\DTO\Preparation\Processor;
+namespace Micro\Library\DTO\Merger;
 
-use Micro\Library\DTO\Preparation\PreparationProcessorInterface;
-
-class MergerClassProcessor implements PreparationProcessorInterface
+class Merger implements MergerInterface
 {
+    /**
+     * @param iterable $classCollection
+     */
+    public function __construct(private readonly iterable $classCollection)
+    {
+    }
+
     /**
      * {@inheritDoc}
      */
-    public function processClassCollection(array $classCollection): array
+    public function merge(): iterable
     {
-        $preparedClassCollection = $this->sortClassCollectionByName($classCollection);
-        $response = [];
+        $preparedClassCollection = $this->sortClassCollectionByName($this->classCollection);
 
         foreach ($preparedClassCollection as $className => $classData) {
             if(count($classData) === 1) {
-                $response[] = $classData[0];
+                yield $classData[0];
 
                 continue;
             }
 
-            $response[] = $this->mergeClass($className, $classData);
+            yield $this->mergeClass($className, $classData);
         }
-
-
-        return $response;
     }
 
     /**
@@ -61,10 +62,10 @@ class MergerClassProcessor implements PreparationProcessorInterface
     }
 
     /**
-     * @param array $classCollection
+     * @param iterable $classCollection
      * @return array
      */
-    protected function sortClassCollectionByName(array $classCollection): array
+    protected function sortClassCollectionByName(iterable $classCollection): array
     {
         $collectionPrepared = [];
 

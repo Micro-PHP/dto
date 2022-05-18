@@ -9,21 +9,13 @@ class PropertyProcessor implements PreparationProcessorInterfaceAlias
     /**
      * {@inheritDoc}
      */
-    public function processClassCollection(array $classCollection): array
+    public function processClassCollection(iterable &$classDef): void
     {
-        $result = [];
-
-        foreach ($classCollection as &$classDef) {
-            foreach ($classDef['properties'] as &$property) {
-                $propName = $property['name'];
-                $this->validatePropertyName($propName);
-                $property['actionName'] = ucfirst($this->createCamelCase($propName));
-            }
-
-            $result[] = $classDef;
+        foreach ($classDef['properties'] as &$property) {
+            $propName = $property['name'];
+            $this->validatePropertyName($propName);
+            $property['actionName'] = ucfirst($this->createCamelCase($propName));
         }
-
-        return $result;
     }
 
     protected function validatePropertyName(string $propertyName): void
