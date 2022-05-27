@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<dto xmlns="micro:dto-01"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="micro:dto-01 ../src/Resource/schema/dto-01.xsd">
+    <class name="Simple\SimpleObject">
+        <property name="weight" type="int"/>
+    </class>
+
+    <class name="Simple\SimpleObject">
+        <property name="height" type="int"/>
+    </class>
+    <class name="Simple\SimpleObject">
+        <property name="parent" type="Simple\SimpleObject"/>
+    </class>
+
+    <class name="Simple\SimpleUser">
+        <property name="parent" type="Simple\SimpleObject"/>
+    </class>
+
+    <class name="User" description="Example class description">
+        <property name="username" type="string|int" description="Username" deprecated="Deprecation  message"/>
+        <property name="books" type="Simple\SimpleObject" is_collection="true"/>
+        <property name="first_name" type="string" required="true"/>
+        <property name="updatedAt" type="date" required="false"/>
+        <property name="someclass" type="abstract" required="false"/>
+    </class>
+</dto>

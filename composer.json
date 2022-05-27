@@ -18,6 +18,6 @@
     ],
     "require": {
         "php": ">= 8.0",
-        "twig/twig": "^2|^3"
+        "nette/php-generator": "^3|^4"
     }
 }

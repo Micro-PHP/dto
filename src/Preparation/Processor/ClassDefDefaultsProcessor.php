@@ -12,9 +12,10 @@ class ClassDefDefaultsProcessor implements PreparationProcessorInterface
     public function processClassCollection(iterable &$classDef): void
     {
         $defaultClassOptions = [
-            'useStatements' => [],
-            'type' => 'mixed',
-            'namespace' => null,
+            self::CLASS_USE_STATEMENTS => [],
+            self::PROP_TYPE => 'mixed',
+            self::CLASS_NAMESPACE => null,
+            self::PROP_TYPE_IS_COLLECTION => false,
         ];
 
         foreach ($defaultClassOptions as $name => $default) {

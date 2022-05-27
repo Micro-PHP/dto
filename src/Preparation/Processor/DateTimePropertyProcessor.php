@@ -11,21 +11,18 @@ class DateTimePropertyProcessor implements PreparationProcessorInterface
      */
     public function processClassCollection(iterable &$classDef): void
     {
-        foreach ($classDef['properties'] as &$property) {
-            $propType = $property['type'];
+        foreach ($classDef[self::SECTION_PROPERTIES] as &$property) {
+            $propType = $property[self::PROP_TYPE];
 
             if(!$this->isDateTimeProperty($propType)) {
                 continue;
             }
 
-            $property['type'] = \DateTime::class;
-            $property['dto'] = \DateTime::class;
-            $classDef['useStatements'][] = '\DateTime';
+            $property[self::PROP_TYPE] = \DateTime::class;
+            $classDef[self::CLASS_USE_STATEMENTS][] = '\DateTime';
         }
 
-        $classDef['useStatements'] = array_unique($classDef['useStatements']);
-
-        var_dump($classDef);
+        $classDef[self::CLASS_USE_STATEMENTS] = array_unique($classDef[self::CLASS_USE_STATEMENTS]);
     }
 
     /**

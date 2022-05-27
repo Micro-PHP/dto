@@ -44,42 +44,7 @@ $classGenerator->generate();
 
 ```
 
- * Example usages
-
-```php
-
-// Create new User object
-$user = new UserTransfer();
-
-//Restore User object from array
-$user = new UserTransfer([
-   'email'   => 'stas@micro.org',
-   'age'     => 32,
-   'updatedAt'  => new \DateTime('11.04.2022 15:30'),
-   'parent'  => [
-       'email'  => 'papa@micro.org',
-       'age'    => 53,
-   ]
-]);
-
-$user->getParent()->getEmail(); // papa@micro.org
-// OR
-$user['parent']['email']; // papa@micro.org
-
-
-$user->setAge(33);
-//OR
-$user['age'] = 33;
-
-// Serialize to JSON
-$json = json_encode($user);
-
-// Iterate as array
-foreach ($user as $property => $value) {
-    doSomethind();
-}
-```
-
+### [See full example](./example/)
 
 
 ## Contributing

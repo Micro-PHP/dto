@@ -2,7 +2,6 @@
 
 namespace Micro\Library\DTO\Preparation;
 
-use Micro\Library\DTO\Definition\DefinitionClass;
 use Micro\Library\DTO\Reader\ReaderInterface;
 
 interface ClassCollectionPreparationInterface

@@ -46,6 +46,10 @@ class ClassMetadataHelper implements ClassMetadataHelperInterface
      */
     public function generateClassname(string $className): string
     {
+        if(!$this->shouldAddGeneralNamespace($className)) {
+            return $className;
+        }
+
         return $this->generateNamespace($className) . '\\' . $this->generateClassnameShort($className);
     }
 

@@ -4,25 +4,12 @@ namespace Micro\Library\DTO\Object;
 
 use Traversable;
 
-abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
+abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
 {
     /**
-     * @param array|null $sourceData
-     */
-    public function __construct(?array $sourceData = [])
-    {
-        $this->fromArray($sourceData);
-    }
-
-    /**
      * @return array
      */
-    protected abstract function attributesMetadata(): array;
-
-    /**
-     * @return array
-     */
-    public abstract function toArray(): array;
+    protected static abstract function attributesMetadata(): array;
 
     /**
      * @param string $attribute
@@ -31,65 +18,9 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSer
      */
     protected function getAttributeMetadata(string $attribute): ?array
     {
-       $meta = $this->attributesMetadata();
+       $meta = static::attributesMetadata();
 
        return $meta[$attribute] ?? null;
-    }
-
-    /**
-     * @TODO: Temporary
-     *
-     * @param array|null $sourceData
-     * @return void
-     */
-    protected function fromArray(?array $sourceData): void
-    {
-        if($sourceData === null) {
-            return;
-        }
-
-        $attributesMetadata = $this->attributesMetadata();
-        foreach ($sourceData as $attributeName => $value) {
-            if(!array_key_exists($attributeName, $attributesMetadata)) {
-                throw new \RuntimeException(sprintf('Property "%s" is not registered in the %s', $attributeName, get_class($this)));
-            }
-
-            $meta = $attributesMetadata[$attributeName];
-
-            $dtoClass = $meta['dto'];
-            $isCollection = $meta['is_collection'];
-            $resultValue = $value;
-
-            if(!$dtoClass && $isCollection && ( $value && !is_array($value) )) {
-                throw new \RuntimeException(sprintf('Property "%s" is collection but the type of variables is not declared in it.  %s', $attributeName, get_class($this)));
-            }
-
-            if($dtoClass) {
-                if($isCollection && $value !== null) {
-                    foreach ($value as $item) {
-                        $resultValue = $this->createValueFromSource($dtoClass, $item);
-                    }
-                } else {
-                    $resultValue = $this->createValueFromSource($dtoClass, $value);
-                }
-            }
-
-            $this->{$attributeName} = $resultValue;
-        }
-    }
-
-    /**
-     * @param string $dtoClass
-     * @param mixed $value
-     * @return mixed
-     *
-     * @throws \Exception
-     */
-    protected function createValueFromSource(string $dtoClass, mixed $value)
-    {
-        return $dtoClass === \DateTime::class && is_array($value) ?
-             new \DateTime($value['date'], new \DateTimeZone($value['timezone'])):
-             new $dtoClass($value);
     }
 
     /**
@@ -134,14 +65,6 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate, \JsonSer
                 yield $attributeName => $this->offsetGet($attributeName);
             }
         })();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function jsonSerialize(): mixed
-    {
-        return json_encode($this->toArray());
     }
 
     /**

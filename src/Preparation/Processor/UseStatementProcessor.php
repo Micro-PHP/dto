@@ -28,6 +28,8 @@ class UseStatementProcessor implements PreparationProcessorInterface
 
         foreach ($classDef['properties'] as &$propDef) {
             $propType = $propDef['type'];
+            $propDef['type_full'] = $propType;
+
             if(!preg_match('%^\p{Lu}%u', $propType)) {
                 continue;
             }
@@ -35,6 +37,7 @@ class UseStatementProcessor implements PreparationProcessorInterface
             $propNamespace = $this->classMetadataHelper->generateNamespace($propType);
             $useStatement = $this->classMetadataHelper->generateClassname($propType);
             $propDef['type'] = $this->classMetadataHelper->generateClassnameShort($propType);
+            $propDef['type_full'] = $useStatement;
             $propDef['dto'] = $useStatement;
 
             if($classDef['namespace'] === $propNamespace) {

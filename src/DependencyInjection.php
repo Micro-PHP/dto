@@ -7,14 +7,20 @@ use Micro\Library\DTO\Merger\MergerFactory;
 use Micro\Library\DTO\Preparation\ClassCollectionPreparation;
 use Micro\Library\DTO\Preparation\ClassCollectionPreparationInterface;
 use Micro\Library\DTO\Preparation\Processor\AbstractPropertyProcessor;
+use Micro\Library\DTO\Preparation\Processor\AttributeMetadataContentProcessor;
 use Micro\Library\DTO\Preparation\Processor\ClassDefDefaultsProcessor;
 use Micro\Library\DTO\Preparation\Processor\CollectionPropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\DateTimePropertyProcessor;
+use Micro\Library\DTO\Preparation\Processor\CommentsTypeProcessor;
+use Micro\Library\DTO\Preparation\Processor\MethodsBodyProcessor;
+use Micro\Library\DTO\Preparation\Processor\MethodTypeArgProcessor;
 use Micro\Library\DTO\Preparation\Processor\NamespaceProcessor;
+use Micro\Library\DTO\Preparation\Processor\PropertyCommentProcessor;
 use Micro\Library\DTO\Preparation\Processor\PropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\UseStatementProcessor;
 use Micro\Library\DTO\Reader\ReaderInterface;
 use Micro\Library\DTO\Reader\XmlReader;
+use Micro\Library\DTO\View\Nette\NetteRenderer;
 use Micro\Library\DTO\View\RendererInterface;
 use Micro\Library\DTO\View\Twig\TwigRenderer;
 use Micro\Library\DTO\Writer\WriterFilesystem;
@@ -81,6 +87,10 @@ class DependencyInjection implements DependencyInjectionInterface
             new CollectionPropertyProcessor(),
             new AbstractPropertyProcessor(),
             new UseStatementProcessor($classMetadataHelper),
+            new MethodTypeArgProcessor(),
+            new CommentsTypeProcessor(),
+            new MethodsBodyProcessor(),
+            new AttributeMetadataContentProcessor(),
         ];
     }
     /**
@@ -99,10 +109,10 @@ class DependencyInjection implements DependencyInjectionInterface
      */
     public function createRenderer(): RendererInterface
     {
-        $loader = new \Twig\Loader\FilesystemLoader($this->templatePath);
+       // $loader = new \Twig\Loader\FilesystemLoader($this->templatePath);
 
-        $twig = new Environment($loader);
+        //$twig = new Environment($loader);
 
-        return new TwigRenderer($twig, $this->classTemplateName);
+        return new NetteRenderer(); //new TwigRenderer($twig, $this->classTemplateName);
     }
 }
