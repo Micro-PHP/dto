@@ -11,10 +11,10 @@ class PropertyProcessor implements PreparationProcessorInterfaceAlias
      */
     public function processClassCollection(iterable &$classDef): void
     {
-        foreach ($classDef['properties'] as &$property) {
-            $propName = $property['name'];
+        foreach ($classDef[self::SECTION_PROPERTIES] as &$property) {
+            $propName = $property[self::PROP_NAME];
             $this->validatePropertyName($propName);
-            $property['actionName'] = ucfirst($this->createCamelCase($propName));
+            $property[self::PROP_ACTION_NAME] = ucfirst($this->createCamelCase($propName));
         }
     }
 

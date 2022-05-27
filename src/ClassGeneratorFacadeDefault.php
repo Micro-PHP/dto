@@ -4,6 +4,7 @@ namespace Micro\Library\DTO;
 
 
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class ClassGeneratorFacadeDefault extends GeneratorFacade
 {
@@ -19,7 +20,7 @@ class ClassGeneratorFacadeDefault extends GeneratorFacade
         private readonly string $outputPath,
         private readonly string $namespaceGeneral = '',
         private readonly string $classSuffix = 'Transfer',
-        private readonly ?LoggerInterface $logger = null
+        private readonly null|LoggerInterface $logger = new NullLogger(),
     )
     {
         parent::__construct($this->createDefaultDependencyInjectionObject());

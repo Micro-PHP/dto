@@ -14,10 +14,9 @@ class MethodTypeArgProcessor implements PreparationProcessorInterface
             $methodType = $propDef[self::PROP_TYPE_FULLNAME];
             $methodTypeArg = $isCollection ? 'array' : $methodType;
             $isRequired = $propDef[self::PROP_REQUIRED] ?? false;
-            if($isRequired) {
+            if($isRequired && $propDef[self::PROP_TYPE_FULLNAME] !== 'mixed') {
                 $methodTypeArg .= '|null';
             }
-
 
             $propDef[self::METHOD_GET_RETURN_TYPE] = $methodTypeArg;
             $propDef[self::METHOD_TYPE_ARG] = $methodTypeArg;

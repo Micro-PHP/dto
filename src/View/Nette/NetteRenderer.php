@@ -98,6 +98,10 @@ class NetteRenderer implements RendererInterface
             ->setProtected()
             ->setType($propertyData[PPI::METHOD_TYPE_ARG]);
 
+        if($propertyData[PPI::METHOD_TYPE_ARG] === 'mixed' || $propertyData[PPI::PROP_REQUIRED] === false) {
+            $property->setValue(null);
+        }
+
         $comments = $propertyData[PPI::PROP_COMMENTS];
         $this->provideComments($property, $comments);
 
