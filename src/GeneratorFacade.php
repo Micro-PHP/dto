@@ -3,6 +3,8 @@
 namespace Micro\Library\DTO;
 
 use Micro\Library\DTO\Generator\Generator;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class GeneratorFacade implements GeneratorFacadeInterface
 {
@@ -23,6 +25,7 @@ class GeneratorFacade implements GeneratorFacadeInterface
             $this->dependencyInjection->createWriter(),
             $this->dependencyInjection->createRenderer(),
             $this->dependencyInjection->createClassPreparationProcessor(),
+            $this->dependencyInjection->getLogger()
         );
 
         $generator->generate();

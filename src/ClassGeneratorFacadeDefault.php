@@ -3,20 +3,23 @@
 namespace Micro\Library\DTO;
 
 
+use Psr\Log\LoggerInterface;
+
 class ClassGeneratorFacadeDefault extends GeneratorFacade
 {
     /**
+     * @param array $filesSchemeCollection
      * @param string $outputPath
-     *
      * @param string $namespaceGeneral
+     * @param string $classSuffix
+     * @param LoggerInterface|null $logger
      */
     public function __construct(
         private readonly array $filesSchemeCollection,
         private readonly string $outputPath,
         private readonly string $namespaceGeneral = '',
-        private readonly string $templatePath = __DIR__ .  DIRECTORY_SEPARATOR . 'Resource' . DIRECTORY_SEPARATOR . 'view',
-        private readonly string $templateName = 'class.php.twig',
-        private readonly string $classSuffix = 'Transfer'
+        private readonly string $classSuffix = 'Transfer',
+        private readonly ?LoggerInterface $logger = null
     )
     {
         parent::__construct($this->createDefaultDependencyInjectionObject());
@@ -32,8 +35,7 @@ class ClassGeneratorFacadeDefault extends GeneratorFacade
             $this->namespaceGeneral,
             $this->classSuffix,
             $this->outputPath,
-            $this->templatePath,
-            $this->templateName
+            $this->logger
         );
     }
 }

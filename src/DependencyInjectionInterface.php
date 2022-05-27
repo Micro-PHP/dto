@@ -7,9 +7,15 @@ use Micro\Library\DTO\Preparation\ClassCollectionPreparationInterface;
 use Micro\Library\DTO\Reader\ReaderInterface;
 use Micro\Library\DTO\View\RendererInterface;
 use Micro\Library\DTO\Writer\WriterInterface;
+use Psr\Log\LoggerInterface;
 
 interface DependencyInjectionInterface
 {
+    /**
+     * @return LoggerInterface
+     */
+    public function getLogger(): LoggerInterface;
+
     /**
      * @return ClassCollectionPreparationInterface
      */

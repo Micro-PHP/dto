@@ -25,25 +25,36 @@ use Micro\Library\DTO\View\RendererInterface;
 use Micro\Library\DTO\View\Twig\TwigRenderer;
 use Micro\Library\DTO\Writer\WriterFilesystem;
 use Micro\Library\DTO\Writer\WriterInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Twig\Environment;
 
 class DependencyInjection implements DependencyInjectionInterface
 {
     /**
+     * @param array $filesSchemeCollection
      * @param string $namespaceGeneral
+     * @param string $classSuffix
+     * @param string $outputPath
+     * @param LoggerInterface|null $logger
      */
     public function __construct(
         private readonly array $filesSchemeCollection,
         private readonly string $namespaceGeneral,
         private readonly string $classSuffix,
         private readonly string $outputPath,
-        private readonly string $templatePath,
-        private readonly string $classTemplateName
+        private readonly ?LoggerInterface $logger
     )
     {
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
+    public function getLogger(): LoggerInterface
+    {
+        return $this->logger ?? new NullLogger();
+    }
 
     /**
      * {@inheritDoc}
@@ -109,10 +120,6 @@ class DependencyInjection implements DependencyInjectionInterface
      */
     public function createRenderer(): RendererInterface
     {
-       // $loader = new \Twig\Loader\FilesystemLoader($this->templatePath);
-
-        //$twig = new Environment($loader);
-
         return new NetteRenderer(); //new TwigRenderer($twig, $this->classTemplateName);
     }
 }

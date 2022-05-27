@@ -2,8 +2,20 @@
 
 require dirname(__FILE__) . '/../vendor/autoload.php';
 
+$logger = new class extends \Psr\Log\NullLogger {
+    public function debug(\Stringable|string $message, array $context = []): void
+    {
+        print_r("$message\r\n");
+    }
+};
 
-$classGenerator = new \Micro\Library\DTO\ClassGeneratorFacadeDefault(['./example.xml'], './out', 'Transfer');
+$classGenerator = new \Micro\Library\DTO\ClassGeneratorFacadeDefault(
+    ['./example.xml'],
+    './out',
+    'Transfer',
+    'Transfer',
+    $logger
+);
 
 $classGenerator->generate();
 
@@ -37,7 +49,7 @@ $user
 
 // Iterate as array
 foreach ($user as $key => $value) {
-    var_dump($key, $value);
+    print_r("\r\nPROPERTY: " . $key . " ==== " . (is_scalar($value) ? $value : serialize($value)));
 }
 
 print_r('FISRT BOOK HEIGHT : ' . $user['books'][0]['height'] . "\r\n");

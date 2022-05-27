@@ -13,7 +13,8 @@ class MethodTypeArgProcessor implements PreparationProcessorInterface
             $isCollection = $propDef[self::PROP_TYPE_IS_COLLECTION] ?? false;
             $methodType = $propDef[self::PROP_TYPE_FULLNAME];
             $methodTypeArg = $isCollection ? 'array' : $methodType;
-            if(!$propDef[self::PROP_REQUIRED] ?? false) {
+            $isRequired = $propDef[self::PROP_REQUIRED] ?? false;
+            if($isRequired) {
                 $methodTypeArg .= '|null';
             }
 
