@@ -3,6 +3,7 @@
 namespace Micro\Library\DTO\Preparation\Processor;
 
 use Micro\Library\DTO\Helper\ClassMetadataHelper;
+use Micro\Library\DTO\Helper\ClassMetadataHelperInterface;
 use Micro\Library\DTO\Preparation\PreparationProcessorInterface;
 
 class UseStatementProcessor implements PreparationProcessorInterface
@@ -43,6 +44,10 @@ class UseStatementProcessor implements PreparationProcessorInterface
             $useStatements[] = $useStatement;
         }
 
-        $classDef['useStatements'] = array_unique($useStatements);
+        $classDef['useStatements'] = array_unique(array_merge($useStatements, $classDef['useStatements']));
+
+        if(!in_array(ClassMetadataHelperInterface::PROPERTY_TYPE_ABSTRACT_CLASS, $classDef['useStatements'])) {
+            $classDef['useStatements'][] = ClassMetadataHelperInterface::PROPERTY_TYPE_ABSTRACT_CLASS;
+        }
     }
 }

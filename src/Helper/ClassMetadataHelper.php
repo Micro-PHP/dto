@@ -2,10 +2,13 @@
 
 namespace Micro\Library\DTO\Helper;
 
-class ClassMetadataHelper
+use Micro\Library\DTO\Object\AbstractDto;
+
+class ClassMetadataHelper implements ClassMetadataHelperInterface
 {
     /**
      * @param string $namespaceGeneral
+     * @param string $classSuffix
      */
     public function __construct(
         private readonly string $namespaceGeneral,
@@ -15,17 +18,7 @@ class ClassMetadataHelper
     }
 
     /**
-     * @return string
-     */
-    public function getNamespaceGeneral(): string
-    {
-        return $this->namespaceGeneral;
-    }
-
-    /**
-     * @param string $className
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function generateNamespace(string $className): string
     {
@@ -35,7 +28,9 @@ class ClassMetadataHelper
         }
 
         $namespaceExploded = [];
-        if($this->namespaceGeneral) {
+        $shouldAddGeneralNamespace = $this->shouldAddGeneralNamespace($className);
+
+        if($shouldAddGeneralNamespace && $this->namespaceGeneral) {
             $namespaceExploded[] = $this->namespaceGeneral;
         }
 
@@ -47,27 +42,59 @@ class ClassMetadataHelper
     }
 
     /**
-     * @param string $className
-     *
-     * @return string
+     * {@inheritDoc}
      */
-    public function generateClassname(string $className)
+    public function generateClassname(string $className): string
     {
         return $this->generateNamespace($className) . '\\' . $this->generateClassnameShort($className);
     }
 
     /**
-     * @param string $className
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function generateClassnameShort(string $className): string
     {
+        $shouldAddSuffix = $this->shouldAddGeneralNamespace($className);
         $exploded = explode('\\', $className);
+
+        if(!$shouldAddSuffix) {
+            return array_pop($exploded);
+        }
+
         if(count($exploded) === 1) {
             return $className. ucfirst($this->classSuffix);
         }
 
         return array_pop($exploded) . ucfirst($this->classSuffix);
+    }
+
+    /**
+     * @param string $classname
+     *
+     * @return bool
+     */
+    protected function shouldAddGeneralNamespace(string $classname): bool
+    {
+        if(mb_strtolower($classname) === self::PROPERTY_TYPE_ABSTRACT) {
+            return false;
+        }
+
+        if(!class_exists($classname)) {
+            return true;
+        }
+
+        if(str_starts_with($classname, $this->namespaceGeneral)) {
+            return false;
+        }
+
+        if(is_a($classname, AbstractDto::class, true)) {
+            return false;
+        }
+
+        if(is_a($classname, \DateTimeInterface::class, true)) {
+            return false;
+        }
+
+        return true;
     }
 }

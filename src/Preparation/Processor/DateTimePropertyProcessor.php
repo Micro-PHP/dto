@@ -24,6 +24,8 @@ class DateTimePropertyProcessor implements PreparationProcessorInterface
         }
 
         $classDef['useStatements'] = array_unique($classDef['useStatements']);
+
+        var_dump($classDef);
     }
 
     /**
