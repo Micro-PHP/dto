@@ -2,19 +2,34 @@
 
 namespace Micro\Library\DTO;
 
+use Micro\Library\DTO\Helper\CamelCaseNormalizer;
 use Micro\Library\DTO\Helper\ClassMetadataHelper;
+use Micro\Library\DTO\Helper\NameNormalizerInterface;
 use Micro\Library\DTO\Merger\MergerFactory;
-use Micro\Library\DTO\Preparation\ClassCollectionPreparation;
-use Micro\Library\DTO\Preparation\ClassCollectionPreparationInterface;
+use Micro\Library\DTO\Preparation\CollectionPreparation;
+use Micro\Library\DTO\Preparation\CollectionPreparationInterface;
 use Micro\Library\DTO\Preparation\Processor\AbstractPropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\AttributeMetadataContentProcessor;
+use Micro\Library\DTO\Preparation\Processor\ClassCommentProcessor;
 use Micro\Library\DTO\Preparation\Processor\ClassDefDefaultsProcessor;
+use Micro\Library\DTO\Preparation\Processor\ClassNameProcessor;
+use Micro\Library\DTO\Preparation\Processor\ClassPropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\CollectionPropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\DateTimePropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\CommentsTypeProcessor;
+use Micro\Library\DTO\Preparation\Processor\MethodGetProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodsBodyProcessor;
+use Micro\Library\DTO\Preparation\Processor\MethodSetProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodTypeArgProcessor;
 use Micro\Library\DTO\Preparation\Processor\NamespaceProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\CommentProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\DateTypeProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\DtoPropertyProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\NameProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\PropertyAbstractProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\PropertyRequiredProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\TypeProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\ValueProcessor;
 use Micro\Library\DTO\Preparation\Processor\PropertyCommentProcessor;
 use Micro\Library\DTO\Preparation\Processor\PropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\UseStatementProcessor;
@@ -59,9 +74,9 @@ class DependencyInjection implements DependencyInjectionInterface
     /**
      * {@inheritDoc}
      */
-    public function createClassPreparationProcessor(): ClassCollectionPreparationInterface
+    public function createClassPreparationProcessor(): CollectionPreparationInterface
     {
-        return new ClassCollectionPreparation($this->createPreparationProcessorCollection());
+        return new CollectionPreparation($this->createPreparationProcessorCollection());
     }
 
     /**
@@ -84,24 +99,36 @@ class DependencyInjection implements DependencyInjectionInterface
     }
 
     /**
+     * @return NameNormalizerInterface
+     */
+    public function createCamelCaseProcessor(): NameNormalizerInterface
+    {
+        return new CamelCaseNormalizer();
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function createPreparationProcessorCollection(): iterable
     {
         $classMetadataHelper = $this->createClassMetadataHelper();
+        $camelCaseHelper = $this->createCamelCaseProcessor();
 
         return [
-            new ClassDefDefaultsProcessor(),
-            new NamespaceProcessor($classMetadataHelper),
-            new PropertyProcessor(),
-            new DateTimePropertyProcessor(),
-            new CollectionPropertyProcessor(),
-            new AbstractPropertyProcessor(),
-            new UseStatementProcessor($classMetadataHelper),
-            new MethodTypeArgProcessor(),
-            new CommentsTypeProcessor(),
-            new MethodsBodyProcessor(),
-            new AttributeMetadataContentProcessor(),
+            new ClassNameProcessor($classMetadataHelper),
+            new ClassCommentProcessor(),
+            new ClassPropertyProcessor([
+                new NameProcessor(),
+                new PropertyRequiredProcessor(),
+                new TypeProcessor(),
+                new DateTypeProcessor(),
+                new DtoPropertyProcessor($classMetadataHelper),
+                new PropertyAbstractProcessor(),
+                new ValueProcessor(),
+                new CommentProcessor(),
+            ]),
+            new MethodGetProcessor($camelCaseHelper),
+            new MethodSetProcessor($camelCaseHelper)
         ];
     }
     /**

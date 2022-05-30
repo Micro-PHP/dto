@@ -2,13 +2,14 @@
 
 namespace Micro\Library\DTO\Preparation;
 
+use Micro\Library\DTO\ClassDef\ClassDefinition;
 use Micro\Library\DTO\Reader\ReaderInterface;
 
-interface ClassCollectionPreparationInterface
+interface CollectionPreparationInterface
 {
     /**
      * @param ReaderInterface $reader
-     * @return iterable<array>
+     * @return iterable<ClassDefinition>
      */
     public function process(ReaderInterface $reader): iterable;
 }

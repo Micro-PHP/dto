@@ -20,5 +20,8 @@
         "php": ">= 8.0",
         "nette/php-generator": "^3|^4",
         "psr/log": "*"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5|^6"
     }
 }

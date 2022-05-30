@@ -2,12 +2,14 @@
 
 namespace Micro\Library\DTO\View;
 
+use Micro\Library\DTO\ClassDef\ClassDefinition;
+
 interface RendererInterface
 {
     /**
-     * @param array $classData
+     * @param ClassDefinition $classDefinition
      *
      * @return string
      */
-    public function render(array $classData): string;
+    public function render(ClassDefinition $classDefinition): string;
 }

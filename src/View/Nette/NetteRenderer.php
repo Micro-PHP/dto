@@ -2,6 +2,9 @@
 
 namespace Micro\Library\DTO\View\Nette;
 
+use Micro\Library\DTO\ClassDef\ClassDefinition;
+use Micro\Library\DTO\ClassDef\MethodDefinition;
+use Micro\Library\DTO\ClassDef\PropertyDefinition;
 use Micro\Library\DTO\Object\AbstractDto;
 use Micro\Library\DTO\View\RendererInterface;
 use Nette\PhpGenerator\ClassType;
@@ -20,21 +23,25 @@ class NetteRenderer implements RendererInterface
      *
      * @return string
      */
-    public function render(array $classData): string
+    public function render(ClassDefinition $classDefinition): string
     {
-        $phpFile = $this->createPhpFileType($classData);
+        $phpFile = $this->createPhpFileType($classDefinition);
         $class = array_values($phpFile->getClasses());
         /** @var ClassType $class */
         $class = $class[0];
 
         $class
-            ->setExtends(AbstractDto::class)
+            ->setExtends($classDefinition->getExtends())
             ->setFinal()
-            ->setComment($this->createCommentMessage($classData[PPI::DESCRIPTION] ?? ''))
         ;
 
-        $this->provideProperties($class, $classData);
-        $this->provideMeta($class, $classData);
+        foreach ($classDefinition->getComments() as $comment) {
+            $class->addComment($comment);
+        }
+
+        $this->provideProperties($class, $classDefinition);
+        $this->provideMethods($class, $classDefinition);
+        //$this->provideMeta($class, $classData);
 
         return $this->printClass($phpFile);
     }
@@ -54,67 +61,53 @@ class NetteRenderer implements RendererInterface
         $classType->addMember($method);
     }
 
-    protected function createPhpFileType(array $classData): PhpFile
+    protected function createPhpFileType(ClassDefinition $classDefinition): PhpFile
     {
         $file = new PhpFile;
         $file->addComment('This file is auto-generated.');
         $file->setStrictTypes();
-        $namespaceObj = new PhpNamespace($classData[PPI::CLASS_NAMESPACE]);
-        $namespaceObj->addClass($classData[PPI::CLASS_NAME]);
+        $namespaceObj = new PhpNamespace($classDefinition->getNamespace());
+        $namespaceObj->addClass($classDefinition->getName());
         $namespace = $file->addNamespace($namespaceObj);
-        $this->provideUsages($namespace, $classData);
+
+        $this->provideUsages($namespace, $classDefinition);
 
         return $file;
     }
 
-    protected function provideComments(Method|ClassType|Property|PhpFile $object, array $comments)
+    protected function provideUsages(PhpNamespace $namespace, ClassDefinition $classDefinition)
     {
-        $comments = array_unique($comments);
-        foreach ($comments as $comment) {
-            $object->addComment($comment ? ($comment . "\n") : '');
-        }
-    }
-
-    protected function provideUsages(PhpNamespace $namespace, array $classData)
-    {
-        $usages = $classData[PPI::CLASS_USE_STATEMENTS] ?? [];
+        $usages = $classDefinition->getUseStatements();
         foreach ($usages as $use) {
             $namespace->addUse($use);
         }
     }
 
-    protected function provideProperties(ClassType $classType, array $classData): void
+    protected function provideProperties(ClassType $classType, ClassDefinition $classDefinition): void
     {
-        foreach ($classData[PPI::SECTION_PROPERTIES] as $property) {
+        foreach ($classDefinition->getProperties() as $property) {
             $this->provideProperty($classType, $property);
-            $this->provideGetSet($classType, $property);
         }
     }
 
-    protected function provideProperty(ClassType $classType, array $propertyData): void
+    protected function provideProperty(ClassType $classType, PropertyDefinition $propertyDefinition): void
     {
-        $property = new Property($propertyData[PPI::PROP_NAME]);
+        $property = new Property($propertyDefinition->getName());
+        $isRequired = $propertyDefinition->isRequired();
         $property
             ->setProtected()
-            ->setType($propertyData[PPI::METHOD_TYPE_ARG]);
+            ->setType(implode('|', $propertyDefinition->getTypes()));
 
-        if($propertyData[PPI::METHOD_TYPE_ARG] === 'mixed' || $propertyData[PPI::PROP_REQUIRED] === false) {
+
+        if($isRequired === false) {
             $property->setValue(null);
         }
 
-        $comments = $propertyData[PPI::PROP_COMMENTS];
-        $this->provideComments($property, $comments);
+        foreach ($propertyDefinition->getComments() as $comment) {
+            $property->addComment($comment);
+        }
 
         $classType->addMember($property);
-    }
-
-    /**
-     * @param string $message
-     * @return string
-     */
-    protected function createCommentMessage(string $message): string
-    {
-        return $message ? ($message . "\n") : '';
     }
 
     protected function printClass(PhpFile $phpFile): string
@@ -124,37 +117,31 @@ class NetteRenderer implements RendererInterface
         return $printer->printFile($phpFile);
     }
 
-    protected function provideGetSet(ClassType $classType, array $propertyData)
+    protected function provideMethods(ClassType $classType, ClassDefinition $classDefinition): void
     {
-        $propertyName = $propertyData[PPI::PROP_NAME];
-        $actionName = $propertyData[PPI::PROP_ACTION_NAME];
-        $methodTypeArg = $propertyData[PPI::METHOD_TYPE_ARG];
-        $getName = 'get' . $actionName;
-        $setName = 'set' . $actionName;
-
-        $methodGet = $this->createMethod($getName);
-        $methodGet->setBody($propertyData[PPI::METHOD_GET_BODY]);
-        $methodGet->setReturnType($methodTypeArg);
-        $this->provideComments($methodGet, $propertyData[PPI::METHOD_GET_COMMENTS]);
-
-        $methodSet = $this->createMethod($setName);
-        $parameterSet = new Parameter($propertyName);
-        $parameterSet->setType($methodTypeArg);
-        $methodSet->setParameters([$parameterSet]);
-        $methodSet->setBody($propertyData[PPI::METHOD_SET_BODY]);
-        $methodSet->setReturnType('self');
-        $this->provideComments($methodSet, $propertyData[PPI::METHOD_SET_COMMENTS]);
-
-        $classType
-            ->addMember($methodGet)
-            ->addMember($methodSet);
+        foreach ($classDefinition->getMethods() as $methodDef) {
+            $this->provideMethod($classType, $methodDef);
+        }
     }
 
-    protected function createMethod(string $name): Method
+    protected function provideMethod(ClassType $classType, MethodDefinition $methodDefinition): void
     {
-        $method = new Method($name);
+        $method = new Method($methodDefinition->getName());
+        $method
+            ->setBody($methodDefinition->getBody())
+            ->setReturnType(implode(separator: '|', array: $methodDefinition->getTypesReturn()))
+            ->setPublic()
+        ;
 
-        return $method
-            ->setPublic();
+        foreach ($methodDefinition->getComments() as $comment) {
+            $method->addComment($comment);
+        }
+
+        foreach ($methodDefinition->getArgs() as $arg) {
+            $parameter = $method->addParameter($arg->getName());
+            $parameter->setType(implode('|', $arg->getTypes()));
+        }
+
+        $classType->addMember($method);
     }
 }
