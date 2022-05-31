@@ -19,8 +19,6 @@ $classGenerator = new \Micro\Library\DTO\ClassGeneratorFacadeDefault(
 
 $classGenerator->generate();
 
-exit;
-
 require_once 'out/Simple/SimpleObjectTransfer.php';
 require_once 'out/Simple/SimpleUserTransfer.php';
 require_once 'out/UserTransfer.php';
@@ -57,8 +55,3 @@ foreach ($user as $key => $value) {
 print_r('FISRT BOOK HEIGHT : ' . $user['books'][0]['height'] . "\r\n");
 print_r('FISRT BOOK PARENT HEIGHT : ' . $user['books'][0]['parent']['height'] . "\r\n");
 
-
-$serializer = new Micro\Library\DTO\Serializer\Serializer($user);
-$result = $serializer->toArray();
-
-var_dump($result);

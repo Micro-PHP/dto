@@ -19,7 +19,7 @@
 
     <class name="User" description="Example class description" deprecated="Please, use gSON">
         <property name="username" type="string|int" description="Username" deprecated="Deprecation  message"/>
-        <property name="books" type="Simple\SimpleObject" is_collection="true"/>
+        <property name="books" type="array" is_collection="true"/>
         <property name="first_name" type="string|int" required="true"/>
         <property name="updatedAt" type="date"/>
         <property name="someclass" type="abstract"/>
