@@ -2,17 +2,14 @@
 
 namespace Micro\Library\DTO\Serializer;
 
-use Micro\Library\DTO\Object\AbstractDto;
 
 class SerializerFactory implements SerializerFactoryInterface
 {
     /**
-     * @param AbstractDto $abstractDto
-     *
-     * @return SerializerInterface
+     * {@inheritDoc}
      */
-    public function create(AbstractDto $abstractDto): SerializerInterface
+    public function create(): SerializerInterface
     {
-        return new Serializer($abstractDto);
+        return new Serializer();
     }
 }

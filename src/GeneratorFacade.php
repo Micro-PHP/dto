@@ -3,8 +3,6 @@
 namespace Micro\Library\DTO;
 
 use Micro\Library\DTO\Generator\Generator;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
 class GeneratorFacade implements GeneratorFacadeInterface
 {

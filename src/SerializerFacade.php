@@ -2,6 +2,7 @@
 
 namespace Micro\Library\DTO;
 
+
 use Micro\Library\DTO\Object\AbstractDto;
 use Micro\Library\DTO\Serializer\SerializerFactoryInterface;
 
@@ -19,7 +20,7 @@ class SerializerFacade implements SerializerFacadeInterface
      */
     public function toArray(AbstractDto $dto, bool $serializeEmptyValues = true): array
     {
-        return $this->serializerFactory->create($dto)->toArray($serializeEmptyValues);
+        return $this->serializerFactory->create()->toArray($dto, $serializeEmptyValues);
     }
 
     /**
@@ -27,7 +28,7 @@ class SerializerFacade implements SerializerFacadeInterface
      */
     public function toArrayTransfer(AbstractDto $dto): array
     {
-        return $this->serializerFactory->create($dto)->toArrayTransfer();
+        return $this->serializerFactory->create()->toArrayTransfer($dto);
     }
 
     /**
@@ -35,7 +36,7 @@ class SerializerFacade implements SerializerFacadeInterface
      */
     public function toJsonTransfer(AbstractDto $dto, int $flags = 0): string
     {
-        return $this->serializerFactory->create($dto)->toJsonTransfer($flags);
+        return $this->serializerFactory->create()->toJsonTransfer($dto, $flags);
     }
 
     /**
@@ -43,6 +44,22 @@ class SerializerFacade implements SerializerFacadeInterface
      */
     public function toJson(AbstractDto $dto, bool $serializeEmptyValues = true, int $flags = 0): string
     {
-        return $this->serializerFactory->create($dto)->toJson($serializeEmptyValues, $flags);
+        return $this->serializerFactory->create()->toJson($dto, $serializeEmptyValues, $flags);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function fromArrayTransfer(array $itemData): AbstractDto
+    {
+        return $this->serializerFactory->create()->fromArrayTransfer($itemData);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function fromJsonTransfer(string $jsonDto): AbstractDto
+    {
+        $this->serializerFactory->create()->fromJsonTransfer($jsonDto);
     }
 }
