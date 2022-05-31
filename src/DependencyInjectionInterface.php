@@ -3,7 +3,7 @@
 namespace Micro\Library\DTO;
 
 use Micro\Library\DTO\Helper\ClassMetadataHelper;
-use Micro\Library\DTO\Preparation\ClassCollectionPreparationInterface;
+use Micro\Library\DTO\Preparation\CollectionPreparationInterface;
 use Micro\Library\DTO\Reader\ReaderInterface;
 use Micro\Library\DTO\View\RendererInterface;
 use Micro\Library\DTO\Writer\WriterInterface;
@@ -17,9 +17,9 @@ interface DependencyInjectionInterface
     public function getLogger(): LoggerInterface;
 
     /**
-     * @return ClassCollectionPreparationInterface
+     * @return CollectionPreparationInterface
      */
-    public function createClassPreparationProcessor(): ClassCollectionPreparationInterface;
+    public function createClassPreparationProcessor(): CollectionPreparationInterface;
 
     /**
      * @return ClassMetadataHelper

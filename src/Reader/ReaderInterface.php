@@ -17,7 +17,7 @@ interface ReaderInterface
     public const PROP_PROP_NAME = 'name';
 
     /**
-     * @return array<string, array>
+     * @return iterable<array<string, array>>
      */
     public function read(): iterable;
 }

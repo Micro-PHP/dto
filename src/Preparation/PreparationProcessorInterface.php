@@ -2,6 +2,8 @@
 
 namespace Micro\Library\DTO\Preparation;
 
+use Micro\Library\DTO\ClassDef\ClassDefinition;
+
 interface PreparationProcessorInterface
 {
     public const SECTION_PROPERTIES = 'properties';
@@ -34,8 +36,10 @@ interface PreparationProcessorInterface
 
     /**
      * @param iterable $classDef
+     * @param ClassDefinition $classDefinition
+     * @param array $classList
      *
      * @return void
      */
-    public function processClassCollection(iterable &$classDef): void;
+    public function process(iterable $classDef, ClassDefinition $classDefinition, array $classList): void;
 }
