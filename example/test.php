@@ -2,6 +2,7 @@
 
 require dirname(__FILE__) . '/../vendor/autoload.php';
 
+// Create Logger
 $logger = new class extends \Psr\Log\NullLogger {
     public function debug(\Stringable|string $message, array $context = []): void
     {
@@ -9,6 +10,7 @@ $logger = new class extends \Psr\Log\NullLogger {
     }
 };
 
+// Create default class generator facade
 $classGenerator = new \Micro\Library\DTO\ClassGeneratorFacadeDefault(
     ['./example.xml'],
     './out',
@@ -19,12 +21,13 @@ $classGenerator = new \Micro\Library\DTO\ClassGeneratorFacadeDefault(
 
 $classGenerator->generate();
 
+// Require generated classes
 require_once 'out/Simple/SimpleObjectTransfer.php';
 require_once 'out/Simple/SimpleUserTransfer.php';
 require_once 'out/UserTransfer.php';
 
-$user = new \Transfer\UserTransfer();
 
+$user = new \Transfer\UserTransfer();
 $user
     ->setFirstName('Stas')
     ->setUsername('Asisyas')
@@ -52,15 +55,15 @@ foreach ($user as $key => $value) {
     print_r("\r\nPROPERTY: " . $key . " ==== " . (is_scalar($value) ? $value : serialize($value)));
 }
 
+//
 print_r('FISRT BOOK HEIGHT : ' . $user['books'][0]['height'] . "\r\n");
 print_r('FISRT BOOK PARENT HEIGHT : ' . $user['books'][0]['parent']['height'] . "\r\n");
 
 
 $serializer = new \Micro\Library\DTO\Serializer\Serializer(new \Transfer\Simple\SimpleObjectTransfer());
-
 $classSerializerFacade = new \Micro\Library\DTO\SerializerFacadeDefault();
 
 $result = $serializer->fromArrayTransfer($serializer->toArrayTransfer($user));
 
-dump($result);
+dump($result === $user);
 
