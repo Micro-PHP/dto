@@ -60,10 +60,9 @@ print_r('FISRT BOOK HEIGHT : ' . $user['books'][0]['height'] . "\r\n");
 print_r('FISRT BOOK PARENT HEIGHT : ' . $user['books'][0]['parent']['height'] . "\r\n");
 
 
-$serializer = new \Micro\Library\DTO\Serializer\Serializer(new \Transfer\Simple\SimpleObjectTransfer());
 $classSerializerFacade = new \Micro\Library\DTO\SerializerFacadeDefault();
 
-$result = $serializer->fromArrayTransfer($serializer->toArrayTransfer($user));
+$result = $classSerializerFacade->fromArrayTransfer($classSerializerFacade->toArrayTransfer($user));
 
 dump($result === $user);
 
