@@ -25,6 +25,8 @@ class DtoPropertyProcessor implements PropertyProcessorInterface
             $types[$pos] = $classType;
         }
 
+        dump($types);
+
         $propertyDefinition->setTypes(array_unique($types));
     }
 }

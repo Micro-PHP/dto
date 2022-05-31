@@ -31,15 +31,6 @@ interface SerializerInterface
     public function fromArrayTransfer(array $itemData): AbstractDto;
 
     /**
-     * @param string $jsonDto
-     *
-     * @return AbstractDto
-     *
-     * @throws UnserializeException
-     */
-    public function fromJsonTransfer(string $jsonDto): AbstractDto;
-
-    /**
      * @param AbstractDto $abstractDto
      * @return array
      *

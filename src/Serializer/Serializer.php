@@ -12,19 +12,6 @@ class Serializer implements SerializerInterface
     /**
      * {@inheritDoc}
      */
-    public function fromJsonTransfer(string $jsonDto): AbstractDto
-    {
-        $dtoArray = json_decode($jsonDto);
-        if(!$dtoArray) {
-            throw new UnserializeException(sprintf('Invalid type. Data %s', $jsonDto));
-        }
-
-        return $this->fromArrayTransfer($dtoArray);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function fromArrayTransfer(array $itemData): AbstractDto
     {
         $t = $itemData[self::SECTION_TYPE] ?? false;
