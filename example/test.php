@@ -47,7 +47,6 @@ $user
     )
 ;
 
-
 // Iterate as array
 foreach ($user as $key => $value) {
     print_r("\r\nPROPERTY: " . $key . " ==== " . (is_scalar($value) ? $value : serialize($value)));
@@ -55,4 +54,13 @@ foreach ($user as $key => $value) {
 
 print_r('FISRT BOOK HEIGHT : ' . $user['books'][0]['height'] . "\r\n");
 print_r('FISRT BOOK PARENT HEIGHT : ' . $user['books'][0]['parent']['height'] . "\r\n");
+
+
+$serializer = new \Micro\Library\DTO\Serializer\Serializer(new \Transfer\Simple\SimpleObjectTransfer());
+
+$classSerializerFacade = new \Micro\Library\DTO\SerializerFacadeDefault();
+
+$result = $serializer->fromArrayTransfer($serializer->toArrayTransfer($user));
+
+dump($result);
 
