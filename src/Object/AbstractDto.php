@@ -2,6 +2,7 @@
 
 namespace Micro\Library\DTO\Object;
 
+use Micro\Library\DTO\Preparation\Processor\Property\PropertyProcessorInterface;
 use Traversable;
 
 abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
@@ -36,7 +37,7 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
      */
     public function offsetGet(mixed $offset): mixed
     {
-        return $this->executeAction('get', $offset, null);
+        return $this->executeMethod('get', $offset, null);
     }
 
     /**
@@ -44,7 +45,7 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        $this->executeAction('set', $offset, $value);
+        $this->executeMethod('set', $offset, $value);
     }
 
     /**
@@ -68,12 +69,12 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * @param string $action
+     * @param string $method
      * @param string $property
      * @param mixed $value
      * @return mixed
      */
-    protected function executeAction(string $action, string $property, mixed $value): mixed
+    protected function executeMethod(string $method, string $property, mixed $value): mixed
     {
         $meta = $this->getAttributeMetadata($property);
         if(!$meta) {
@@ -84,6 +85,8 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
 
         $actionName = $meta['actionName'];
 
-        return $this->{$action . $actionName}($value);
+        return $this->{$method . $actionName}($value);
     }
+
+
 }

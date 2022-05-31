@@ -8,6 +8,7 @@ class PropertyDefinition
     private iterable $comments = [];
     private iterable $types = [];
     private bool $isRequired = false;
+    private bool $isCollection = false;
 
     /**
      * @return string
@@ -78,5 +79,21 @@ class PropertyDefinition
     public function setIsRequired(bool $isRequired): void
     {
         $this->isRequired = $isRequired;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCollection(): bool
+    {
+        return $this->isCollection;
+    }
+
+    /**
+     * @param bool $isCollection
+     */
+    public function setIsCollection(bool $isCollection): void
+    {
+        $this->isCollection = $isCollection;
     }
 }

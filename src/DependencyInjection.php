@@ -17,6 +17,7 @@ use Micro\Library\DTO\Preparation\Processor\ClassPropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\CollectionPropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\DateTimePropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\CommentsTypeProcessor;
+use Micro\Library\DTO\Preparation\Processor\MethodAttributesMetadataProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodGetProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodsBodyProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodSetProcessor;
@@ -27,6 +28,7 @@ use Micro\Library\DTO\Preparation\Processor\Property\DateTypeProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\DtoPropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\NameProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\PropertyAbstractProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\PropertyCollectionProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\PropertyRequiredProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\TypeProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\ValueProcessor;
@@ -124,11 +126,13 @@ class DependencyInjection implements DependencyInjectionInterface
                 new DateTypeProcessor(),
                 new DtoPropertyProcessor($classMetadataHelper),
                 new PropertyAbstractProcessor(),
+                new PropertyCollectionProcessor(),
                 new ValueProcessor(),
                 new CommentProcessor(),
             ]),
             new MethodGetProcessor($camelCaseHelper),
-            new MethodSetProcessor($camelCaseHelper)
+            new MethodSetProcessor($camelCaseHelper),
+            new MethodAttributesMetadataProcessor($camelCaseHelper)
         ];
     }
     /**

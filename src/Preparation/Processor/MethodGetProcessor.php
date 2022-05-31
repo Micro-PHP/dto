@@ -36,4 +36,14 @@ class MethodGetProcessor implements PreparationProcessorInterface
 
         $classDefinition->addMethod($methodDefinition);
     }
+
+    protected function createGetBodyDefault()
+    {
+
+    }
+
+    protected function createGetBodyCollection()
+    {
+
+    }
 }

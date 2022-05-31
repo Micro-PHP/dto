@@ -10,6 +10,7 @@ class MethodDefinition
     private iterable $args = [];
     private string $body;
     private iterable $comments = [];
+    private bool $isStatic = false;
 
     /**
      * @return string
@@ -114,5 +115,21 @@ class MethodDefinition
         }
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStatic(): bool
+    {
+        return $this->isStatic;
+    }
+
+    /**
+     * @param bool $isStatic
+     */
+    public function setIsStatic(bool $isStatic): void
+    {
+        $this->isStatic = $isStatic;
     }
 }

@@ -47,6 +47,7 @@ $user
     )
 ;
 
+
 // Iterate as array
 foreach ($user as $key => $value) {
     print_r("\r\nPROPERTY: " . $key . " ==== " . (is_scalar($value) ? $value : serialize($value)));

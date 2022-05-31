@@ -130,7 +130,8 @@ class NetteRenderer implements RendererInterface
         $method
             ->setBody($methodDefinition->getBody())
             ->setReturnType(implode(separator: '|', array: $methodDefinition->getTypesReturn()))
-            ->setPublic()
+            ->setVisibility($methodDefinition->getVisibility())
+            ->setStatic($methodDefinition->isStatic())
         ;
 
         foreach ($methodDefinition->getComments() as $comment) {
