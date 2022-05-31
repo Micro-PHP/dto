@@ -62,7 +62,8 @@ print_r('FISRT BOOK PARENT HEIGHT : ' . $user['books'][0]['parent']['height'] . 
 
 $classSerializerFacade = new \Micro\Library\DTO\SerializerFacadeDefault();
 
-$result = $classSerializerFacade->fromArrayTransfer($classSerializerFacade->toArrayTransfer($user));
+$result = $classSerializerFacade->fromJsonTransfer($classSerializerFacade->toJsonTransfer($user));
 
-dump($result === $user);
+dump($result);
+
 

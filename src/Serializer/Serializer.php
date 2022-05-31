@@ -12,6 +12,18 @@ class Serializer implements SerializerInterface
     /**
      * {@inheritDoc}
      */
+    public function fromJsonTransfer(string $jsonDto): AbstractDto
+    {
+        $arrayDto = json_decode($jsonDto, true);
+        if(!$arrayDto) {
+            throw new UnserializeException(sprintf('Invalid DTO JSON data: %s', $jsonDto));
+        }
+
+        return $this->fromArrayTransfer($arrayDto);
+    }
+    /**
+     * {@inheritDoc}
+     */
     public function fromArrayTransfer(array $itemData): AbstractDto
     {
         $t = $itemData[self::SECTION_TYPE] ?? false;
@@ -29,6 +41,14 @@ class Serializer implements SerializerInterface
             if(!$propertyType) {
                 throw new UnserializeException(sprintf('Invalid type. Data %s', json_encode($itemData, JSON_PRETTY_PRINT)));
             }
+
+            if($isPropertyObject && is_a($propertyType, \DateTimeInterface::class, true)) {
+                $tmpV = new $propertyType($propertyData);
+                $object->offsetSet($propertyName, $tmpV);
+
+                continue;
+            }
+
 
             if($isPropertyObject && is_a($propertyType, AbstractDto::class, true)) {
                 $tmpV = $this->createSelf()->fromArrayTransfer($propertyData);
@@ -131,6 +151,10 @@ class Serializer implements SerializerInterface
             $propertyConfig[self::SECTION_TYPE] = $this->getPropertyType($value);
             if($value instanceof AbstractDto) {
                 $value = $this->createSelf()->toArrayTransfer($value);
+            }
+
+            if($value instanceof \DateTimeInterface) {
+                $value = $value->format('c');
             }
 
             if($value instanceof Collection) {

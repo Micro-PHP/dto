@@ -54,4 +54,12 @@ class SerializerFacade implements SerializerFacadeInterface
     {
         return $this->serializerFactory->create()->fromArrayTransfer($itemData);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function fromJsonTransfer(string $jsonDto): AbstractDto
+    {
+        return $this->serializerFactory->create()->fromJsonTransfer($jsonDto);
+    }
 }
