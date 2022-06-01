@@ -66,6 +66,12 @@ class Serializer implements SerializerInterface
                         throw new UnserializeException(sprintf('Invalid collection item type "%s"', $propertyType));
                     }
 
+                    if(is_a($collectionItemType, \DateTimeInterface::class, true)) {
+                        $collectionItems[] = new $collectionItemType($collectionItem);
+
+                        continue;
+                    }
+
                     if(is_a($collectionItemType, AbstractDto::class, true)) {
                         $collectionItems[] = $this->createSelf()->fromArrayTransfer($collectionItem);
 
@@ -81,6 +87,21 @@ class Serializer implements SerializerInterface
         }
 
         return $object;
+    }
+
+    /**
+     * @param \DateTimeInterface $dateTime
+     *
+     * @return string
+     */
+    protected function serializeDateTimeObject(\DateTimeInterface $dateTime): string
+    {
+        return $dateTime->format('c');
+    }
+
+    protected function unserializeDateTimeObject(): \DateTimeInterface
+    {
+
     }
 
     /**
@@ -154,7 +175,7 @@ class Serializer implements SerializerInterface
             }
 
             if($value instanceof \DateTimeInterface) {
-                $value = $value->format('c');
+                $value = $this->serializeDateTimeObject($value);
             }
 
             if($value instanceof Collection) {
@@ -163,6 +184,10 @@ class Serializer implements SerializerInterface
                 foreach ($value as $item) {
                     if(!$tmpValue) {
                         $tmpValue = [];
+                    }
+
+                    if($item instanceof \DateTimeInterface) {
+                        $item = $this->serializeDateTimeObject($item);
                     }
 
                     if($item instanceof AbstractDto) {
