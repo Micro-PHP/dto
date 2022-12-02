@@ -25,7 +25,7 @@
     "require": {
         "php": ">= 8.0",
         "nette/php-generator": "^3|^4",
-        "psr/log": "*"
+        "psr/log": "^1|^2|^3"
     },
     "require-dev": {
         "symfony/var-dumper": "^5|^6",
