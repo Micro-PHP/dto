@@ -42,6 +42,11 @@ class ClassDefinition
     private iterable $comments = [];
 
     /**
+     * @var bool
+     */
+    private bool $usePrefix = true;
+
+    /**
      * @return string
      */
     public function getExtends(): string
@@ -188,6 +193,7 @@ class ClassDefinition
 
     /**
      * @param string $useStatement
+     *
      * @return $this
      */
     public function addUseStatement(string $useStatement): self
@@ -195,6 +201,26 @@ class ClassDefinition
         if(!in_array($useStatement, $this->useStatements)) {
             $this->useStatements[] = $useStatement;
         }
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUsePrefix(): bool
+    {
+        return $this->usePrefix;
+    }
+
+    /**
+     * @param bool $usePrefix
+     *
+     * @return $this
+     */
+    public function setUsePrefix(bool $usePrefix): self
+    {
+        $this->usePrefix = $usePrefix;
 
         return $this;
     }

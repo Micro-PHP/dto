@@ -4,7 +4,7 @@
     "keywords": ["dto", "data transfer", "transfer", "data", "object", "generator", "data transfer object", "micro"],
     "type": "library",
     "license": "MIT",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "autoload": {
         "psr-4": {
             "Micro\\Library\\DTO\\": "src/"
@@ -25,7 +25,7 @@
     "require": {
         "php": ">= 8.0",
         "nette/php-generator": "^3|^4",
-        "psr/log": "*"
+        "psr/log": "^1|^2|^3"
     },
     "require-dev": {
         "symfony/var-dumper": "^5|^6",
