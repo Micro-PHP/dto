@@ -101,6 +101,7 @@ $simpleUser
     ->setCurrency('USD')
     ->setIban('BY 13 NBRB 3600900000002Z00AB00')
     ->setIsbn('978-0-545-01022-1')
+    ->setIssn('0378-5955')
 ;
 
 $constraints = $validator->validate($simpleUser);

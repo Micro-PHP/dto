@@ -122,6 +122,12 @@
                 <isbn type="isbn13" />
             </validation>
         </property>
+        <property name="issn" type="string">
+            <validation>
+                <not_blank />
+                <issn />
+            </validation>
+        </property>
     </class>
 
     <class name="User" description="Example class description" deprecated="Please, use gSON">
