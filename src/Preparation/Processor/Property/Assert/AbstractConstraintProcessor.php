@@ -14,13 +14,13 @@ abstract class AbstractConstraintProcessor implements PropertyProcessorInterface
 {
     public function process(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $propertyData, array $classList): void
     {
-        foreach ($propertyData as $groupName => $config) {
+        foreach ($propertyData as $config) {
             $validatorData = $config[$this->getValidatorProperty()] ?? null;
             if($validatorData === null) {
                 continue;
             }
 
-            $this->addAttribute($propertyDefinition, $this->getAttributeClassName(), $this->generateArguments($validatorData, $groupName));
+            $this->addAttribute($propertyDefinition, $this->getAttributeClassName(), $this->generateArguments($validatorData));
         }
     }
 
@@ -44,11 +44,11 @@ abstract class AbstractConstraintProcessor implements PropertyProcessorInterface
         $propertyDefinition->addAttribute($this->getAttributeClassName(), $arguments);
     }
 
-    protected function generateArguments(array $config, string $groupName): array
+    protected function generateArguments(array $config): array
     {
         return array_filter([
             'message' => $config['message'] ?? null,
-            'groups' =>  [$groupName],
+            'groups' =>  $this->explodeString($config['groups']),
         ]);
     }
 

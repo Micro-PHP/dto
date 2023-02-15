@@ -9,9 +9,9 @@ use Symfony\Component\Validator\Constraints\Email;
 
 class AssertEmailProcessor extends AbstractConstraintProcessor
 {
-    protected function generateArguments(array $config, string $groupName): array
+    protected function generateArguments(array $config): array
     {
-        $parentArgs = parent::generateArguments($config, $groupName);
+        $parentArgs = parent::generateArguments($config);
 
         return [
             ...$parentArgs,

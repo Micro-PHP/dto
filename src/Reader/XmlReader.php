@@ -100,8 +100,6 @@ readonly class XmlReader implements ReaderInterface
         }
 
         $class[self::PATH_PROP] = $props;
-        // @TODO:
-        $class['_api_version'] = 'micro:dto-01';
 
         return $class;
     }
@@ -118,44 +116,31 @@ readonly class XmlReader implements ReaderInterface
             if(!$validationNode->childNodes->count() || $validationNode->nodeName !== 'validation') {
                 continue;
             }
-
+            $groupConstraints = [];
             /** @var \DOMNode $group */
-            foreach ($validationNode->childNodes as $constraintsNodes) {
-                if(!$constraintsNodes->childNodes->count() || $constraintsNodes->nodeName !== 'constraint') {
+            foreach ($validationNode->childNodes as $constraintNode) {
+                if($constraintNode->nodeName === '#text') {
                     continue;
                 }
 
-                /** @var \DOMAttr $groupAttr */
-                $groupAttr = $constraintsNodes->attributes->getNamedItem('group');
-                $groupName = $groupAttr?->value ?: 'Default';
-                $groupConstraints = [];
-                /** @var  $constraintsColl */
+                $constraintAttributes = [];
+                /** @var \DOMAttr $constraintItemAttribute */
+                foreach ($constraintNode->attributes as $constraintItemAttribute) {
+                    $constraintAttributes[$constraintItemAttribute->nodeName] = $constraintItemAttribute->nodeValue;
+                }
 
-                /** @var \DOMNode $constraint */
-                foreach ($constraintsNodes->childNodes as $constraintNode) {
-                    if($constraintNode->nodeName === '#text') {
-                        continue;
-                    }
-
+                if(!$constraintAttributes) {
                     $constraintAttributes = [];
-                    /** @var \DOMAttr $constraintItemAttribute */
-                    foreach ($constraintNode->attributes as $constraintItemAttribute) {
-                        $constraintAttributes[$constraintItemAttribute->nodeName] = $constraintItemAttribute->nodeValue;
-                    }
-
-                    if(!$constraintAttributes) {
-                        $constraintAttributes = [];
-                    }
-
-                    $groupConstraints[$constraintNode->nodeName] = $constraintAttributes;
                 }
 
-                if(!array_key_exists($groupName, $constraints)) {
-                    $constraints[$groupName] = [];
+                if(!array_key_exists('groups', $constraintAttributes)) {
+                    $constraintAttributes['groups'] = 'Default';
                 }
 
-                $constraints[$groupName] = [...$constraints[$groupName], ...$groupConstraints];
+                $groupConstraints[$constraintNode->nodeName] = $constraintAttributes;
             }
+
+            $constraints[] = $groupConstraints;
         }
 
         return $constraints;

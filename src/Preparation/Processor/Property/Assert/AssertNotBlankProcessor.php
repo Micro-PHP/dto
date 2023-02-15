@@ -11,9 +11,9 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class AssertNotBlankProcessor extends AbstractConstraintProcessor
 {
 
-    protected function generateArguments(array $config, string $groupName): array
+    protected function generateArguments(array $config): array
     {
-        $parent = parent::generateArguments($config, $groupName);
+        $parent = parent::generateArguments($config);
 
         return [
             ...$parent,

@@ -18,76 +18,54 @@
         <property name="parent" type="Simple\SimpleObject"/>
         <property name="username" type="string">
             <validation>
-                <constraint group="test">
-                    <length min="8" max="50"/>
-                    <regex pattern="/^(.[aA-zA]+)$/"/>
-                </constraint>
-                <constraint>
-                    <length min="8" max="10" message_min="invalid username"/>
-                    <regex pattern="/^(.[aA-zA]+)$/"/>
-                </constraint>
+                <length min="8" max="50"/>
+                <regex pattern="/^(.[aA-zA]+)$/"/>
+                <length min="8" max="10" message_min="invalid username"/>
+                <regex pattern="/^(.[aA-zA]+)$/"/>
             </validation>
         </property>
         <property name="age" type="int">
             <validation>
-                <constraint>
-                    <blank/>
-                </constraint>
+                <blank/>
             </validation>
         </property>
         <property name="email" type="string">
             <validation>
-                <constraint>
-                    <email/>
-                    <not_blank/>
-                </constraint>
+                <email/>
+                <not_blank/>
             </validation>
         </property>
         <property name="ip" type="string">
             <validation>
-                <constraint>
-                    <ip/>
-                </constraint>
+                <ip/>
             </validation>
         </property>
         <property name="hostname" type="string">
             <validation>
-                <constraint>
-                    <hostname/>
-                </constraint>
-                <constraint group="test">
-                    <hostname ltd_required="true"/>
-                </constraint>
+                <hostname />
+                <hostname ltd_required="true" groups="test"/>
             </validation>
         </property>
         <property name="sometext" type="string">
             <validation>
-                <constraint>
-                    <regex pattern="/^(.[a-z])+$/"/>
-                </constraint>
+                <regex pattern="/^(.[a-z])+$/"/>
             </validation>
         </property>
         <property name="url" type="string">
             <validation>
-                <constraint>
-                    <url is_relative="true" />
-                </constraint>
+                <url is_relative="true" />
             </validation>
         </property>
         <property name="json" type="string">
             <validation>
-                <constraint>
-                    <not_blank/>
-                    <json/>
-                </constraint>
+                <not_blank/>
+                <json/>
             </validation>
         </property>
         <property name="uuid" type="string">
             <validation>
-                <constraint>
-                    <not_blank />
-                    <uuid />
-                </constraint>
+                <not_blank />
+                <uuid />
             </validation>
         </property>
     </class>

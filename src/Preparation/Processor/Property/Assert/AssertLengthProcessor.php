@@ -11,8 +11,9 @@ use Symfony\Component\Validator\Constraints\Length;
 class AssertLengthProcessor extends AbstractConstraintProcessor
 {
 
-    protected function generateArguments(array $config, string $groupName): array
+    protected function generateArguments(array $config): array
     {
+        $parent = parent::generateArguments($config);
         $attributesInteger = ['min', 'max'];
         foreach ($attributesInteger as $attribute) {
             if(!array_key_exists($attribute, $config)) {
@@ -23,6 +24,7 @@ class AssertLengthProcessor extends AbstractConstraintProcessor
         }
 
         return array_filter([
+            ...$parent,
             'max'  => $config['max'] ?? null,
             'min'  => $config['min'] ?? null,
             'minMessage'    => $config['min_message'] ?? null,

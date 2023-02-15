@@ -10,9 +10,9 @@ use Symfony\Component\Validator\Constraints\Hostname;
 class AssertHostnameProcessor extends AbstractConstraintProcessor
 {
 
-    protected function generateArguments(array $config, string $groupName): array
+    protected function generateArguments(array $config): array
     {
-        $arguments =  parent::generateArguments($config, $groupName);
+        $arguments =  parent::generateArguments($config);
 
         return [
             ...$arguments,

@@ -21,11 +21,9 @@ class AssertUuidProcessor extends AbstractConstraintProcessor
         Uuid::V7_MONOTONIC,
     ];
 
-    protected function generateArguments(array $config, string $groupName): array
+    protected function generateArguments(array $config): array
     {
-        $parent =  parent::generateArguments($config, $groupName);
-
-
+        $parent =  parent::generateArguments($config);
 
         return [
             ...$parent,

@@ -28,11 +28,6 @@ readonly class AttributeValidationProcessor implements PropertyProcessorInterfac
         }
 
         foreach ($this->validatorProcessor as $processor) {
-            $validationCfg = $propertyData['validation'];
-            if(empty($validationCfg['group'])) {
-                $validationCfg['group'] = 'Default';
-            }
-
             $processor->process($propertyDefinition, $classDefinition, $propertyData['validation'], $classList);
         }
     }
