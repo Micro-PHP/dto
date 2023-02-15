@@ -97,6 +97,12 @@
                 <card_scheme schemes="MASTERCARD"/>
             </validation>
         </property>
+        <property name="bic" type="string">
+            <validation>
+                <not_blank />
+                <bic />
+            </validation>
+        </property>
     </class>
 
     <class name="User" description="Example class description" deprecated="Please, use gSON">

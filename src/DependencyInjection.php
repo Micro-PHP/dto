@@ -14,6 +14,7 @@ use Micro\Library\DTO\Preparation\Processor\ClassPropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodAttributesMetadataProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodGetProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodSetProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\BicStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\BlankStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\CardSchemeStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\DateStrategy;
@@ -187,6 +188,7 @@ class DependencyInjection implements DependencyInjectionInterface
             new IdenticalToStrategy(),
             new RangeStrategy(),
             new CardSchemeStrategy(),
+            new BicStrategy(),
         ];
     }
 

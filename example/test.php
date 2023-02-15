@@ -97,6 +97,7 @@ $simpleUser
     ->setUpdatedAt('2002-08-11')
     ->setTimezone('Europe/Minsk')
     ->setCardScheme('5555555555554444')
+    ->setBic('MIDLGB22')
 ;
 
 $constraints = $validator->validate($simpleUser);
