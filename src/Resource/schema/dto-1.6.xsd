@@ -44,6 +44,10 @@
                 <xs:element name="length" type="mic:constraint_size" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="json" type="mic:constraint_json" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="uuid" type="mic:constraint_uuid" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="positive" type="mic:constraint_positive" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="negative" type="mic:constraint_negative" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="negative_or_zero" type="mic:constraint_negative_or_zero" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="positive_or_zero" type="mic:constraint_positive_or_zero" xmlns:mic="micro:dto-1.6"/>
             </xs:choice>
         </xs:sequence>
     </xs:complexType>
@@ -166,6 +170,26 @@
                 <xs:attribute type="xs:string" name="message_min" />
                 <xs:attribute type="xs:string" name="message_max"/>
             </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_negative">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_negative_or_zero">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_positive">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_positive_or_zero">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
         </xs:complexContent>
     </xs:complexType>
     <xs:complexType name="constraint_blank">

@@ -22,7 +22,11 @@ use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertHostnameProces
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertIpProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertJsonProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertLengthProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertNegativeOrZeroProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertNegativeProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertNotBlankProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertPositiveOrZeroProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertPositiveProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertRegexProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertTimeZoneProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertUrlProcessor;
@@ -159,6 +163,10 @@ class DependencyInjection implements DependencyInjectionInterface
             new AssertDateProcessor(),
             new AssertDateTimeProcessor(),
             new AssertTimeZoneProcessor(),
+            new AssertNegativeProcessor(),
+            new AssertNegativeOrZeroProcessor(),
+            new AssertPositiveProcessor(),
+            new AssertPositiveOrZeroProcessor(),
         ];
     }
 
