@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Micro\Library\DTO\ClassDef;
 
 class PropertyDefinition
@@ -9,18 +20,24 @@ class PropertyDefinition
     /**
      * @var string[]
      */
-    private iterable $comments = [];
+    private array $comments = [];
     /**
      * @var string[]
      */
-    private iterable $types = [];
+    private array $types = [];
 
     /**
-     * @var string[]
+     * @var array<string, mixed>
      */
-    private iterable $attributes = [];
+    private array $attributes = [];
+
     private bool $isRequired = false;
     private bool $isCollection = false;
+
+    public function __construct()
+    {
+        $this->name = '';
+    }
 
     /**
      * @return string
@@ -39,19 +56,11 @@ class PropertyDefinition
     }
 
     /**
-     * @return iterable
+     * @return string[]
      */
-    public function getComments(): iterable
+    public function getComments(): array
     {
         return $this->comments;
-    }
-
-    /**
-     * @param iterable $comments
-     */
-    public function setComments(iterable $comments): void
-    {
-        $this->comments = $comments;
     }
 
     public function addComment(string $comment): self
@@ -62,7 +71,7 @@ class PropertyDefinition
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getTypes(): array
     {
@@ -70,9 +79,9 @@ class PropertyDefinition
     }
 
     /**
-     * @param iterable $types
+     * @param string[] $types
      */
-    public function setTypes(iterable $types): void
+    public function setTypes(array $types): void
     {
         $this->types = $types;
     }
@@ -109,18 +118,27 @@ class PropertyDefinition
         $this->isCollection = $isCollection;
     }
 
+    /**
+     * @param string               $attributeName
+     * @param array<string, mixed> $arguments
+     *
+     * @return $this
+     */
     public function addAttribute(string $attributeName, array $arguments): self
     {
-        if(!array_key_exists($attributeName, $this->attributes)) {
+        if (!\array_key_exists($attributeName, $this->attributes)) {
             $this->attributes[$attributeName] = [];
         }
 
-        $this->attributes[$attributeName] = [...$this->attributes[$attributeName], ...$arguments];
+        $this->attributes[$attributeName] = array_merge($this->attributes[$attributeName], $arguments);
 
         return $this;
     }
 
-    public function getAttributes(): iterable
+    /**
+     * @return array<string, mixed>
+     */
+    public function getAttributes(): array
     {
         return $this->attributes;
     }

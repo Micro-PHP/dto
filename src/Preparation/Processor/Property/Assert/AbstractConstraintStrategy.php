@@ -2,9 +2,16 @@
 
 declare(strict_types=1);
 
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
 
 namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
-
 
 use Micro\Library\DTO\ClassDef\ClassDefinition;
 use Micro\Library\DTO\ClassDef\PropertyDefinition;
@@ -16,7 +23,7 @@ abstract class AbstractConstraintStrategy implements PropertyProcessorInterface
     {
         foreach ($propertyData as $config) {
             $validatorData = $config[$this->getValidatorProperty()] ?? null;
-            if($validatorData === null) {
+            if (null === $validatorData) {
                 continue;
             }
 
@@ -26,11 +33,21 @@ abstract class AbstractConstraintStrategy implements PropertyProcessorInterface
 
     protected function stringToBool(string $boolValue): bool
     {
-        return mb_strtolower($boolValue) === 'true';
+        return 'true' === mb_strtolower($boolValue);
     }
 
+    /**
+     * @param string $string
+     * @param string $separator
+     *
+     * @return array<string>
+     */
     protected function explodeString(string $string, string $separator = ','): array
     {
+        if (!$separator) {
+            $separator = ',';
+        }
+
         $exploded = explode($separator, $string);
 
         return array_filter(array_map('trim', $exploded));
@@ -44,18 +61,23 @@ abstract class AbstractConstraintStrategy implements PropertyProcessorInterface
         $propertyDefinition->addAttribute($this->getAttributeClassName(), $arguments);
     }
 
+    /**
+     * @param array<string|mixed> $config
+     *
+     * @return array<string|mixed>
+     */
     protected function generateArguments(array $config): array
     {
         return array_filter([
             'message' => $config['message'] ?? null,
-            'groups' =>  $this->explodeString($config['groups']),
+            'groups' => $this->explodeString($config['groups']),
         ]);
     }
 
-    protected abstract function getValidatorProperty(): string;
+    abstract protected function getValidatorProperty(): string;
 
     /**
      * @return class-string
      */
-    protected abstract function getAttributeClassName(): string;
+    abstract protected function getAttributeClassName(): string;
 }

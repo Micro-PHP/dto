@@ -8,7 +8,7 @@
     </xs:complexType>
     <xs:complexType name="classType">
         <xs:sequence>
-            <xs:element type="mic:propertyType" name="property" maxOccurs="unbounded" minOccurs="0" xmlns:mic="micro:dto-1.6"/>
+            <xs:element type="mic:propertyType" name="property" maxOccurs="unbounded" minOccurs="1" xmlns:mic="micro:dto-1.6"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="name"/>
         <xs:attribute type="xs:string" name="description"/>
@@ -18,12 +18,12 @@
         <xs:sequence>
             <xs:element type="mic:validationType" name="validation" minOccurs="0" xmlns:mic="micro:dto-1.6"/>
         </xs:sequence>
-        <xs:attribute type="xs:string" name="name"/>
-        <xs:attribute type="xs:string" name="type"/>
+        <xs:attribute type="xs:string" name="name" use="required"/>
+        <xs:attribute type="xs:string" name="type" use="required"/>
         <xs:attribute type="xs:string" name="description"/>
         <xs:attribute type="xs:string" name="deprecated"/>
-        <xs:attribute type="xs:boolean" name="is_collection"/>
-        <xs:attribute type="xs:boolean" name="required"/>
+        <xs:attribute type="xs:boolean" name="is_collection" default="false"/>
+        <xs:attribute type="xs:boolean" name="required" default="false"/>
     </xs:complexType>
     <!-- Validation nodes -->
     <xs:complexType name="validationType">

@@ -2,24 +2,30 @@
 
 declare(strict_types=1);
 
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
 
 namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
-
 
 use Symfony\Component\Validator\Constraints\Timezone;
 
 class TimeZoneStrategy extends AbstractConstraintStrategy
 {
-
     protected function generateArguments(array $config): array
     {
         $parent = parent::generateArguments($config);
 
         return array_filter([
             ...$parent,
-            'countryCode'   => $config['country_code'] ?? null,
-            'intlCompatible'    => $this->stringToBool($config['intl_compatible'] ?? 'false'),
-            'zone'  => intval($config['zone'] ?? \DateTimeZone::ALL),
+            'countryCode' => $config['country_code'] ?? null,
+            'intlCompatible' => $this->stringToBool($config['intl_compatible'] ?? 'false'),
+            'zone' => (int) ($config['zone'] ?? \DateTimeZone::ALL),
         ]);
     }
 

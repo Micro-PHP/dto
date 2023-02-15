@@ -1,5 +1,10 @@
-.idea/
-out/
-vendor/
+.idea
+vendor
 composer.lock
 .phpunit.result.cache
+.php-cs-fixer.cache
+test-coverage-report
+phpunit.xml
+coverage/
+.php-cs-fixer.php
+phpstan.neon

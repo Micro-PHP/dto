@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Micro\Library\DTO\Preparation;
 
 use Micro\Library\DTO\ClassDef\ClassDefinition;
@@ -35,11 +46,11 @@ interface PreparationProcessorInterface
     public const CLASS_PROPS_META_METHOD = 'attributesMetadata';
 
     /**
-     * @param iterable $classDef
-     * @param ClassDefinition $classDefinition
-     * @param array $classList
+     * @param array<string, mixed> $classDef
+     * @param ClassDefinition      $classDefinition
+     * @param class-string[]       $classList
      *
      * @return void
      */
-    public function process(iterable $classDef, ClassDefinition $classDefinition, array $classList): void;
+    public function process(array $classDef, ClassDefinition $classDefinition, array $classList): void;
 }

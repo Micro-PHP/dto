@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Micro\Library\DTO\Preparation\Processor;
 
 use Micro\Library\DTO\ClassDef\ClassDefinition;
@@ -16,13 +27,20 @@ class ClassPropertyProcessor implements PreparationProcessorInterface
     {
     }
 
-    public function process(iterable $classDef, ClassDefinition $classDefinition, array $classList): void
+    public function process(array $classDef, ClassDefinition $classDefinition, array $classList): void
     {
         foreach ($classDef[self::SECTION_PROPERTIES] as $property) {
             $this->processProperty($classDefinition, $property, $classList);
         }
     }
 
+    /**
+     * @param ClassDefinition      $classDefinition
+     * @param array<string, mixed> $propertyData
+     * @param array<string>        $classList
+     *
+     * @return void
+     */
     protected function processProperty(ClassDefinition $classDefinition, array $propertyData, array $classList): void
     {
         $property = new PropertyDefinition();

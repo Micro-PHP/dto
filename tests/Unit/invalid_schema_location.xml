@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<dto xmlns="micro:dto-1.6"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="micro:dto-1.6 ../../../../src/Resource/schema/dto-1.6.xsd">
+
+    <class name="User" description="Example class description" deprecated="Please, use gSON">
+        <property name="username" type="string|int" description="Username" deprecated="Deprecation  message"/>
+    </class>
+</dto>

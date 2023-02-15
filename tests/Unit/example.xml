@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<dto xmlns="micro:dto-1.6"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="micro:dto-1.6 src/Resource/schema/dto-1.6.xsd">
+
+    <class name="Simple\SimpleObject">
+        <property name="weight" type="int">
+            <validation>
+                <less_than value="10" />
+            </validation>
+        </property>
+    </class>
+
+    <class name="Simple\SimpleObject">
+        <property name="height" type="int">
+            <validation>
+                <less_than property_path="weight"/>
+            </validation>
+        </property>
+    </class>
+    <class name="Simple\SimpleObject">
+        <property name="parent" type="Simple\SimpleObject" description="Parent object"/>
+    </class>
+
+    <class name="Simple\SimpleUser">
+        <property name="parent" type="Simple\SimpleObject"/>
+        <property name="username" type="string">
+            <validation>
+                <length min="6" max="50"/>
+                <regex pattern="/^(.[aA-zA]+)$/"/>
+            </validation>
+        </property>
+        <property name="age" type="int">
+            <validation>
+                <not_blank />
+                <greater_than value="18" />
+                <less_than value="100" />
+            </validation>
+        </property>
+        <property name="email" type="string">
+            <validation>
+                <email/>
+                <not_blank/>
+            </validation>
+        </property>
+        <property name="ip" type="string">
+            <validation>
+                <ip/>
+            </validation>
+        </property>
+        <property name="hostname" type="string">
+            <validation>
+                <hostname />
+                <hostname ltd_required="true" groups="test"/>
+            </validation>
+        </property>
+        <property name="sometext" type="string">
+            <validation>
+                <regex pattern="/^(.[a-z])+$/"/>
+            </validation>
+        </property>
+        <property name="url" type="string">
+            <validation>
+                <url is_relative="true" />
+            </validation>
+        </property>
+        <property name="json" type="string">
+            <validation>
+                <not_blank/>
+                <json/>
+            </validation>
+        </property>
+        <property name="uuid" type="string">
+            <validation>
+                <not_blank />
+                <uuid />
+            </validation>
+        </property>
+        <property name="created_at" type="string">
+            <validation>
+                <datetime />
+            </validation>
+        </property>
+        <property name="updated_at" type="string">
+            <validation>
+                <date />
+            </validation>
+        </property>
+        <property name="timezone" type="string">
+            <validation>
+                <time_zone intl_compatible="true" country_code="BY" zone="4096"/>
+            </validation>
+        </property>
+        <property name="card_scheme" type="string">
+            <validation>
+                <not_blank />
+                <card_scheme schemes="MASTERCARD"/>
+                <luhn />
+            </validation>
+        </property>
+        <property name="bic" type="string">
+            <validation>
+                <not_blank />
+                <bic />
+            </validation>
+        </property>
+        <property name="currency" type="string">
+            <validation>
+                <not_blank />
+                <currency />
+            </validation>
+        </property>
+        <property name="iban" type="string">
+            <validation>
+                <not_blank />
+                <iban />
+            </validation>
+        </property>
+        <property name="isbn" type="string">
+            <validation>
+                <not_blank />
+                <isbn type="isbn13" />
+            </validation>
+        </property>
+        <property name="issn" type="string">
+            <validation>
+                <not_blank />
+                <issn />
+            </validation>
+        </property>
+        <property name="isin" type="string">
+            <validation>
+                <not_blank />
+                <isin />
+            </validation>
+        </property>
+    </class>
+
+    <class name="User" description="Example class description" deprecated="Please, use gSON">
+        <property name="username" type="string|int" description="Username" deprecated="Deprecation  message"/>
+        <property name="books" type="array" is_collection="true"/>
+        <property name="first_name" type="string|int" required="true"/>
+        <property name="updatedAt" type="date"/>
+        <property name="someclass" type="abstract"/>
+        <property name="testMixed" type="mixed"/>
+    </class>
+</dto>

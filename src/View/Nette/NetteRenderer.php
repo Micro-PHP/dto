@@ -1,28 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Micro\Library\DTO\View\Nette;
 
 use Micro\Library\DTO\ClassDef\ClassDefinition;
 use Micro\Library\DTO\ClassDef\MethodDefinition;
 use Micro\Library\DTO\ClassDef\PropertyDefinition;
-use Micro\Library\DTO\Object\AbstractDto;
 use Micro\Library\DTO\View\RendererInterface;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Method;
-use Nette\PhpGenerator\Parameter;
 use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
 use Nette\PhpGenerator\PsrPrinter;
-use Micro\Library\DTO\Preparation\PreparationProcessorInterface as PPI;
 
 class NetteRenderer implements RendererInterface
 {
-    /**
-     * @param array $classData
-     *
-     * @return string
-     */
     public function render(ClassDefinition $classDefinition): string
     {
         $phpFile = $this->createPhpFileType($classDefinition);
@@ -41,29 +44,14 @@ class NetteRenderer implements RendererInterface
 
         $this->provideProperties($class, $classDefinition);
         $this->provideMethods($class, $classDefinition);
-        //$this->provideMeta($class, $classData);
+        // $this->provideMeta($class, $classData);
 
         return $this->printClass($phpFile);
     }
 
-    protected function provideMeta(ClassType $classType, array $classData): void
-    {
-        $returnsContent = var_export($classData[PPI::CLASS_PROPS_META], true);
-        $method = new Method(PPI::CLASS_PROPS_META_METHOD);
-        $method
-            ->setProtected()
-            ->setStatic()
-            ->setBody('return ' . $returnsContent . ';')
-            ->setComment('{@inheritdoc}')
-            ->setReturnType('array')
-        ;
-
-        $classType->addMember($method);
-    }
-
     protected function createPhpFileType(ClassDefinition $classDefinition): PhpFile
     {
-        $file = new PhpFile;
+        $file = new PhpFile();
         $file->addComment('This file is auto-generated.');
         $file->setStrictTypes();
         $namespaceObj = new PhpNamespace($classDefinition->getNamespace());
@@ -75,7 +63,7 @@ class NetteRenderer implements RendererInterface
         return $file;
     }
 
-    protected function provideUsages(PhpNamespace $namespace, ClassDefinition $classDefinition)
+    protected function provideUsages(PhpNamespace $namespace, ClassDefinition $classDefinition): void
     {
         $usages = $classDefinition->getUseStatements();
         foreach ($usages as $ns => $alias) {
@@ -98,8 +86,7 @@ class NetteRenderer implements RendererInterface
             ->setProtected()
             ->setType(implode('|', $propertyDefinition->getTypes()));
 
-
-        if($isRequired === false) {
+        if (false === $isRequired) {
             $property->setValue(null);
         }
 

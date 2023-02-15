@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Micro\Library\DTO;
 
 use Micro\Library\DTO\Helper\CamelCaseNormalizer;
@@ -8,6 +19,7 @@ use Micro\Library\DTO\Helper\NameNormalizerInterface;
 use Micro\Library\DTO\Merger\MergerFactory;
 use Micro\Library\DTO\Preparation\CollectionPreparation;
 use Micro\Library\DTO\Preparation\CollectionPreparationInterface;
+use Micro\Library\DTO\Preparation\PreparationProcessorInterface;
 use Micro\Library\DTO\Preparation\Processor\ClassCommentProcessor;
 use Micro\Library\DTO\Preparation\Processor\ClassNameProcessor;
 use Micro\Library\DTO\Preparation\Processor\ClassPropertyProcessor;
@@ -70,11 +82,7 @@ use Psr\Log\NullLogger;
 class DependencyInjection implements DependencyInjectionInterface
 {
     /**
-     * @param array $filesSchemeCollection
-     * @param string $namespaceGeneral
-     * @param string $classSuffix
-     * @param string $outputPath
-     * @param LoggerInterface|null $logger
+     * @param string[] $filesSchemeCollection
      */
     public function __construct(
         private readonly array $filesSchemeCollection,
@@ -82,29 +90,19 @@ class DependencyInjection implements DependencyInjectionInterface
         private readonly string $classSuffix,
         private readonly string $outputPath,
         private readonly ?LoggerInterface $logger
-    )
-    {
+    ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLogger(): LoggerInterface
     {
         return $this->logger ?? new NullLogger();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function createClassPreparationProcessor(): CollectionPreparationInterface
     {
         return new CollectionPreparation($this->createPreparationProcessorCollection());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function createReader(): ReaderInterface
     {
         return new XmlReader(
@@ -113,24 +111,31 @@ class DependencyInjection implements DependencyInjectionInterface
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function createClassMetadataHelper(): ClassMetadataHelper
     {
         return new ClassMetadataHelper($this->namespaceGeneral, $this->classSuffix);
     }
 
-    /**
-     * @return NameNormalizerInterface
-     */
     public function createCamelCaseProcessor(): NameNormalizerInterface
     {
         return new CamelCaseNormalizer();
     }
 
+    public function createWriter(): WriterInterface
+    {
+        return new WriterFilesystem(
+            $this->outputPath,
+            $this->namespaceGeneral
+        );
+    }
+
+    public function createRenderer(): RendererInterface
+    {
+        return new NetteRenderer(); // new TwigRenderer($twig, $this->classTemplateName);
+    }
+
     /**
-     * {@inheritDoc}
+     * @return iterable<PreparationProcessorInterface>
      */
     protected function createPreparationProcessorCollection(): iterable
     {
@@ -156,7 +161,7 @@ class DependencyInjection implements DependencyInjectionInterface
             ]),
             new MethodGetProcessor($camelCaseHelper),
             new MethodSetProcessor($camelCaseHelper),
-            new MethodAttributesMetadataProcessor($camelCaseHelper)
+            new MethodAttributesMetadataProcessor($camelCaseHelper),
         ];
     }
 
@@ -200,24 +205,5 @@ class DependencyInjection implements DependencyInjectionInterface
             new IsbnStrategy(),
             new IsinStrategy(),
         ];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function createWriter(): WriterInterface
-    {
-        return new WriterFilesystem(
-            $this->outputPath,
-            $this->namespaceGeneral
-        );
-    }
-
-    /**
-     * @return RendererInterface
-     */
-    public function createRenderer(): RendererInterface
-    {
-        return new NetteRenderer(); //new TwigRenderer($twig, $this->classTemplateName);
     }
 }

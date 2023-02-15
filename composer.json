@@ -1,20 +1,18 @@
 {
     "name": "micro/dto",
     "description": "Library for generating and validation DTO classes.",
-    "keywords": ["dto", "data transfer", "transfer", "data", "object", "generator", "data transfer object", "micro"],
-    "type": "library",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Micro\\Library\\DTO\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Micro\\Library\\DTO\\Tests\\": "tests/",
-            "TransferTest\\": "tests/DTO/"
-        }
-    },
+    "type": "library",
+    "keywords": [
+        "dto",
+        "data transfer",
+        "transfer",
+        "data",
+        "object",
+        "generator",
+        "data transfer object",
+        "micro"
+    ],
     "authors": [
         {
             "name": "Stanislau Komar",
@@ -23,17 +21,59 @@
     ],
     "require": {
         "php": ">= 8.1",
-        "nette/php-generator": "^4",
-        "psr/log": "^1|^2|^3",
-        "symfony/validator": "^5|^6",
         "ext-dom": "*",
-        "ext-libxml": "*",
         "ext-intl": "*",
-        "symfony/property-access": "^5|^6",
-        "symfony/intl": "^5|^6"
+        "ext-libxml": "*",
+        "nette/php-generator": "^4",
+        "psr/log": "^1 || ^2 || ^3",
+        "symfony/intl": "^5 || ^6",
+        "symfony/property-access": "^5 || ^6",
+        "symfony/validator": "^5 || ^6"
     },
     "require-dev": {
-        "symfony/var-dumper": "^5|^6",
-        "phpunit/phpunit": "^9"
+        "ergebnis/composer-normalize": "^2.29",
+        "friendsofphp/php-cs-fixer": "^3.13",
+        "phpstan/phpstan": "^1.9",
+        "phpunit/php-code-coverage": "^9.2",
+        "phpunit/phpunit": "^9.5",
+        "symfony/var-dumper": "^5 || ^6",
+        "vimeo/psalm": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Micro\\Library\\DTO\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TransferTest\\": "tests/DTO/",
+            "Micro\\Library\\DTO\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-text",
+        "coverage-html": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html ./test-coverage-report",
+        "php-cs-fix": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --verbose --using-cache=no",
+        "php-cs-try": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --verbose --dry-run --using-cache=no",
+        "phpstan": "./vendor/bin/phpstan analyze --no-progress",
+        "phpunit": "./vendor/bin/phpunit",
+        "psalm": "./vendor/bin/psalm --no-progress --show-info=true --no-cache",
+        "statics": [
+            "@phpstan",
+            "@psalm",
+            "@php-cs-try"
+        ],
+        "test": [
+            "@statics",
+            "composer validate --strict",
+            "composer normalize",
+            "@coverage"
+        ]
     }
 }

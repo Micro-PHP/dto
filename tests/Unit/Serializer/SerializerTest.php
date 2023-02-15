@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Micro\Library\DTO\Tests\Unit\Serializer;
 
 use Micro\Library\DTO\Object\AbstractDto;
@@ -12,16 +23,14 @@ use TransferTest\UserTransfer;
 
 class SerializerTest extends TestCase
 {
-
-    public function testToArray()
+    public function testToArray(): void
     {
         $dto = $this->createDtoForTest();
         $exceptedArray = $this->getExceptedDtoJson();
         $actualArrayTmp = $this->createSerializer()->toArray($dto);
-        $actualArray = json_encode($actualArrayTmp, true);
+        $actualArray = json_encode($actualArrayTmp);
 
         $this->assertEquals($exceptedArray, $actualArray);
-
     }
 
     public function testFromArrayTransfer()
@@ -60,14 +69,36 @@ class SerializerTest extends TestCase
         $this->assertIsArray($result);
     }
 
+    /**
+     * @throws \Micro\Library\DTO\Exception\SerializeException
+     *
+     * @return void
+     */
+    public function testToJson()
+    {
+        $dto = $this->createDtoForTest();
+        $serialized = $this->createSerializer()->toJson($dto);
+        $exceptedJson = $this->getExceptedDtoJson();
+
+        $this->assertEquals($exceptedJson, $serialized);
+    }
+
+    /**
+     * @dataProvider
+     */
+    public function dataProvider(): bool
+    {
+        return [];
+    }
+
     protected function compareDto(AbstractDto $excepted, AbstractDto $actual)
     {
         foreach ($excepted as $keyExcept => $valueExcept) {
             $valueActual = $actual[$keyExcept];
-            if($valueActual instanceof Collection) {
+            if ($valueActual instanceof Collection) {
                 foreach ($valueActual as $key => $collItem) {
-                    if($collItem instanceof AbstractDto) {
-                        if(!$this->compareDto($collItem, $valueExcept[$key])) {
+                    if ($collItem instanceof AbstractDto) {
+                        if (!$this->compareDto($collItem, $valueExcept[$key])) {
                             return false;
                         }
                     }
@@ -76,7 +107,7 @@ class SerializerTest extends TestCase
                 continue;
             }
 
-            if($valueExcept instanceof \DateTimeInterface) {
+            if ($valueExcept instanceof \DateTimeInterface) {
                 $diff = $valueExcept->diff($valueActual);
                 $result = sprintf(
                     '%d%d%d%d%d%d%f',
@@ -88,41 +119,27 @@ class SerializerTest extends TestCase
                     $diff->s,
                     $diff->f
                 );
-                if($result !== '0000000.000000') {
+                if ('0000000.000000' !== $result) {
                     return false;
                 }
 
                 continue;
             }
 
-            if($valueExcept instanceof AbstractDto) {
-                if(!$this->compareDto($valueExcept, $valueActual)) {
+            if ($valueExcept instanceof AbstractDto) {
+                if (!$this->compareDto($valueExcept, $valueActual)) {
                     return false;
                 }
 
                 continue;
             }
 
-            if($valueActual !== $valueExcept) {
+            if ($valueActual !== $valueExcept) {
                 return false;
             }
         }
 
         return true;
-    }
-
-    /**
-     * @return void
-     *
-     * @throws \Micro\Library\DTO\Exception\SerializeException
-     */
-    public function testToJson()
-    {
-        $dto = $this->createDtoForTest();
-        $serialized = $this->createSerializer()->toJson($dto);
-        $exceptedJson = $this->getExceptedDtoJson();
-
-        $this->assertEquals($exceptedJson, $serialized);
     }
 
     protected function createSerializer(): SerializerInterface
@@ -151,8 +168,9 @@ class SerializerTest extends TestCase
                             (new SimpleObjectTransfer())
                                 ->setHeight(100)
                                 ->setWeight(2000)
-                        )
-                ])
+                        ),
+                ]
+            )
             ->setSomeclass(
                 (new SimpleObjectTransfer())
                     ->setWeight(1)
@@ -161,13 +179,5 @@ class SerializerTest extends TestCase
         ;
 
         return $user;
-    }
-
-    /**
-     * @dataProvider
-     */
-    public function dataProvider(): bool
-    {
-        return [];
     }
 }

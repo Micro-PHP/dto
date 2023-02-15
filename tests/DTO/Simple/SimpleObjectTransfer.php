@@ -6,10 +6,16 @@
 
 declare(strict_types=1);
 
-namespace TransferTest\Simple;
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
 
-use DateTimeInterface;
-use TransferTest\Simple\SimpleObjectTransfer as SimpleObjectTransfer1;
+namespace TransferTest\Simple;
 
 final class SimpleObjectTransfer extends \Micro\Library\DTO\Object\AbstractDto
 {
@@ -27,7 +33,7 @@ final class SimpleObjectTransfer extends \Micro\Library\DTO\Object\AbstractDto
         return $this->height;
     }
 
-    public function getParent(): SimpleObjectTransfer|null
+    public function getParent(): self|null
     {
         return $this->parent;
     }
@@ -46,7 +52,7 @@ final class SimpleObjectTransfer extends \Micro\Library\DTO\Object\AbstractDto
         return $this;
     }
 
-    public function setParent(SimpleObjectTransfer|null $parent): self
+    public function setParent(self|null $parent): self
     {
         $this->parent = $parent;
 
@@ -55,37 +61,31 @@ final class SimpleObjectTransfer extends \Micro\Library\DTO\Object\AbstractDto
 
     protected static function attributesMetadata(): array
     {
-        return array (
-          'weight' =>
-          array (
-            'type' =>
-            array (
-              0 => 'int',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'weight',
-          ),
-          'height' =>
-          array (
-            'type' =>
-            array (
-              0 => 'int',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'height',
-          ),
-          'parent' =>
-          array (
-            'type' =>
-            array (
-              0 => 'Transfer\\Simple\\SimpleObjectTransfer',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'parent',
-          ),
-        );
+        return [
+            'weight' => [
+                'type' => [
+                    0 => 'int',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'weight',
+            ],
+            'height' => [
+                'type' => [
+                    0 => 'int',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'height',
+            ],
+            'parent' => [
+                'type' => [
+                    0 => 'Transfer\\Simple\\SimpleObjectTransfer',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'parent',
+            ],
+        ];
     }
 }
