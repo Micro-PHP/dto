@@ -63,6 +63,8 @@
                 <xs:element name="bic" type="mic:constraint_bic" xmlns:mic="micro:dto-1.6"/>
                 <!-- Validates that a value is a valid 3-letter ISO 4217 currency name. -->
                 <xs:element name="currency" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+                <!-- https://en.wikipedia.org/wiki/Luhn_algorithm -->
+                <xs:element name="luhn" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
             </xs:choice>
         </xs:sequence>
     </xs:complexType>

@@ -95,6 +95,7 @@
             <validation>
                 <not_blank />
                 <card_scheme schemes="MASTERCARD"/>
+                <luhn />
             </validation>
         </property>
         <property name="bic" type="string">

@@ -31,6 +31,7 @@ use Micro\Library\DTO\Preparation\Processor\Property\Assert\JsonStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\LengthStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\LessThanOrEqualStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\LessThanStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\LuhnStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\NegativeOrZeroStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\NegativeStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\NotBlankStrategy;
@@ -191,6 +192,7 @@ class DependencyInjection implements DependencyInjectionInterface
             new CardSchemeStrategy(),
             new BicStrategy(),
             new CurrencyStrategy(),
+            new LuhnStrategy(),
         ];
     }
 
