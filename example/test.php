@@ -83,18 +83,19 @@ $simpleUserParent
 $simpleUser = new \Transfer\Simple\SimpleUserTransfer();
 $simpleUser
     ->setParent($simpleUserParent)
-    ->setIp('xyu')
-    ->setAge(150)
-    ->setEmail('[eq[eq]')
-    ->setHostname('ssss')
-    ->setUsername('123')
+    ->setIp('192.168.0.1')
+    ->setAge(19)
+    ->setEmail('test@example.com')
+    ->setHostname('localhost')
+    ->setUsername('Asisyas')
     ->setSometext('azds')
-    ->setUrl('ocalhost/abc')
-    ->setJson('{as}')
-    ->setUuid('aa314679')
+    ->setUrl('//abc')
+    ->setJson('{"test": 123}')
+    ->setUuid('ffd4ff99-33ed-4a13-88cf-47e22de29dcc')
     ->setCreatedAt('2002-08-11 20:08:01')
     ->setUpdatedAt('2002-08-11')
     ->setTimezone('Europe/Minsk')
+    ->setCardScheme('5555555555554444')
 ;
 
 $constraints = $validator->validate($simpleUser);

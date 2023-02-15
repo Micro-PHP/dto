@@ -18,15 +18,13 @@
         <property name="parent" type="Simple\SimpleObject"/>
         <property name="username" type="string">
             <validation>
-                <length min="8" max="50"/>
-                <regex pattern="/^(.[aA-zA]+)$/"/>
-                <length min="8" max="10" message_min="invalid username"/>
+                <length min="6" max="50"/>
                 <regex pattern="/^(.[aA-zA]+)$/"/>
             </validation>
         </property>
         <property name="age" type="int">
             <validation>
-                <blank/>
+                <not_blank />
                 <greater_than value="18" />
                 <less_than value="100" />
             </validation>
@@ -83,6 +81,12 @@
         <property name="timezone" type="string">
             <validation>
                 <time_zone intl_compatible="true" country_code="BY" zone="4096"/>
+            </validation>
+        </property>
+        <property name="card_scheme" type="string">
+            <validation>
+                <not_blank />
+                <card_scheme schemes="MASTERCARD"/>
             </validation>
         </property>
     </class>

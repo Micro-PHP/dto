@@ -15,6 +15,7 @@ use Micro\Library\DTO\Preparation\Processor\MethodAttributesMetadataProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodGetProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodSetProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\BlankStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\CardSchemeStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\DateStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\DateTimeStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\EmailStrategy;
@@ -185,6 +186,7 @@ class DependencyInjection implements DependencyInjectionInterface
             new NotIdenticalToStrategy(),
             new IdenticalToStrategy(),
             new RangeStrategy(),
+            new CardSchemeStrategy(),
         ];
     }
 

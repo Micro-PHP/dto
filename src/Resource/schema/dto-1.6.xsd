@@ -48,7 +48,6 @@
                 <xs:element name="negative" type="mic:constraint_negative" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="negative_or_zero" type="mic:constraint_negative_or_zero" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="positive_or_zero" type="mic:constraint_positive_or_zero" xmlns:mic="micro:dto-1.6"/>
-
                 <xs:element name="equal_to" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="not_equal_to" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="greater_than" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
@@ -58,6 +57,7 @@
                 <xs:element name="identical_to" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="not_identical_to" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="range" type="mic:constraint_range" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="card_scheme" type="mic:constraint_card_scheme" xmlns:mic="micro:dto-1.6"/>
             </xs:choice>
         </xs:sequence>
     </xs:complexType>
@@ -246,6 +246,15 @@
             <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
                 <xs:attribute name="property_path" type="xs:string"/>
                 <xs:attribute name="value" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_card_scheme">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract"  xmlns:mic="micro:dto-1.6">
+                <!-- Comma separated schemes names -->
+                <!-- Available: AMEX, CHINA_UNIONPAY, DINERS, DISCOVER, INSTAPAYMENT, JCB, LASER, MAESTRO, MASTERCARD, MIR, UATP, VISA -->
+                <xs:attribute name="schemes" use="required"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

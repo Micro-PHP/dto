@@ -33,7 +33,7 @@ abstract class AbstractConstraintStrategy implements PropertyProcessorInterface
     {
         $exploded = explode($separator, $string);
 
-        return array_map('trim', $exploded);
+        return array_filter(array_map('trim', $exploded));
     }
 
     /**

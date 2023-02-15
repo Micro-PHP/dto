@@ -12,7 +12,7 @@ class GreaterThanStrategy extends AbstractComparisonStrategy
 
     protected function getValidatorProperty(): string
     {
-        return 'less_than';
+        return 'greater_than';
     }
 
     protected function getAttributeClassName(): string
