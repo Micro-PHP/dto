@@ -25,11 +25,11 @@
         "php": ">= 8.1",
         "nette/php-generator": "^4",
         "psr/log": "^1|^2|^3",
-        "symfony/validator": "^6.2",
+        "symfony/validator": "^5|^6",
         "ext-dom": "*",
         "ext-libxml": "*",
         "ext-intl": "*",
-        "symfony/property-access": "^6.2"
+        "symfony/property-access": "^5|^6"
     },
     "require-dev": {
         "symfony/var-dumper": "^5|^6",
