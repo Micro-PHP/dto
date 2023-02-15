@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\DateTime;
 
-class AssertDateTimeProcessor extends AbstractConstraintProcessor
+class DateTimeStrategy extends AbstractConstraintProcessor
 {
     protected function generateArguments(array $config): array
     {

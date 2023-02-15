@@ -9,16 +9,15 @@ namespace Micro\Library\DTO\Preparation\Processor\Property;
 use Micro\Library\DTO\ClassDef\ClassDefinition;
 use Micro\Library\DTO\ClassDef\PropertyDefinition;
 
-readonly class AttributeValidationProcessor implements PropertyProcessorInterface
+class AttributeValidationProcessor implements PropertyProcessorInterface
 {
     /**
      * @param iterable<PropertyProcessorInterface> $validatorProcessor
      */
     public function __construct(
-        private iterable $validatorProcessor
+        private readonly iterable $validatorProcessor
     )
     {
-
     }
 
     public function process(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $propertyData, array $classList): void

@@ -6,17 +6,18 @@ declare(strict_types=1);
 namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 
-use Symfony\Component\Validator\Constraints\PositiveOrZero;
+use Symfony\Component\Validator\Constraints\NegativeOrZero;
 
-class AssertPositiveOrZeroProcessor extends AbstractConstraintProcessor
+class NegativeOrZeroStrategy extends AbstractConstraintProcessor
 {
+
     protected function getValidatorProperty(): string
     {
-        return 'positive_or_zero';
+        return 'negative_or_zero';
     }
 
     protected function getAttributeClassName(): string
     {
-        return PositiveOrZero::class;
+        return NegativeOrZero::class;
     }
 }

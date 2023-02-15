@@ -8,14 +8,14 @@ use Micro\Library\DTO\Merger\MergerFactoryInterface;
  * @TODO: Temporary solution. MVP
  * @TODO: Get XSD api version
  */
-readonly class XmlReader implements ReaderInterface
+class XmlReader implements ReaderInterface
 {
     /**
      * @param iterable<string> $classDefinitionFilesCollection
      */
     public function __construct(
-        private  iterable $classDefinitionFilesCollection,
-        private MergerFactoryInterface $mergerFactory
+        private  readonly iterable $classDefinitionFilesCollection,
+        private readonly MergerFactoryInterface $mergerFactory
     )
     {
     }
@@ -75,6 +75,7 @@ readonly class XmlReader implements ReaderInterface
         foreach ($classDef->attributes as $attribute) {
             $class[$attribute->nodeName] = $attribute->nodeValue;
         }
+
         /** @var \DOMNode $node */
         foreach ($classDef->childNodes as $node) {
             if(str_starts_with($node->nodeName, '#')) {

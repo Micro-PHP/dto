@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "php": ">= 8.2",
+        "php": ">= 8.1",
         "nette/php-generator": "^4",
         "psr/log": "^1|^2|^3",
         "symfony/validator": "^6.2",

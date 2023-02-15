@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\Json;
 
-class AssertJsonProcessor extends AbstractConstraintProcessor
+class JsonStrategy extends AbstractConstraintProcessor
 {
     protected function getValidatorProperty(): string
     {

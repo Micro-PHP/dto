@@ -5,27 +5,29 @@ declare(strict_types=1);
 
 namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
-use Symfony\Component\Validator\Constraints\Email;
 
-class AssertEmailProcessor extends AbstractConstraintProcessor
+use Symfony\Component\Validator\Constraints\NotBlank;
+
+class NotBlankStrategy extends AbstractConstraintProcessor
 {
+
     protected function generateArguments(array $config): array
     {
-        $parentArgs = parent::generateArguments($config);
+        $parent = parent::generateArguments($config);
 
         return [
-            ...$parentArgs,
-            'mode'  => $config['mode'] ?? 'html5',
+            ...$parent,
+            'allowNull' => $this->stringToBool($config['allow_null'] ?? 'false')
         ];
     }
 
     protected function getValidatorProperty(): string
     {
-        return 'email';
+        return 'not_blank';
     }
 
     protected function getAttributeClassName(): string
     {
-        return Email::class;
+        return NotBlank::class;
     }
 }

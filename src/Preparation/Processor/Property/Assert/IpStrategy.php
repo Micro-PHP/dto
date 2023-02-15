@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\Ip;
 
-class AssertIpProcessor extends AbstractConstraintProcessor
+class IpStrategy extends AbstractConstraintProcessor
 {
 
     protected function generateArguments(array $config): array

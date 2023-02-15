@@ -2,12 +2,12 @@
 
 namespace Micro\Library\DTO\Merger;
 
-readonly class Merger implements MergerInterface
+class Merger implements MergerInterface
 {
     /**
      * @param iterable $classCollection
      */
-    public function __construct(private iterable $classCollection)
+    public function __construct(private readonly iterable $classCollection)
     {
     }
 

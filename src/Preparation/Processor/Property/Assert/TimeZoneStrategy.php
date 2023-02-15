@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\Timezone;
 
-class AssertTimeZoneProcessor extends AbstractConstraintProcessor
+class TimeZoneStrategy extends AbstractConstraintProcessor
 {
 
     protected function generateArguments(array $config): array

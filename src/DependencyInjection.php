@@ -14,23 +14,23 @@ use Micro\Library\DTO\Preparation\Processor\ClassPropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodAttributesMetadataProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodGetProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodSetProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertBlankProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertDateProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertDateTimeProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertEmailProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertHostnameProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertIpProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertJsonProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertLengthProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertNegativeOrZeroProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertNegativeProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertNotBlankProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertPositiveOrZeroProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertPositiveProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertRegexProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertTimeZoneProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertUrlProcessor;
-use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertUuidProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\BlankStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\DateStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\DateTimeStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\EmailStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\HostnameStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\IpStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\JsonStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\LengthStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\NegativeOrZeroStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\NegativeStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\NotBlankStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\PositiveOrZeroStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\PositiveStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\RegexStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\TimeZoneStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\UrlStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\UuidStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\AttributeValidationProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\CommentProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\DateTypeProcessor;
@@ -150,23 +150,23 @@ class DependencyInjection implements DependencyInjectionInterface
     protected function createPropertyValidationProcessorCollection(): iterable
     {
         return [
-            new AssertEmailProcessor(),
-            new AssertIpProcessor(),
-            new AssertHostnameProcessor(),
-            new AssertRegexProcessor(),
-            new AssertUrlProcessor(),
-            new AssertLengthProcessor(),
-            new AssertBlankProcessor(),
-            new AssertNotBlankProcessor(),
-            new AssertJsonProcessor(),
-            new AssertUuidProcessor(),
-            new AssertDateProcessor(),
-            new AssertDateTimeProcessor(),
-            new AssertTimeZoneProcessor(),
-            new AssertNegativeProcessor(),
-            new AssertNegativeOrZeroProcessor(),
-            new AssertPositiveProcessor(),
-            new AssertPositiveOrZeroProcessor(),
+            new EmailStrategy(),
+            new IpStrategy(),
+            new HostnameStrategy(),
+            new RegexStrategy(),
+            new UrlStrategy(),
+            new LengthStrategy(),
+            new BlankStrategy(),
+            new NotBlankStrategy(),
+            new JsonStrategy(),
+            new UuidStrategy(),
+            new DateStrategy(),
+            new DateTimeStrategy(),
+            new TimeZoneStrategy(),
+            new NegativeStrategy(),
+            new NegativeOrZeroStrategy(),
+            new PositiveStrategy(),
+            new PositiveOrZeroStrategy(),
         ];
     }
 

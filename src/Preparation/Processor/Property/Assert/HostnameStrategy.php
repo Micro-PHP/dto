@@ -7,7 +7,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\Hostname;
 
-class AssertHostnameProcessor extends AbstractConstraintProcessor
+class HostnameStrategy extends AbstractConstraintProcessor
 {
 
     protected function generateArguments(array $config): array

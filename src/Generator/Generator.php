@@ -10,14 +10,14 @@ use Micro\Library\DTO\Writer\WriterInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-readonly class Generator
+class Generator
 {
     public function __construct(
-        private ReaderInterface                $reader,
-        private WriterInterface                $writer,
-        private RendererInterface              $renderer,
-        private CollectionPreparationInterface $classCollectionPreparation,
-        private LoggerInterface                $logger
+        private readonly ReaderInterface                $reader,
+        private readonly WriterInterface                $writer,
+        private readonly RendererInterface              $renderer,
+        private readonly CollectionPreparationInterface $classCollectionPreparation,
+        private readonly LoggerInterface                $logger
     )
     {
     }

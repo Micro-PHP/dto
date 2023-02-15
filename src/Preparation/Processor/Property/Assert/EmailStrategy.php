@@ -5,32 +5,27 @@ declare(strict_types=1);
 
 namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
+use Symfony\Component\Validator\Constraints\Email;
 
-use Symfony\Component\Validator\Constraints\Regex;
-
-class AssertRegexProcessor extends AbstractConstraintProcessor
+class EmailStrategy extends AbstractConstraintProcessor
 {
-
     protected function generateArguments(array $config): array
     {
         $parentArgs = parent::generateArguments($config);
 
-        $match = $config['match'] ?? 'true';
-
         return [
             ...$parentArgs,
-            'pattern'  => $config['pattern'],
-            'match' => $this->stringToBool($match),
+            'mode'  => $config['mode'] ?? 'html5',
         ];
     }
 
     protected function getValidatorProperty(): string
     {
-        return 'regex';
+        return 'email';
     }
 
     protected function getAttributeClassName(): string
     {
-        return Regex::class;
+        return Email::class;
     }
 }

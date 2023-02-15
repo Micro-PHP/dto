@@ -6,17 +6,18 @@ declare(strict_types=1);
 namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 
-use Symfony\Component\Validator\Constraints\Time;
+use Symfony\Component\Validator\Constraints\Blank;
 
-class AssertTimeProcessor extends AbstractConstraintProcessor
+class BlankStrategy extends AbstractConstraintProcessor
 {
+
     protected function getValidatorProperty(): string
     {
-        return 'time';
+        return 'blank';
     }
 
     protected function getAttributeClassName(): string
     {
-        return Time::class;
+        return Blank::class;
     }
 }
