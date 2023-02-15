@@ -67,6 +67,8 @@
                 <xs:element name="luhn" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
                 <!-- https://en.wikipedia.org/wiki/International_Bank_Account_Number -->
                 <xs:element name="iban" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+                <!-- https://en.wikipedia.org/wiki/Isbn -->
+                <xs:element name="isbn" type="mic:constraint_isbn" xmlns:mic="micro:dto-1.6"/>
             </xs:choice>
         </xs:sequence>
     </xs:complexType>
@@ -163,6 +165,24 @@
         <xs:complexContent>
             <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
                 <xs:attribute name="ltd_required" type="xs:boolean" default="false" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_isbn">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="message_isbn_10" type="xs:string" />
+                <xs:attribute name="message_isbn_13" type="xs:string" />
+                <xs:attribute name="message_isbn_both" type="xs:string" />
+                <xs:attribute name="type" default="">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="" />
+                            <xs:enumeration value="isbn10" />
+                            <xs:enumeration value="isbn13" />
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

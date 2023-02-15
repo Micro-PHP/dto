@@ -116,6 +116,12 @@
                 <iban />
             </validation>
         </property>
+        <property name="isbn" type="string">
+            <validation>
+                <not_blank />
+                <isbn type="isbn13" />
+            </validation>
+        </property>
     </class>
 
     <class name="User" description="Example class description" deprecated="Please, use gSON">
