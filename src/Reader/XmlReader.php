@@ -177,7 +177,6 @@ class XmlReader implements ReaderInterface
         $errs = [];
 
         foreach (libxml_get_errors() as $error) {
-            dump($error);
             $errs[] = sprintf('%s in file `%s` on line %d', $error->message, $error->file, $error->line);
         }
 

@@ -78,7 +78,8 @@ $validator = $vb->getValidator();
 
 $simpleUserParent = new \Transfer\Simple\SimpleObjectTransfer();
 $simpleUserParent
-    ->setHeight(10);
+    ->setWeight(9)
+    ->setHeight(8);
 
 $simpleUser = new \Transfer\Simple\SimpleUserTransfer();
 $simpleUser

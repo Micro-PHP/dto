@@ -27,7 +27,6 @@ class CardSchemeStrategy extends AbstractConstraintStrategy
 
         $result = [];
         foreach ($schemes as $schemaName) {
-            dump($schemaName);
             $s = constant(sprintf('%s::%s', CardScheme::class, $schemaName));
             $result[] = $s ?: $schemaName;
         }

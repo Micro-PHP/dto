@@ -4,11 +4,19 @@
      xsi:schemaLocation="micro:dto-1.6 ../src/Resource/schema/dto-1.6.xsd">
 
     <class name="Simple\SimpleObject">
-        <property name="weight" type="int"/>
+        <property name="weight" type="int">
+            <validation>
+                <less_than value="10" />
+            </validation>
+        </property>
     </class>
 
     <class name="Simple\SimpleObject">
-        <property name="height" type="int"/>
+        <property name="height" type="int">
+            <validation>
+                <less_than property_path="weight"/>
+            </validation>
+        </property>
     </class>
     <class name="Simple\SimpleObject">
         <property name="parent" type="Simple\SimpleObject"/>
