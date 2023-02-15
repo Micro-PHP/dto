@@ -29,6 +29,10 @@
     <xs:complexType name="validationType">
         <xs:sequence>
             <xs:choice maxOccurs="unbounded">
+                <xs:element name="date" type="mic:constraint_date" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="datetime" type="mic:constraint_date_time" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="time" type="mic:constraint_time" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="time_zone" type="mic:constraint_time_zone" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="is_null" type="mic:constraint_is_null" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="blank" type="mic:constraint_blank" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="not_blank" type="mic:constraint_not_blank" xmlns:mic="micro:dto-1.6"/>
@@ -45,7 +49,7 @@
     </xs:complexType>
     <!-- End validation nodes -->
     <!-- Constraints types -->
-    <xs:complexType name="constraint_email" xml:base="dtoType">
+    <xs:complexType name="constraint_email">
         <xs:complexContent>
             <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
                 <xs:attribute name="mode" default="html5">
@@ -54,6 +58,53 @@
                             <xs:enumeration value="html5" />
                             <xs:enumeration value="html5-allow-no-tld" />
                             <xs:enumeration value="strict" />
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_date_time">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="format" default="Y-m-d H:i:s" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_date">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_time">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_time_zone">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="intl_compatible" type="xs:boolean" default="false" />
+                <!-- The value of this option must be a valid ISO 3166-1 alpha-2 country code (e.g. CN for China) -->
+                <xs:attribute name="country_code" type="xs:string" default="" />
+                <xs:attribute name="zone" default="2047">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:integer">
+                            <!-- \DateTimeZone::{ name } -->
+                            <xs:enumeration value="1" /> <!-- AFRICA -->
+                            <xs:enumeration value="2" /> <!-- AMERICA -->
+                            <xs:enumeration value="4" /> <!-- ANTARCTICA -->
+                            <xs:enumeration value="8" /> <!-- ARCTIC -->
+                            <xs:enumeration value="16" /> <!-- ASIA -->
+                            <xs:enumeration value="32" /> <!-- ATLANTIC -->
+                            <xs:enumeration value="64" /> <!-- AUSTRALIA -->
+                            <xs:enumeration value="128" /> <!-- EUROPE -->
+                            <xs:enumeration value="256" /> <!-- INDIAN -->
+                            <xs:enumeration value="512" /> <!-- PACIFIC -->
+                            <xs:enumeration value="1024" /> <!-- UTC -->
+                            <xs:enumeration value="2047" /> <!-- ALL -->
+                            <xs:enumeration value="4095" /> <!-- ALL_WITH_BC -->
+                            <xs:enumeration value="4096" /> <!-- PER_COUNTRY -->
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>

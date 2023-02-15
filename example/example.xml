@@ -68,6 +68,21 @@
                 <uuid />
             </validation>
         </property>
+        <property name="created_at" type="string">
+            <validation>
+                <datetime />
+            </validation>
+        </property>
+        <property name="updated_at" type="string">
+            <validation>
+                <date />
+            </validation>
+        </property>
+        <property name="timezone" type="string">
+            <validation>
+                <time_zone intl_compatible="true" country_code="BY" zone="4096"/>
+            </validation>
+        </property>
     </class>
 
     <class name="User" description="Example class description" deprecated="Please, use gSON">

@@ -27,7 +27,8 @@
         "psr/log": "^1|^2|^3",
         "symfony/validator": "^6.2",
         "ext-dom": "*",
-        "ext-libxml": "*"
+        "ext-libxml": "*",
+        "ext-intl": "*"
     },
     "require-dev": {
         "symfony/var-dumper": "^5|^6",

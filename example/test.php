@@ -69,25 +69,35 @@ $json = $classSerializerFacade->toJsonTransfer($user);
 
 $result = $classSerializerFacade->fromJsonTransfer($json);
 
-
 $mf = new \Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader());
 
 $vb = \Symfony\Component\Validator\Validation::createValidatorBuilder();
 $vb->setMetadataFactory($mf);
 $vb->disableAnnotationMapping();
 $validator = $vb->getValidator();
-$simpleUser = new \Transfer\Simple\SimpleUserTransfer();
-$simpleUser->setIp('xyu');
-$simpleUser->setAge(150);
-$simpleUser->setEmail('[eq[eq]');
-$simpleUser->setHostname('ssss');
-$simpleUser->setUsername('123');
-$simpleUser->setSometext('azds');
-$simpleUser->setUrl('ocalhost/abc');
-$simpleUser->setJson('{as}');
-$simpleUser->setUuid('aa314679');
 
-$constraints = $validator->validate($simpleUser, null);
+$simpleUserParent = new \Transfer\Simple\SimpleObjectTransfer();
+$simpleUserParent
+    ->setHeight(10);
+
+$simpleUser = new \Transfer\Simple\SimpleUserTransfer();
+$simpleUser
+    ->setParent($simpleUserParent)
+    ->setIp('xyu')
+    ->setAge(150)
+    ->setEmail('[eq[eq]')
+    ->setHostname('ssss')
+    ->setUsername('123')
+    ->setSometext('azds')
+    ->setUrl('ocalhost/abc')
+    ->setJson('{as}')
+    ->setUuid('aa314679')
+    ->setCreatedAt('2002-08-11 20:08:01')
+    ->setUpdatedAt('2002-08-11')
+    ->setTimezone('Europe/Minsk')
+;
+
+$constraints = $validator->validate($simpleUser);
 
 dump($constraints);
 

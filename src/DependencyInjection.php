@@ -15,6 +15,8 @@ use Micro\Library\DTO\Preparation\Processor\MethodAttributesMetadataProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodGetProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodSetProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertBlankProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertDateProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertDateTimeProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertEmailProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertHostnameProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertIpProcessor;
@@ -22,6 +24,7 @@ use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertJsonProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertLengthProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertNotBlankProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertRegexProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertTimeZoneProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertUrlProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertUuidProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\AttributeValidationProcessor;
@@ -153,6 +156,9 @@ class DependencyInjection implements DependencyInjectionInterface
             new AssertNotBlankProcessor(),
             new AssertJsonProcessor(),
             new AssertUuidProcessor(),
+            new AssertDateProcessor(),
+            new AssertDateTimeProcessor(),
+            new AssertTimeZoneProcessor(),
         ];
     }
 
