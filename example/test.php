@@ -98,6 +98,7 @@ $simpleUser
     ->setTimezone('Europe/Minsk')
     ->setCardScheme('5555555555554444')
     ->setBic('MIDLGB22')
+    ->setCurrency('USD')
 ;
 
 $constraints = $validator->validate($simpleUser);

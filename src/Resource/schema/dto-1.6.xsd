@@ -43,6 +43,7 @@
                 <xs:element name="regex" type="mic:constraint_regex" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="length" type="mic:constraint_size" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="json" type="mic:constraint_json" xmlns:mic="micro:dto-1.6"/>
+                <!-- https://en.wikipedia.org/wiki/Universally_unique_identifier -->
                 <xs:element name="uuid" type="mic:constraint_uuid" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="positive" type="mic:constraint_positive" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="negative" type="mic:constraint_negative" xmlns:mic="micro:dto-1.6"/>
@@ -58,7 +59,10 @@
                 <xs:element name="not_identical_to" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="range" type="mic:constraint_range" xmlns:mic="micro:dto-1.6"/>
                 <xs:element name="card_scheme" type="mic:constraint_card_scheme" xmlns:mic="micro:dto-1.6"/>
+                <!-- https://en.wikipedia.org/wiki/ISO_9362 -->
                 <xs:element name="bic" type="mic:constraint_bic" xmlns:mic="micro:dto-1.6"/>
+                <!-- Validates that a value is a valid 3-letter ISO 4217 currency name. -->
+                <xs:element name="currency" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
             </xs:choice>
         </xs:sequence>
     </xs:complexType>

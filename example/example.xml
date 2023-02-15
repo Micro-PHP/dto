@@ -103,6 +103,12 @@
                 <bic />
             </validation>
         </property>
+        <property name="currency" type="string">
+            <validation>
+                <not_blank />
+                <currency />
+            </validation>
+        </property>
     </class>
 
     <class name="User" description="Example class description" deprecated="Please, use gSON">

@@ -17,6 +17,7 @@ use Micro\Library\DTO\Preparation\Processor\MethodSetProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\BicStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\BlankStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\CardSchemeStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\CurrencyStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\DateStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\DateTimeStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\EmailStrategy;
@@ -189,6 +190,7 @@ class DependencyInjection implements DependencyInjectionInterface
             new RangeStrategy(),
             new CardSchemeStrategy(),
             new BicStrategy(),
+            new CurrencyStrategy(),
         ];
     }
 
