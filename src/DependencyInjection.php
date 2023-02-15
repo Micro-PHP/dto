@@ -25,6 +25,7 @@ use Micro\Library\DTO\Preparation\Processor\Property\Assert\EqualToStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\GreaterThanOrEqualStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\GreaterThanStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\HostnameStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\IbanStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\IdenticalToStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\IpStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\JsonStrategy;
@@ -193,6 +194,7 @@ class DependencyInjection implements DependencyInjectionInterface
             new BicStrategy(),
             new CurrencyStrategy(),
             new LuhnStrategy(),
+            new IbanStrategy(),
         ];
     }
 

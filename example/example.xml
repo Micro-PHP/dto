@@ -110,6 +110,12 @@
                 <currency />
             </validation>
         </property>
+        <property name="iban" type="string">
+            <validation>
+                <not_blank />
+                <iban />
+            </validation>
+        </property>
     </class>
 
     <class name="User" description="Example class description" deprecated="Please, use gSON">

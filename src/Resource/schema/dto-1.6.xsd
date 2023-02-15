@@ -65,6 +65,8 @@
                 <xs:element name="currency" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
                 <!-- https://en.wikipedia.org/wiki/Luhn_algorithm -->
                 <xs:element name="luhn" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+                <!-- https://en.wikipedia.org/wiki/International_Bank_Account_Number -->
+                <xs:element name="iban" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
             </xs:choice>
         </xs:sequence>
     </xs:complexType>

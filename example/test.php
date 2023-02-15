@@ -99,6 +99,7 @@ $simpleUser
     ->setCardScheme('5555555555554444')
     ->setBic('MIDLGB22')
     ->setCurrency('USD')
+    ->setIban('BY 13 NBRB 3600900000002Z00AB00')
 ;
 
 $constraints = $validator->validate($simpleUser);
