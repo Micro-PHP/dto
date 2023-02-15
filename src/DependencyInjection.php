@@ -29,6 +29,7 @@ use Micro\Library\DTO\Preparation\Processor\Property\Assert\IbanStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\IdenticalToStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\IpStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\IsbnStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\IsinStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\JsonStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\LengthStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\LessThanOrEqualStrategy;
@@ -197,6 +198,7 @@ class DependencyInjection implements DependencyInjectionInterface
             new LuhnStrategy(),
             new IbanStrategy(),
             new IsbnStrategy(),
+            new IsinStrategy(),
         ];
     }
 

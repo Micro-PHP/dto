@@ -71,6 +71,8 @@
                 <xs:element name="isbn" type="mic:constraint_isbn" xmlns:mic="micro:dto-1.6"/>
                 <!-- https://en.wikipedia.org/wiki/Issn -->
                 <xs:element name="issn" type="mic:constraint_issn" xmlns:mic="micro:dto-1.6" />
+                <!-- https://en.wikipedia.org/wiki/International_Securities_Identification_Number -->
+                <xs:element name="isin" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6" />
             </xs:choice>
         </xs:sequence>
     </xs:complexType>
