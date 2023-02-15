@@ -46,9 +46,6 @@ class AssertUuidProcessor extends AbstractConstraintProcessor
         }
 
         $versions = array_map('intval', $versions);
-
-        dump(array_diff($versions, self::ALLOWED_VERSIONS));
-
         $isValid = !array_diff($versions, self::ALLOWED_VERSIONS);
         if($isValid) {
            return $versions;
