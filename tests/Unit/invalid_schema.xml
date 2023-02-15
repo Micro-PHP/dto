@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<dto xmlns="micro:dto-1.6"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="micro:dto-1.6 src/Resource/schema/dto-1.6.xsd">
+
+    <classz name="User" description="Example class description" deprecated="Please, use gSON">
+        <property name="username" type="string|int" description="Username" deprecated="Deprecation  message"/>
+        <property name="books" type="array" is_collection="true"/>
+        <property name="first_name" type="string|int" required="true"/>
+        <property name="updatedAt" type="date"/>
+        <property name="someclass" type="abstract"/>
+        <property name="testMixed" type="mixed"/>
+    </classz>
+</dto>

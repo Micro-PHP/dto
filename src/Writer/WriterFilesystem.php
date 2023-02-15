@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Micro\Library\DTO\Writer;
 
 class WriterFilesystem implements WriterInterface
@@ -11,15 +22,16 @@ class WriterFilesystem implements WriterInterface
     public function __construct(
         private readonly string $classFilePath,
         private readonly string $namespaceGeneral,
-    )
-    {
+    ) {
     }
 
     /**
      * @param string $classnameFull
      * @param string $renderedClassData
-     * @return void
+     *
      * @throws \Exception
+     *
+     * @return void
      */
     public function write(string $classnameFull, string $renderedClassData): void
     {
@@ -29,12 +41,13 @@ class WriterFilesystem implements WriterInterface
 
         $this->createPath($path);
 
-        file_put_contents($path . DIRECTORY_SEPARATOR . $file, $renderedClassData);
+        file_put_contents($path.\DIRECTORY_SEPARATOR.$file, $renderedClassData);
     }
 
     /**
      * @param string $classnameFull
-     * @return array
+     *
+     * @return array<string, string>
      */
     protected function getClassFileMeta(string $classnameFull): array
     {
@@ -44,31 +57,33 @@ class WriterFilesystem implements WriterInterface
 
         $file = $explodedFile[0];
         $path = rtrim($this->classFilePath, '\\');
-        if(count($classExploded) !== 1) {
+        if (1 !== \count($classExploded)) {
             $file = array_pop($explodedFile);
-            $path = $path . '\\' . implode(DIRECTORY_SEPARATOR, $explodedFile);
+            $path = $path.'\\'.implode(\DIRECTORY_SEPARATOR, $explodedFile);
         }
 
         return [
-            'file'  => $file . '.php',
-            'path'  => str_replace('\\', '/', $path),
+            'file' => $file.'.php',
+            'path' => str_replace('\\', '/', $path),
         ];
     }
 
     /**
      * @param string $path
-     * @return void
+     *
      * @throws \Exception
+     *
+     * @return void
      */
     protected function createPath(string $path): void
     {
         $path = preg_replace('(\/+\/)', '/', $path);
 
-        if(file_exists($path)) {
+        if (file_exists($path)) {
             return;
         }
 
-        if(!mkdir($path, 0755, true)) {
+        if (!mkdir($path, 0755, true)) {
             throw new \Exception(sprintf('Can not create path %s', $path));
         }
     }

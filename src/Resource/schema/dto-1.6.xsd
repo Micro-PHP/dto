@@ -1,0 +1,322 @@
+<xs:schema elementFormDefault="qualified" targetNamespace="micro:dto-1.6" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="dto"  type="mic:dtoType" xmlns:mic="micro:dto-1.6"/>
+
+    <xs:complexType name="dtoType">
+        <xs:sequence>
+            <xs:element type="mic:classType" name="class" maxOccurs="unbounded" xmlns:mic="micro:dto-1.6"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="classType">
+        <xs:sequence>
+            <xs:element type="mic:propertyType" name="property" maxOccurs="unbounded" minOccurs="1" xmlns:mic="micro:dto-1.6"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="name"/>
+        <xs:attribute type="xs:string" name="description"/>
+        <xs:attribute type="xs:string" name="deprecated"/>
+    </xs:complexType>
+    <xs:complexType name="propertyType" mixed="true">
+        <xs:sequence>
+            <xs:element type="mic:validationType" name="validation" minOccurs="0" xmlns:mic="micro:dto-1.6"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="name" use="required"/>
+        <xs:attribute type="xs:string" name="type" use="required"/>
+        <xs:attribute type="xs:string" name="description"/>
+        <xs:attribute type="xs:string" name="deprecated"/>
+        <xs:attribute type="xs:boolean" name="is_collection" default="false"/>
+        <xs:attribute type="xs:boolean" name="required" default="false"/>
+    </xs:complexType>
+    <!-- Validation nodes -->
+    <xs:complexType name="validationType">
+        <xs:sequence>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element name="date" type="mic:constraint_date" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="datetime" type="mic:constraint_date_time" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="time" type="mic:constraint_time" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="time_zone" type="mic:constraint_time_zone" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="is_null" type="mic:constraint_is_null" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="blank" type="mic:constraint_blank" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="not_blank" type="mic:constraint_not_blank" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="email" type="mic:constraint_email" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="ip" type="mic:constraint_ip" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="hostname" type="mic:constraint_hostname" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="url" type="mic:constraint_url" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="regex" type="mic:constraint_regex" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="length" type="mic:constraint_size" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="json" type="mic:constraint_json" xmlns:mic="micro:dto-1.6"/>
+                <!-- https://en.wikipedia.org/wiki/Universally_unique_identifier -->
+                <xs:element name="uuid" type="mic:constraint_uuid" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="positive" type="mic:constraint_positive" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="negative" type="mic:constraint_negative" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="negative_or_zero" type="mic:constraint_negative_or_zero" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="positive_or_zero" type="mic:constraint_positive_or_zero" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="equal_to" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="not_equal_to" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="greater_than" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="greater_than_or_equal" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="less_than" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="less_than_or_equal" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="identical_to" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="not_identical_to" type="mic:constraint_abstract_comparison" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="range" type="mic:constraint_range" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="card_scheme" type="mic:constraint_card_scheme" xmlns:mic="micro:dto-1.6"/>
+                <!-- https://en.wikipedia.org/wiki/ISO_9362 -->
+                <xs:element name="bic" type="mic:constraint_bic" xmlns:mic="micro:dto-1.6"/>
+                <!-- Validates that a value is a valid 3-letter ISO 4217 currency name. -->
+                <xs:element name="currency" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+                <!-- https://en.wikipedia.org/wiki/Luhn_algorithm -->
+                <xs:element name="luhn" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+                <!-- https://en.wikipedia.org/wiki/International_Bank_Account_Number -->
+                <xs:element name="iban" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+                <!-- https://en.wikipedia.org/wiki/Isbn -->
+                <xs:element name="isbn" type="mic:constraint_isbn" xmlns:mic="micro:dto-1.6"/>
+                <!-- https://en.wikipedia.org/wiki/Issn -->
+                <xs:element name="issn" type="mic:constraint_issn" xmlns:mic="micro:dto-1.6" />
+                <!-- https://en.wikipedia.org/wiki/International_Securities_Identification_Number -->
+                <xs:element name="isin" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6" />
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- End validation nodes -->
+    <!-- Constraints types -->
+    <xs:complexType name="constraint_email">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="mode" default="html5">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="html5" />
+                            <xs:enumeration value="html5-allow-no-tld" />
+                            <xs:enumeration value="strict" />
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_date_time">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="format" default="Y-m-d H:i:s" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_date">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_time">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_time_zone">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="intl_compatible" type="xs:boolean" default="false" />
+                <!-- The value of this option must be a valid ISO 3166-1 alpha-2 country code (e.g. CN for China) -->
+                <xs:attribute name="country_code" type="xs:string" default="" />
+                <xs:attribute name="zone" default="2047">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:integer">
+                            <!-- \DateTimeZone::{ name } -->
+                            <xs:enumeration value="1" /> <!-- AFRICA -->
+                            <xs:enumeration value="2" /> <!-- AMERICA -->
+                            <xs:enumeration value="4" /> <!-- ANTARCTICA -->
+                            <xs:enumeration value="8" /> <!-- ARCTIC -->
+                            <xs:enumeration value="16" /> <!-- ASIA -->
+                            <xs:enumeration value="32" /> <!-- ATLANTIC -->
+                            <xs:enumeration value="64" /> <!-- AUSTRALIA -->
+                            <xs:enumeration value="128" /> <!-- EUROPE -->
+                            <xs:enumeration value="256" /> <!-- INDIAN -->
+                            <xs:enumeration value="512" /> <!-- PACIFIC -->
+                            <xs:enumeration value="1024" /> <!-- UTC -->
+                            <xs:enumeration value="2047" /> <!-- ALL -->
+                            <xs:enumeration value="4095" /> <!-- ALL_WITH_BC -->
+                            <xs:enumeration value="4096" /> <!-- PER_COUNTRY -->
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_ip">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="version" default="4">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="4" />
+                            <xs:enumeration value="6" />
+                            <xs:enumeration value="all" />
+                            <xs:enumeration value="4_no_priv"/>
+                            <xs:enumeration value="6_no_priv" />
+                            <xs:enumeration value="all_no_priv"/>
+                            <xs:enumeration value="all_no_priv"/>
+                            <xs:enumeration value="4_no_res"/>
+                            <xs:enumeration value="6_no_res"/>
+                            <xs:enumeration value="all_no_res"/>
+                            <xs:enumeration value="4_public"/>
+                            <xs:enumeration value="6_public"/>
+                            <xs:enumeration value="all_public"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_hostname">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="ltd_required" type="xs:boolean" default="false" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_isbn">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="message_isbn_10" type="xs:string" />
+                <xs:attribute name="message_isbn_13" type="xs:string" />
+                <xs:attribute name="message_isbn_both" type="xs:string" />
+                <xs:attribute name="type" default="">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="" />
+                            <xs:enumeration value="isbn10" />
+                            <xs:enumeration value="isbn13" />
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_issn">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="case_sensitive" type="xs:boolean" default="false"/>
+                <xs:attribute name="require_hyphen" type="xs:boolean" default="false" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_url">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="is_relative" type="xs:boolean" default="false" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_regex">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute type="xs:string" name="pattern" use="required" />
+                <xs:attribute type="xs:boolean" name="match" default="true" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_size">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract_groups" xmlns:mic="micro:dto-1.6">
+                <xs:attribute type="xs:int" name="min" use="required"/>
+                <xs:attribute type="xs:int" name="max" use="required"/>
+                <xs:attribute type="xs:string" name="message_min" />
+                <xs:attribute type="xs:string" name="message_max"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_negative">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_negative_or_zero">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_positive">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_positive_or_zero">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_blank">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_not_blank">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="allow_null" default="false"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_is_null">
+       <xs:complexContent>
+           <xs:extension base="mic:constraint_abstract"  xmlns:mic="micro:dto-1.6"/>
+       </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_json">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract"  xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_uuid">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract"  xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="strict" default="true" />
+                <xs:attribute name="versions" default="1,2,3,4,5,6,7" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_range">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_size"  xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="property_path_min" type="xs:string" />
+                <xs:attribute name="property_path_max" type="xs:string" />
+                <xs:attribute name="message_not_in_range" type="xs:string" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_abstract_comparison">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="property_path" type="xs:string"/>
+                <xs:attribute name="value" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_card_scheme">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract"  xmlns:mic="micro:dto-1.6">
+                <!-- Comma separated schemes names -->
+                <!-- Available: AMEX, CHINA_UNIONPAY, DINERS, DISCOVER, INSTAPAYMENT, JCB, LASER, MAESTRO, MASTERCARD, MIR, UATP, VISA -->
+                <xs:attribute name="schemes" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_bic">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract"  xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="iban" type="xs:string"/>
+                <xs:attribute name="message_iban" type="xs:string"/>
+                <xs:attribute name="iban_property_path" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_abstract">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract_groups" xmlns:mic="micro:dto-1.6">
+                <xs:attribute type="xs:string" name="message" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_abstract_groups">
+        <xs:attribute type="xs:string" name="groups" default="Default" />
+    </xs:complexType>
+    <!-- Constraints types END -->
+</xs:schema>

@@ -1,11 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Micro\Library\DTO\Reader;
 
 use Micro\Library\DTO\Merger\MergerFactoryInterface;
 
 /**
  * @TODO: Temporary solution. MVP
+ *
  * @TODO: Get XSD api version
  */
 class XmlReader implements ReaderInterface
@@ -16,13 +28,9 @@ class XmlReader implements ReaderInterface
     public function __construct(
         private readonly iterable $classDefinitionFilesCollection,
         private readonly MergerFactoryInterface $mergerFactory
-    )
-    {
+    ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function read(): iterable
     {
         $classCollection = [];
@@ -30,12 +38,7 @@ class XmlReader implements ReaderInterface
             $xml = $this->createDom($filePath);
 
             foreach ($xml->getElementsByTagName(self::TAG_CLASS_DEFINITION) as $classDef) {
-                $classData = $this->parseClass($classDef);
-                if(!$classData) {
-                    continue;
-                }
-
-                $classCollection[] = $classData;
+                $classCollection[] = $this->parseClass($classDef);
             }
         }
 
@@ -45,17 +48,17 @@ class XmlReader implements ReaderInterface
     /**
      * @param \DOMDocument $document
      *
-     * @return array
+     * @return string[]
      */
     protected function lookupXsd(\DOMDocument $document): array
     {
         $schemaLocation = $document->getElementsByTagName('dto')[0]->getAttribute('xsi:schemaLocation');
-        if(!$schemaLocation) {
+        if (!$schemaLocation) {
             throw new \RuntimeException('XSD Scheme should be declared on <dto xsi:schemaLocation="">');
         }
 
         $location = explode(' ', $schemaLocation);
-        if(count($location) !== 2) {
+        if (2 !== \count($location)) {
             throw new \RuntimeException(sprintf('XSD Scheme declaration failed <dto xsi:schemaLocation="%s">', $schemaLocation));
         }
 
@@ -63,55 +66,113 @@ class XmlReader implements ReaderInterface
     }
 
     /**
-     * @param \DOMNode $classDef
-     *
-     * @return array
+     * @return array<string, mixed>
      */
     protected function parseClass(\DOMNode $classDef): array
     {
         $class = [];
         $props = [];
+        if (null === $classDef->attributes) {
+            return $class;
+        }
+
         /** @var \DOMNode $attribute */
         foreach ($classDef->attributes as $attribute) {
             $class[$attribute->nodeName] = $attribute->nodeValue;
         }
+
         /** @var \DOMNode $node */
         foreach ($classDef->childNodes as $node) {
-            if(str_starts_with($node->nodeName, '#')) {
+            if (str_starts_with($node->nodeName, '#')) {
                 continue;
             }
 
             $propCfg = [];
+            $validation = $this->parseValidation($node);
+            if ($validation) {
+                $propCfg['validation'] = $validation;
+            }
+
+            if (null === $node->attributes) {
+                continue;
+            }
+
             foreach ($node->attributes as $attribute) {
                 $propCfg[$attribute->nodeName] = $attribute->nodeValue;
             }
-
-            if(array_key_exists($propCfg[self::PROP_PROP_NAME], $props)) {
+            /**
+             * @psalm-suppress PossiblyInvalidArgument
+             * @psalm-suppress InvalidArgument
+             */
+            if (\array_key_exists($propCfg[self::PROP_PROP_NAME], $props)) {
                 throw new \RuntimeException(sprintf('Property "%s" already defined. Location: %s" ',  $propCfg[self::PROP_PROP_NAME], $classDef->baseURI));
             }
 
+            /** @psalm-suppress PossiblyNullArrayOffset  */
             $props[$propCfg[self::PROP_PROP_NAME]] = $propCfg;
         }
 
         $class[self::PATH_PROP] = $props;
-        // @TODO:
-        $class['_api_version'] = 'micro:dto-01';
 
         return $class;
     }
 
     /**
-     * @param string $filePath
+     * @param \DOMNode $attribute
      *
-     * @return \DOMDocument
+     * @return mixed[]
      */
+    protected function parseValidation(\DOMNode $attribute): array|null
+    {
+        if (!$attribute->childNodes->count()) {
+            return null;
+        }
+
+        $constraints = [];
+        /** @var \DOMNode $validationNode */
+        foreach ($attribute->childNodes as $validationNode) {
+            if (!$validationNode->childNodes->count() || 'validation' !== $validationNode->nodeName) {
+                continue;
+            }
+            $groupConstraints = [];
+            /** @var \DOMNode $constraintNode */
+            foreach ($validationNode->childNodes as $constraintNode) {
+                if ('#text' === $constraintNode->nodeName) {
+                    continue;
+                }
+
+                $constraintAttributes = [];
+                /** @var \DOMAttr $constraintItemAttribute */
+                if ($constraintNode->attributes) {
+                    foreach ($constraintNode->attributes as $constraintItemAttribute) {
+                        $constraintAttributes[$constraintItemAttribute->nodeName] = $constraintItemAttribute->nodeValue;
+                    }
+                }
+
+                if (empty($constraintAttributes)) {
+                    $constraintAttributes = [];
+                }
+
+                if (!\array_key_exists('groups', $constraintAttributes)) {
+                    $constraintAttributes['groups'] = 'Default';
+                }
+
+                $groupConstraints[$constraintNode->nodeName] = $constraintAttributes;
+            }
+
+            $constraints[] = $groupConstraints;
+        }
+
+        return $constraints;
+    }
+
     protected function createDom(string $filePath): \DOMDocument
     {
-        if(!file_exists($filePath)) {
+        if (!file_exists($filePath)) {
             throw new \RuntimeException(sprintf('File %s is not found', $filePath));
         }
 
-        if(!is_readable($filePath)) {
+        if (!is_readable($filePath)) {
             throw new \RuntimeException(sprintf('Has no access to read the file %s', $filePath));
         }
 
@@ -123,18 +184,20 @@ class XmlReader implements ReaderInterface
 
         libxml_use_internal_errors(true);
 
-        if($xml->schemaValidate($xsdSchemaLocation)) {
+        if ($xml->schemaValidate($xsdSchemaLocation)) {
             return $xml;
         }
 
         $errs = [];
 
         foreach (libxml_get_errors() as $error) {
-            $errs[] = $error->message;
+            $errs[] = sprintf('%s in file `%s` on line %d', $error->message, $error->file, $error->line);
         }
+
+        $errorMessage = implode("\n ", $errs);
 
         libxml_use_internal_errors(false);
 
-        throw new \RuntimeException(sprintf("Schema validation exception: \r\n %s\r", implode("\r ", $errs)));
+        throw new \RuntimeException(sprintf("Schema validation exception: \r\n %s\r", $errorMessage));
     }
 }

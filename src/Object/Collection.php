@@ -1,20 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Micro\Library\DTO\Object;
 
-use Traversable;
-
+/**
+ * @template-implements \IteratorAggregate<mixed>
+ * @template-implements \ArrayAccess<string, mixed>
+ */
 class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     /**
-     * @var iterable
+     * @var mixed[]
      */
-    private iterable $items;
+    private array $items;
 
-    /**
-     * @param iterable $items
-     */
-    public function __construct(private readonly array $typesRequired = [])
+    public function __construct()
     {
         $this->items = [];
     }
@@ -24,7 +34,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * @return $this
      */
-    public function add($item): self
+    public function add(mixed $item): self
     {
         $this->validateItem($item);
 
@@ -38,10 +48,10 @@ class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * @return self
      */
-    public function remove($item): self
+    public function remove(mixed $item): self
     {
         foreach ($this as $pos => $currItem) {
-            if($currItem === $item) {
+            if ($currItem === $item) {
                 $this->offsetUnset($pos);
 
                 break;
@@ -54,7 +64,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * {@inheritDoc}
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         return (function () {
             foreach ($this->items as $item) {
@@ -76,7 +86,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
      */
     public function offsetGet(mixed $offset): mixed
     {
-        return $this->offsetExists($offset) ? $this->items[$offset]: null;
+        return $this->offsetExists($offset) ? $this->items[$offset] : null;
     }
 
     /**
@@ -84,6 +94,10 @@ class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
+        if (null === $offset) {
+            throw new \InvalidArgumentException();
+        }
+
         $this->items[$offset] = $value;
     }
 
@@ -100,7 +114,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
      */
     public function count(): int
     {
-        return count($this->items);
+        return \count($this->items);
     }
 
     protected function validateItem(mixed $item): void

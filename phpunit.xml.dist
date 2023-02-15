@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://phpunit.readthedocs.io/en/9.5/configuration.html#the-phpunit-element -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         backupGlobals="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         failOnRisky="true"
+         failOnWarning="true"
+>
+    <php>
+        <ini name="error_reporting" value="-1" force="true"/>
+    </php>
+    <testsuites>
+        <testsuite name="Unit tests">
+            <directory>tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/</directory>
+        </whitelist>
+    </filter>
+    <coverage>
+        <include>
+            <directory suffix=".php">src/</directory>
+        </include>
+        <report>
+            <html outputDirectory="test-coverage-report/" />
+        </report>
+    </coverage>
+
+    <logging>
+        <log type="coverage-clover" target="coverage/clover.xml"/>
+    </logging>
+
+    <coverage>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <report>
+            <html outputDirectory="test-coverage-report/" />
+        </report>
+    </coverage>
+
+</phpunit>

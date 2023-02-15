@@ -1,35 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Micro\Library\DTO\Object;
 
-use Micro\Library\DTO\Preparation\Processor\Property\PropertyProcessorInterface;
-use Traversable;
+use ArrayAccess;
+use IteratorAggregate;
 
+/**
+ * @template-implements ArrayAccess<string, mixed>
+ * @template-implements IteratorAggregate<string, mixed>
+ */
 abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
 {
-    /**
-     * @return array
-     */
-    protected static abstract function attributesMetadata(): array;
-
-    /**
-     * @param string $attribute
-     *
-     * @return array|null
-     */
-    protected function getAttributeMetadata(string $attribute): ?array
-    {
-       $meta = static::attributesMetadata();
-
-       return $meta[$attribute] ?? null;
-    }
-
     /**
      * {@inheritDoc}
      */
     public function offsetExists(mixed $offset): bool
     {
-        return !!$this->getAttributeMetadata($offset);
+        return (bool) $this->getAttributeMetadata($offset);
     }
 
     /**
@@ -45,6 +43,10 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
+        if (!$offset) {
+            throw new \InvalidArgumentException();
+        }
+
         $this->executeMethod('set', $offset, $value);
     }
 
@@ -57,9 +59,9 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * @return Traversable
+     * @return \Traversable<string, mixed>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         return (function () {
             foreach ($this->attributesMetadata() as $attributeName => $meta) {
@@ -69,24 +71,38 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
+     * @return array<string, mixed>
+     */
+    abstract protected static function attributesMetadata(): array;
+
+    /**
+     * @param string $attribute
+     *
+     * @return mixed[]|null
+     */
+    protected function getAttributeMetadata(string $attribute): ?array
+    {
+        $meta = static::attributesMetadata();
+
+        return $meta[$attribute] ?? null;
+    }
+
+    /**
      * @param string $method
      * @param string $property
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @return mixed
      */
     protected function executeMethod(string $method, string $property, mixed $value): mixed
     {
         $meta = $this->getAttributeMetadata($property);
-        if(!$meta) {
-            throw new \InvalidArgumentException(
-                sprintf('Property "%s" is not declared in the class "%s".', $property, get_class($this))
-            );
+        if (!$meta) {
+            throw new \InvalidArgumentException(sprintf('Property "%s" is not declared in the class "%s".', $property, static::class));
         }
 
         $actionName = $meta['actionName'];
 
-        return $this->{$method . $actionName}($value);
+        return $this->{$method.$actionName}($value);
     }
-
-
 }

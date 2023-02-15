@@ -52,21 +52,63 @@ $user
 
 // Iterate as array
 foreach ($user as $key => $value) {
-    print_r("\r\nPROPERTY: " . $key . " ==== " . (is_scalar($value) ? $value : serialize($value)));
+//    print_r("\r\nPROPERTY: " . $key . " ==== " . (is_scalar($value) ? $value : serialize($value)));
 }
 
 //
-print_r('FISRT BOOK HEIGHT : ' . $user['books'][0]['height'] . "\r\n");
-print_r('FISRT BOOK PARENT HEIGHT : ' . $user['books'][0]['parent']['height'] . "\r\n");
+//print_r('FISRT BOOK HEIGHT : ' . $user['books'][0]['height'] . "\r\n");
+//print_r('FISRT BOOK PARENT HEIGHT : ' . $user['books'][0]['parent']['height'] . "\r\n");
 
 
 $classSerializerFacade = new \Micro\Library\DTO\SerializerFacadeDefault();
 
 
-dump($classSerializerFacade->toJsonTransfer($user)); exit;
+$json = $classSerializerFacade->toJsonTransfer($user);
 
-$result = $classSerializerFacade->fromJsonTransfer();
+//dump($json);
 
-dump($result);
+$result = $classSerializerFacade->fromJsonTransfer($json);
+
+$mf = new \Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader());
+
+$vb = \Symfony\Component\Validator\Validation::createValidatorBuilder();
+$vb->setMetadataFactory($mf);
+$vb->disableAnnotationMapping();
+$validator = $vb->getValidator();
+
+$simpleUserParent = new \Transfer\Simple\SimpleObjectTransfer();
+$simpleUserParent
+    ->setWeight(9)
+    ->setHeight(8);
+
+$simpleUser = new \Transfer\Simple\SimpleUserTransfer();
+$simpleUser
+    ->setParent($simpleUserParent)
+    ->setIp('192.168.0.1')
+    ->setAge(19)
+    ->setEmail('test@example.com')
+    ->setHostname('localhost')
+    ->setUsername('Asisyas')
+    ->setSometext('azds')
+    ->setUrl('//abc')
+    ->setJson('{"test": 123}')
+    ->setUuid('ffd4ff99-33ed-4a13-88cf-47e22de29dcc')
+    ->setCreatedAt('2002-08-11 20:08:01')
+    ->setUpdatedAt('2002-08-11')
+    ->setTimezone('Europe/Minsk')
+    ->setCardScheme('5555555555554444')
+    ->setBic('MIDLGB22')
+    ->setCurrency('USD')
+    ->setIban('BY 13 NBRB 3600900000002Z00AB00')
+    ->setIsbn('978-0-545-01022-1')
+    ->setIssn('0378-5955')
+    ->setIsin('US0378331005')
+;
+
+$constraints = $validator->validate($simpleUser);
+
+dump($constraints);
+
+//dump($result);
 
 

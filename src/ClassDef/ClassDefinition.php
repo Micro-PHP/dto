@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Micro\Library\DTO\ClassDef;
 
 use Micro\Library\DTO\Helper\ClassMetadataHelperInterface;
@@ -19,27 +30,27 @@ class ClassDefinition
     /**
      * @var string
      */
-    private string $name;
+    private string $name = '';
 
     /**
-     * @var array
+     * @var array<string, string|null>
      */
     private array $useStatements = [];
 
     /**
-     * @var iterable<PropertyDefinition>
+     * @var array<PropertyDefinition>
      */
-    private iterable $properties = [];
+    private array $properties = [];
 
     /**
-     * @var iterable<MethodDefinition>
+     * @var array<MethodDefinition>
      */
-    private iterable $methods = [];
+    private array $methods = [];
 
     /**
-     * @var iterable<string>
+     * @var array<string>
      */
-    private iterable $comments = [];
+    private array $comments = [];
 
     /**
      * @return string
@@ -98,14 +109,6 @@ class ClassDefinition
     }
 
     /**
-     * @param PropertyDefinition[] $properties
-     */
-    public function setProperties(iterable $properties): void
-    {
-        $this->properties = $properties;
-    }
-
-    /**
      * @param PropertyDefinition $propertyDefinition
      *
      * @return $this
@@ -127,17 +130,11 @@ class ClassDefinition
 
     public function addMethod(MethodDefinition $methodDefinition): self
     {
-        $this->methods[] = $methodDefinition;
+        if (!\in_array($methodDefinition, $this->methods)) {
+            $this->methods[] = $methodDefinition;
+        }
 
         return $this;
-    }
-
-    /**
-     * @param MethodDefinition[] $methods
-     */
-    public function setMethods(iterable $methods): void
-    {
-        $this->methods = $methods;
     }
 
     /**
@@ -149,21 +146,13 @@ class ClassDefinition
     }
 
     /**
-     * @param string[] $comments
-     */
-    public function setComments(array $comments): void
-    {
-        $this->comments = $comments;
-    }
-
-    /**
      * @param string $comment
      *
      * @return $this
      */
     public function addComment(string $comment): self
     {
-        if(!in_array($comment, $this->comments)) {
+        if (!\in_array($comment, $this->comments)) {
             $this->comments[] = $comment;
         }
 
@@ -171,29 +160,17 @@ class ClassDefinition
     }
 
     /**
-     * @return array
+     * @return array<string, null>|array<string, string>
      */
     public function getUseStatements(): array
     {
         return $this->useStatements;
     }
 
-    /**
-     * @param array $useStatements
-     */
-    public function setUseStatements(array $useStatements): void
+    public function addUseStatement(string $useStatement, string $alias = null): self
     {
-        $this->useStatements = $useStatements;
-    }
-
-    /**
-     * @param string $useStatement
-     * @return $this
-     */
-    public function addUseStatement(string $useStatement): self
-    {
-        if(!in_array($useStatement, $this->useStatements)) {
-            $this->useStatements[] = $useStatement;
+        if (!\array_key_exists($useStatement, $this->useStatements)) {
+            $this->useStatements[$useStatement] = $alias;
         }
 
         return $this;

@@ -6,9 +6,17 @@
 
 declare(strict_types=1);
 
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace TransferTest;
 
-use DateTimeInterface;
 use Micro\Library\DTO\Object\AbstractDto;
 use Micro\Library\DTO\Object\Collection;
 
@@ -19,13 +27,14 @@ use Micro\Library\DTO\Object\Collection;
 final class UserTransfer extends AbstractDto
 {
     /**
-     * Username
+     * Username.
+     *
      * @deprecated Deprecation  message
      */
     protected string|int|null $username = null;
     protected iterable|null $books = null;
     protected string|int $first_name;
-    protected DateTimeInterface|null $updatedAt = null;
+    protected \DateTimeInterface|null $updatedAt = null;
     protected AbstractDto|null $someclass = null;
     protected mixed $testMixed = null;
 
@@ -44,7 +53,7 @@ final class UserTransfer extends AbstractDto
         return $this->first_name;
     }
 
-    public function getUpdatedAt(): DateTimeInterface|null
+    public function getUpdatedAt(): \DateTimeInterface|null
     {
         return $this->updatedAt;
     }
@@ -68,21 +77,21 @@ final class UserTransfer extends AbstractDto
 
     public function setBooks(iterable|null $books): self
     {
-        if(!$books) {
-                        $this->books = null;
+        if (!$books) {
+            $this->books = null;
 
-                        return $this;
-                    }
+            return $this;
+        }
 
-                    if(!$this->books) {
-                        $this->books = new Collection();
-                    }
+        if (!$this->books) {
+            $this->books = new Collection();
+        }
 
-                    foreach($books as $item) {
-                        $this->books->add($item);
-                    }
+        foreach ($books as $item) {
+            $this->books->add($item);
+        }
 
-                    return $this;
+        return $this;
     }
 
     public function setFirstName(string|int $first_name): self
@@ -92,7 +101,7 @@ final class UserTransfer extends AbstractDto
         return $this;
     }
 
-    public function setUpdatedAt(DateTimeInterface|null $updatedAt): self
+    public function setUpdatedAt(\DateTimeInterface|null $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -115,67 +124,55 @@ final class UserTransfer extends AbstractDto
 
     protected static function attributesMetadata(): array
     {
-        return array (
-          'username' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'int',
-              2 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'username',
-          ),
-          'books' =>
-          array (
-            'type' =>
-            array (
-              0 => 'iterable',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'books',
-          ),
-          'first_name' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'int',
-            ),
-            'required' => true,
-            'actionName' => 'firstName',
-          ),
-          'updatedAt' =>
-          array (
-            'type' =>
-            array (
-              0 => 'DateTimeInterface',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'updatedAt',
-          ),
-          'someclass' =>
-          array (
-            'type' =>
-            array (
-              0 => 'Micro\\Library\\DTO\\Object\\AbstractDto',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'someclass',
-          ),
-          'testMixed' =>
-          array (
-            'type' =>
-            array (
-              0 => 'mixed',
-            ),
-            'required' => false,
-            'actionName' => 'testMixed',
-          ),
-        );
+        return [
+            'username' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'int',
+                    2 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'username',
+            ],
+            'books' => [
+                'type' => [
+                    0 => 'iterable',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'books',
+            ],
+            'first_name' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'int',
+                ],
+                'required' => true,
+                'actionName' => 'firstName',
+            ],
+            'updatedAt' => [
+                'type' => [
+                    0 => 'DateTimeInterface',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'updatedAt',
+            ],
+            'someclass' => [
+                'type' => [
+                    0 => 'Micro\\Library\\DTO\\Object\\AbstractDto',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'someclass',
+            ],
+            'testMixed' => [
+                'type' => [
+                    0 => 'mixed',
+                ],
+                'required' => false,
+                'actionName' => 'testMixed',
+            ],
+        ];
     }
 }

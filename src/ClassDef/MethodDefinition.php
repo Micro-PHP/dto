@@ -1,15 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
 namespace Micro\Library\DTO\ClassDef;
 
 class MethodDefinition
 {
     private string $visibility = 'public';
-    private string $name;
-    private iterable $typesReturn = [];
-    private iterable $args = [];
-    private string $body;
-    private iterable $comments = [];
+
+    private string $name = '';
+    /**
+     * @var string[]
+     */
+    private array $typesReturn = [];
+    /**
+     * @var PropertyDefinition[]
+     */
+    private array $args = [];
+
+    private string $body = '';
+    /**
+     * @var string[]
+     */
+    private array $comments = [];
     private bool $isStatic = false;
 
     /**
@@ -45,33 +67,33 @@ class MethodDefinition
     }
 
     /**
-     * @return iterable
+     * @return string[]
      */
-    public function getTypesReturn(): iterable
+    public function getTypesReturn(): array
     {
         return $this->typesReturn;
     }
 
     /**
-     * @param iterable $typesReturn
+     * @param array<string> $typesReturn
      */
-    public function setTypesReturn(iterable $typesReturn): void
+    public function setTypesReturn(array $typesReturn): void
     {
         $this->typesReturn = $typesReturn;
     }
 
     /**
-     * @return iterable<PropertyDefinition>
+     * @return PropertyDefinition[]
      */
-    public function getArgs(): iterable
+    public function getArgs(): array
     {
         return $this->args;
     }
 
     /**
-     * @param iterable<PropertyDefinition> $args
+     * @param PropertyDefinition[] $args
      */
-    public function setArgs(iterable $args): void
+    public function setArgs(array $args): void
     {
         $this->args = $args;
     }
@@ -93,28 +115,11 @@ class MethodDefinition
     }
 
     /**
-     * @return array|iterable
+     * @return array<string>
      */
     public function getComments(): array
     {
         return $this->comments;
-    }
-
-    /**
-     * @param array $comments
-     */
-    public function setComments(array $comments): void
-    {
-        $this->comments = $comments;
-    }
-
-    public function addComment(string $comment): self
-    {
-        if(!in_array($comment, $this->comments)) {
-            $this->comments[] = $comment;
-        }
-
-        return $this;
     }
 
     /**
