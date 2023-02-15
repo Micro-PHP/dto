@@ -8,14 +8,14 @@ use Micro\Library\DTO\Merger\MergerFactoryInterface;
  * @TODO: Temporary solution. MVP
  * @TODO: Get XSD api version
  */
-class XmlReader implements ReaderInterface
+readonly class XmlReader implements ReaderInterface
 {
     /**
      * @param iterable<string> $classDefinitionFilesCollection
      */
     public function __construct(
-        private readonly iterable $classDefinitionFilesCollection,
-        private readonly MergerFactoryInterface $mergerFactory
+        private  iterable $classDefinitionFilesCollection,
+        private MergerFactoryInterface $mergerFactory
     )
     {
     }
@@ -82,6 +82,12 @@ class XmlReader implements ReaderInterface
             }
 
             $propCfg = [];
+            //$propCfg[$attribute->nodeName] = [];
+            $validation = $this->parseValidation($node);
+            if($validation) {
+                $propCfg['validation'] = $validation;
+            }
+
             foreach ($node->attributes as $attribute) {
                 $propCfg[$attribute->nodeName] = $attribute->nodeValue;
             }
@@ -98,6 +104,61 @@ class XmlReader implements ReaderInterface
         $class['_api_version'] = 'micro:dto-01';
 
         return $class;
+    }
+
+    protected function parseValidation(\DOMNode $attribute): array|null
+    {
+        if(!$attribute->childNodes->count()) {
+            return null;
+        }
+
+        $constraints = [];
+        /** @var \DOMNode $validationNode */
+        foreach ($attribute->childNodes as $validationNode) {
+            if(!$validationNode->childNodes->count() || $validationNode->nodeName !== 'validation') {
+                continue;
+            }
+
+            /** @var \DOMNode $group */
+            foreach ($validationNode->childNodes as $constraintsNodes) {
+                if(!$constraintsNodes->childNodes->count() || $constraintsNodes->nodeName !== 'constraint') {
+                    continue;
+                }
+
+                /** @var \DOMAttr $groupAttr */
+                $groupAttr = $constraintsNodes->attributes->getNamedItem('group');
+                $groupName = $groupAttr?->value ?: 'Default';
+                $groupConstraints = [];
+                /** @var  $constraintsColl */
+
+                /** @var \DOMNode $constraint */
+                foreach ($constraintsNodes->childNodes as $constraintNode) {
+                    if($constraintNode->nodeName === '#text') {
+                        continue;
+                    }
+
+                    $constraintAttributes = [];
+                    /** @var \DOMAttr $constraintItemAttribute */
+                    foreach ($constraintNode->attributes as $constraintItemAttribute) {
+                        $constraintAttributes[$constraintItemAttribute->nodeName] = $constraintItemAttribute->nodeValue;
+                    }
+
+                    if(!$constraintAttributes) {
+                        $constraintAttributes = [];
+                    }
+
+                    $groupConstraints[$constraintNode->nodeName] = $constraintAttributes;
+                }
+
+                if(!array_key_exists($groupName, $constraints)) {
+                    $constraints[$groupName] = [];
+                }
+
+                $constraints[$groupName] = [...$constraints[$groupName], ...$groupConstraints];
+            }
+        }
+
+        return $constraints;
     }
 
     /**
@@ -130,11 +191,14 @@ class XmlReader implements ReaderInterface
         $errs = [];
 
         foreach (libxml_get_errors() as $error) {
-            $errs[] = $error->message;
+            dump($error);
+            $errs[] = sprintf('%s in file `%s` on line %d', $error->message, $error->file, $error->line);
         }
+
+        $errorMessage = implode("\n ", $errs);
 
         libxml_use_internal_errors(false);
 
-        throw new \RuntimeException(sprintf("Schema validation exception: \r\n %s\r", implode("\r ", $errs)));
+        throw new \RuntimeException(sprintf("Schema validation exception: \r\n %s\r", $errorMessage));
     }
 }

@@ -5,8 +5,20 @@ namespace Micro\Library\DTO\ClassDef;
 class PropertyDefinition
 {
     private string $name;
+
+    /**
+     * @var string[]
+     */
     private iterable $comments = [];
+    /**
+     * @var string[]
+     */
     private iterable $types = [];
+
+    /**
+     * @var string[]
+     */
+    private iterable $attributes = [];
     private bool $isRequired = false;
     private bool $isCollection = false;
 
@@ -95,5 +107,21 @@ class PropertyDefinition
     public function setIsCollection(bool $isCollection): void
     {
         $this->isCollection = $isCollection;
+    }
+
+    public function addAttribute(string $attributeName, array $arguments): self
+    {
+        if(!array_key_exists($attributeName, $this->attributes)) {
+            $this->attributes[$attributeName] = [];
+        }
+
+        $this->attributes[$attributeName] = [...$this->attributes[$attributeName], ...$arguments];
+
+        return $this;
+    }
+
+    public function getAttributes(): iterable
+    {
+        return $this->attributes;
     }
 }

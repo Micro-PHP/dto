@@ -8,43 +8,41 @@ use Micro\Library\DTO\Helper\NameNormalizerInterface;
 use Micro\Library\DTO\Merger\MergerFactory;
 use Micro\Library\DTO\Preparation\CollectionPreparation;
 use Micro\Library\DTO\Preparation\CollectionPreparationInterface;
-use Micro\Library\DTO\Preparation\Processor\AbstractPropertyProcessor;
-use Micro\Library\DTO\Preparation\Processor\AttributeMetadataContentProcessor;
 use Micro\Library\DTO\Preparation\Processor\ClassCommentProcessor;
-use Micro\Library\DTO\Preparation\Processor\ClassDefDefaultsProcessor;
 use Micro\Library\DTO\Preparation\Processor\ClassNameProcessor;
 use Micro\Library\DTO\Preparation\Processor\ClassPropertyProcessor;
-use Micro\Library\DTO\Preparation\Processor\CollectionPropertyProcessor;
-use Micro\Library\DTO\Preparation\Processor\DateTimePropertyProcessor;
-use Micro\Library\DTO\Preparation\Processor\CommentsTypeProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodAttributesMetadataProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodGetProcessor;
-use Micro\Library\DTO\Preparation\Processor\MethodsBodyProcessor;
 use Micro\Library\DTO\Preparation\Processor\MethodSetProcessor;
-use Micro\Library\DTO\Preparation\Processor\MethodTypeArgProcessor;
-use Micro\Library\DTO\Preparation\Processor\NamespaceProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertBlankProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertEmailProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertHostnameProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertIpProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertJsonProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertLengthProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertNotBlankProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertRegexProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertUrlProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\AssertUuidProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\AttributeValidationProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\CommentProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\DateTypeProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\DtoPropertyProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\NameProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\PropertyAbstractProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\PropertyCollectionProcessor;
+use Micro\Library\DTO\Preparation\Processor\Property\PropertyProcessorInterface;
 use Micro\Library\DTO\Preparation\Processor\Property\PropertyRequiredProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\TypeProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\ValueProcessor;
-use Micro\Library\DTO\Preparation\Processor\PropertyCommentProcessor;
-use Micro\Library\DTO\Preparation\Processor\PropertyProcessor;
-use Micro\Library\DTO\Preparation\Processor\UseStatementProcessor;
 use Micro\Library\DTO\Reader\ReaderInterface;
 use Micro\Library\DTO\Reader\XmlReader;
 use Micro\Library\DTO\View\Nette\NetteRenderer;
 use Micro\Library\DTO\View\RendererInterface;
-use Micro\Library\DTO\View\Twig\TwigRenderer;
 use Micro\Library\DTO\Writer\WriterFilesystem;
 use Micro\Library\DTO\Writer\WriterInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Twig\Environment;
 
 class DependencyInjection implements DependencyInjectionInterface
 {
@@ -129,12 +127,35 @@ class DependencyInjection implements DependencyInjectionInterface
                 new PropertyCollectionProcessor(),
                 new ValueProcessor(),
                 new CommentProcessor(),
+                new AttributeValidationProcessor(
+                    $this->createPropertyValidationProcessorCollection(),
+                ),
             ]),
             new MethodGetProcessor($camelCaseHelper),
             new MethodSetProcessor($camelCaseHelper),
             new MethodAttributesMetadataProcessor($camelCaseHelper)
         ];
     }
+
+    /**
+     * @return iterable<PropertyProcessorInterface>
+     */
+    protected function createPropertyValidationProcessorCollection(): iterable
+    {
+        return [
+            new AssertEmailProcessor(),
+            new AssertIpProcessor(),
+            new AssertHostnameProcessor(),
+            new AssertRegexProcessor(),
+            new AssertUrlProcessor(),
+            new AssertLengthProcessor(),
+            new AssertBlankProcessor(),
+            new AssertNotBlankProcessor(),
+            new AssertJsonProcessor(),
+            new AssertUuidProcessor(),
+        ];
+    }
+
     /**
      * {@inheritDoc}
      */

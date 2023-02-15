@@ -52,21 +52,45 @@ $user
 
 // Iterate as array
 foreach ($user as $key => $value) {
-    print_r("\r\nPROPERTY: " . $key . " ==== " . (is_scalar($value) ? $value : serialize($value)));
+//    print_r("\r\nPROPERTY: " . $key . " ==== " . (is_scalar($value) ? $value : serialize($value)));
 }
 
 //
-print_r('FISRT BOOK HEIGHT : ' . $user['books'][0]['height'] . "\r\n");
-print_r('FISRT BOOK PARENT HEIGHT : ' . $user['books'][0]['parent']['height'] . "\r\n");
+//print_r('FISRT BOOK HEIGHT : ' . $user['books'][0]['height'] . "\r\n");
+//print_r('FISRT BOOK PARENT HEIGHT : ' . $user['books'][0]['parent']['height'] . "\r\n");
 
 
 $classSerializerFacade = new \Micro\Library\DTO\SerializerFacadeDefault();
 
 
-dump($classSerializerFacade->toJsonTransfer($user)); exit;
+$json = $classSerializerFacade->toJsonTransfer($user);
 
-$result = $classSerializerFacade->fromJsonTransfer();
+//dump($json);
 
-dump($result);
+$result = $classSerializerFacade->fromJsonTransfer($json);
+
+
+$mf = new \Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader());
+
+$vb = \Symfony\Component\Validator\Validation::createValidatorBuilder();
+$vb->setMetadataFactory($mf);
+$vb->disableAnnotationMapping();
+$validator = $vb->getValidator();
+$simpleUser = new \Transfer\Simple\SimpleUserTransfer();
+$simpleUser->setIp('xyu');
+$simpleUser->setAge(150);
+$simpleUser->setEmail('[eq[eq]');
+$simpleUser->setHostname('ssss');
+$simpleUser->setUsername('123');
+$simpleUser->setSometext('azds');
+$simpleUser->setUrl('ocalhost/abc');
+$simpleUser->setJson('{as}');
+$simpleUser->setUuid('aa314679');
+
+$constraints = $validator->validate($simpleUser, null);
+
+dump($constraints);
+
+//dump($result);
 
 

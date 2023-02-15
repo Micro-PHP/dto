@@ -78,8 +78,8 @@ class NetteRenderer implements RendererInterface
     protected function provideUsages(PhpNamespace $namespace, ClassDefinition $classDefinition)
     {
         $usages = $classDefinition->getUseStatements();
-        foreach ($usages as $use) {
-            $namespace->addUse($use);
+        foreach ($usages as $ns => $alias) {
+            $namespace->addUse($ns, $alias);
         }
     }
 
@@ -105,6 +105,10 @@ class NetteRenderer implements RendererInterface
 
         foreach ($propertyDefinition->getComments() as $comment) {
             $property->addComment($comment);
+        }
+
+        foreach ($propertyDefinition->getAttributes() as $attribute => $arguments) {
+            $property->addAttribute($attribute, $arguments);
         }
 
         $classType->addMember($property);

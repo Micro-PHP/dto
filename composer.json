@@ -1,10 +1,9 @@
 {
     "name": "micro/dto",
-    "description": "Micro: Library for generating DTO classes.",
+    "description": "Library for generating and validation DTO classes.",
     "keywords": ["dto", "data transfer", "transfer", "data", "object", "generator", "data transfer object", "micro"],
     "type": "library",
     "license": "MIT",
-    "version": "1.0.6",
     "autoload": {
         "psr-4": {
             "Micro\\Library\\DTO\\": "src/"
@@ -23,9 +22,12 @@
         }
     ],
     "require": {
-        "php": ">= 8.0",
-        "nette/php-generator": "^3|^4",
-        "psr/log": "^1|^2|^3"
+        "php": ">= 8.2",
+        "nette/php-generator": "^4",
+        "psr/log": "^1|^2|^3",
+        "symfony/validator": "^6.2",
+        "ext-dom": "*",
+        "ext-libxml": "*"
     },
     "require-dev": {
         "symfony/var-dumper": "^5|^6",

@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
-<dto xmlns="micro:dto-01"
+<dto xmlns="micro:dto-1.6"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:schemaLocation="micro:dto-01 ../src/Resource/schema/dto-01.xsd">
+     xsi:schemaLocation="micro:dto-1.6 ../src/Resource/schema/dto-1.6.xsd">
+
     <class name="Simple\SimpleObject">
         <property name="weight" type="int"/>
     </class>
@@ -15,6 +16,80 @@
 
     <class name="Simple\SimpleUser">
         <property name="parent" type="Simple\SimpleObject"/>
+        <property name="username" type="string">
+            <validation>
+                <constraint group="test">
+                    <length min="8" max="50"/>
+                    <regex pattern="/^(.[aA-zA]+)$/"/>
+                </constraint>
+                <constraint>
+                    <length min="8" max="10" message_min="invalid username"/>
+                    <regex pattern="/^(.[aA-zA]+)$/"/>
+                </constraint>
+            </validation>
+        </property>
+        <property name="age" type="int">
+            <validation>
+                <constraint>
+                    <blank/>
+                </constraint>
+            </validation>
+        </property>
+        <property name="email" type="string">
+            <validation>
+                <constraint>
+                    <email/>
+                    <not_blank/>
+                </constraint>
+            </validation>
+        </property>
+        <property name="ip" type="string">
+            <validation>
+                <constraint>
+                    <ip/>
+                </constraint>
+            </validation>
+        </property>
+        <property name="hostname" type="string">
+            <validation>
+                <constraint>
+                    <hostname/>
+                </constraint>
+                <constraint group="test">
+                    <hostname ltd_required="true"/>
+                </constraint>
+            </validation>
+        </property>
+        <property name="sometext" type="string">
+            <validation>
+                <constraint>
+                    <regex pattern="/^(.[a-z])+$/"/>
+                </constraint>
+            </validation>
+        </property>
+        <property name="url" type="string">
+            <validation>
+                <constraint>
+                    <url is_relative="true" />
+                </constraint>
+            </validation>
+        </property>
+        <property name="json" type="string">
+            <validation>
+                <constraint>
+                    <not_blank/>
+                    <json/>
+                </constraint>
+            </validation>
+        </property>
+        <property name="uuid" type="string">
+            <validation>
+                <constraint>
+                    <not_blank />
+                    <uuid />
+                </constraint>
+            </validation>
+        </property>
     </class>
 
     <class name="User" description="Example class description" deprecated="Please, use gSON">

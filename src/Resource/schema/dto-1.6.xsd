@@ -1,0 +1,158 @@
+<xs:schema elementFormDefault="qualified" targetNamespace="micro:dto-1.6" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="dto"  type="mic:dtoType" xmlns:mic="micro:dto-1.6"/>
+
+    <xs:complexType name="propertyType" mixed="true">
+        <xs:sequence>
+            <xs:element type="mic:validationType" name="validation" minOccurs="0" xmlns:mic="micro:dto-1.6"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="name"/>
+        <xs:attribute type="xs:string" name="type"/>
+        <xs:attribute type="xs:string" name="description"/>
+        <xs:attribute type="xs:string" name="deprecated"/>
+        <xs:attribute type="xs:boolean" name="is_collection"/>
+        <xs:attribute type="xs:boolean" name="required"/>
+    </xs:complexType>
+    <xs:complexType name="classType">
+        <xs:sequence>
+            <xs:element type="mic:propertyType" name="property" maxOccurs="unbounded" minOccurs="0" xmlns:mic="micro:dto-1.6"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="name"/>
+        <xs:attribute type="xs:string" name="description"/>
+        <xs:attribute type="xs:string" name="deprecated"/>
+    </xs:complexType>
+    <xs:complexType name="constraintType">
+        <xs:sequence>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element name="is_null" type="mic:constraint_is_null" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="blank" type="mic:constraint_blank" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="not_blank" type="mic:constraint_not_blank" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="email" type="mic:constraint_email" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="ip" type="mic:constraint_ip" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="hostname" type="mic:constraint_hostname" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="url" type="mic:constraint_url" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="regex" type="mic:constraint_regex" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="length" type="mic:constraint_size" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="json" type="mic:constraint_json" xmlns:mic="micro:dto-1.6"/>
+                <xs:element name="uuid" type="mic:constraint_uuid" xmlns:mic="micro:dto-1.6"/>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="group" type="xs:string" default="default" />
+    </xs:complexType>
+
+    <!-- Constraints types -->
+    <xs:complexType name="constraint_email" xml:base="dtoType">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="mode" default="html5">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="html5" />
+                            <xs:enumeration value="html5-allow-no-tld" />
+                            <xs:enumeration value="strict" />
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_ip">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="version" default="4">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="4" />
+                            <xs:enumeration value="6" />
+                            <xs:enumeration value="all" />
+                            <xs:enumeration value="4_no_priv"/>
+                            <xs:enumeration value="6_no_priv" />
+                            <xs:enumeration value="all_no_priv"/>
+                            <xs:enumeration value="all_no_priv"/>
+                            <xs:enumeration value="4_no_res"/>
+                            <xs:enumeration value="6_no_res"/>
+                            <xs:enumeration value="all_no_res"/>
+                            <xs:enumeration value="4_public"/>
+                            <xs:enumeration value="6_public"/>
+                            <xs:enumeration value="all_public"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_hostname">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="ltd_required" type="xs:boolean" default="false" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_url">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="is_relative" type="xs:boolean" default="false" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_regex">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute type="xs:string" name="pattern" use="required" />
+                <xs:attribute type="xs:boolean" name="match" default="true" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_size">
+        <xs:attribute type="xs:int" name="min" use="required"/>
+        <xs:attribute type="xs:int" name="max" use="required"/>
+        <xs:attribute type="xs:string" name="message_min" />
+        <xs:attribute type="xs:string" name="message_max"/>
+    </xs:complexType>
+    <xs:complexType name="constraint_blank">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_not_blank">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="allow_null" default="false"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_is_null">
+       <xs:complexContent>
+           <xs:extension base="mic:constraint_abstract"  xmlns:mic="micro:dto-1.6"/>
+       </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_json">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract"  xmlns:mic="micro:dto-1.6"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_uuid">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract"  xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="strict" default="true" />
+                <xs:attribute name="versions" default="1,2,3,4,5,6,7" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="constraint_abstract">
+        <xs:attribute type="xs:string" name="message" />
+    </xs:complexType>
+    <!-- Constraints types END -->
+
+    <xs:complexType name="validationType">
+        <xs:sequence>
+            <xs:element type="mic:constraintType" name="constraint" maxOccurs="unbounded" minOccurs="1" xmlns:mic="micro:dto-1.6" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="dtoType">
+        <xs:sequence>
+            <xs:element type="mic:classType" name="class" maxOccurs="unbounded" xmlns:mic="micro:dto-1.6"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

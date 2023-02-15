@@ -98,14 +98,6 @@ class ClassDefinition
     }
 
     /**
-     * @param PropertyDefinition[] $properties
-     */
-    public function setProperties(iterable $properties): void
-    {
-        $this->properties = $properties;
-    }
-
-    /**
      * @param PropertyDefinition $propertyDefinition
      *
      * @return $this
@@ -127,17 +119,11 @@ class ClassDefinition
 
     public function addMethod(MethodDefinition $methodDefinition): self
     {
-        $this->methods[] = $methodDefinition;
+        if(!in_array($methodDefinition, $this->methods)) {
+            $this->methods[] = $methodDefinition;
+        }
 
         return $this;
-    }
-
-    /**
-     * @param MethodDefinition[] $methods
-     */
-    public function setMethods(iterable $methods): void
-    {
-        $this->methods = $methods;
     }
 
     /**
@@ -146,14 +132,6 @@ class ClassDefinition
     public function getComments(): iterable
     {
         return $this->comments;
-    }
-
-    /**
-     * @param string[] $comments
-     */
-    public function setComments(array $comments): void
-    {
-        $this->comments = $comments;
     }
 
     /**
@@ -171,7 +149,7 @@ class ClassDefinition
     }
 
     /**
-     * @return array
+     * @return array<string, null>|array<string, string>
      */
     public function getUseStatements(): array
     {
@@ -179,21 +157,13 @@ class ClassDefinition
     }
 
     /**
-     * @param array $useStatements
-     */
-    public function setUseStatements(array $useStatements): void
-    {
-        $this->useStatements = $useStatements;
-    }
-
-    /**
      * @param string $useStatement
      * @return $this
      */
-    public function addUseStatement(string $useStatement): self
+    public function addUseStatement(string $useStatement, string $alias = null): self
     {
-        if(!in_array($useStatement, $this->useStatements)) {
-            $this->useStatements[] = $useStatement;
+        if(!array_key_exists($useStatement, $this->useStatements)) {
+            $this->useStatements[$useStatement] = $alias;
         }
 
         return $this;

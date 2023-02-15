@@ -2,12 +2,12 @@
 
 namespace Micro\Library\DTO\Merger;
 
-class Merger implements MergerInterface
+readonly class Merger implements MergerInterface
 {
     /**
      * @param iterable $classCollection
      */
-    public function __construct(private readonly iterable $classCollection)
+    public function __construct(private iterable $classCollection)
     {
     }
 
@@ -45,7 +45,7 @@ class Merger implements MergerInterface
             }
 
             foreach ($declaration['properties'] as $propName => $propertyDef) {
-                if(!in_array($propName, $properties)) {
+                if(!array_key_exists($propName, $properties)) {
                     $properties[$propName] = $propertyDef;
 
                     continue;

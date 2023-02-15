@@ -7,12 +7,12 @@ use Micro\Library\DTO\ClassDef\PropertyDefinition;
 use Micro\Library\DTO\Preparation\PreparationProcessorInterface;
 use Micro\Library\DTO\Preparation\Processor\Property\PropertyProcessorInterface;
 
-class ClassPropertyProcessor implements PreparationProcessorInterface
+readonly class ClassPropertyProcessor implements PreparationProcessorInterface
 {
     /**
      * @param iterable<PropertyProcessorInterface> $propertyProcessorCollection
      */
-    public function __construct(private readonly iterable $propertyProcessorCollection)
+    public function __construct(private iterable $propertyProcessorCollection)
     {
     }
 
