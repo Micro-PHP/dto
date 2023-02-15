@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\Uuid;
 
-class UuidStrategy extends AbstractConstraintProcessor
+class UuidStrategy extends AbstractConstraintStrategy
 {
 
     const ALLOWED_VERSIONS = [

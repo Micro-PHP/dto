@@ -6,18 +6,17 @@ declare(strict_types=1);
 namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 
-use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\EqualTo;
 
-class DateStrategy extends AbstractConstraintStrategy
+class EqualToStrategy extends AbstractComparisonStrategy
 {
-
     protected function getValidatorProperty(): string
     {
-        return 'date';
+        return 'equal_to';
     }
 
     protected function getAttributeClassName(): string
     {
-        return Date::class;
+        return EqualTo::class;
     }
 }

@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\Regex;
 
-class RegexStrategy extends AbstractConstraintProcessor
+class RegexStrategy extends AbstractConstraintStrategy
 {
 
     protected function generateArguments(array $config): array

@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\Url;
 
-class UrlStrategy extends AbstractConstraintProcessor
+class UrlStrategy extends AbstractConstraintStrategy
 {
     protected function generateArguments(array $config): array
     {

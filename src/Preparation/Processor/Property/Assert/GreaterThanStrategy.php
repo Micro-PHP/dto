@@ -5,19 +5,18 @@ declare(strict_types=1);
 
 namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
+use Symfony\Component\Validator\Constraints\GreaterThan;
 
-use Symfony\Component\Validator\Constraints\Date;
-
-class DateStrategy extends AbstractConstraintStrategy
+class GreaterThanStrategy extends AbstractComparisonStrategy
 {
 
     protected function getValidatorProperty(): string
     {
-        return 'date';
+        return 'less_than';
     }
 
     protected function getAttributeClassName(): string
     {
-        return Date::class;
+        return GreaterThan::class;
     }
 }

@@ -27,6 +27,8 @@
         <property name="age" type="int">
             <validation>
                 <blank/>
+                <greater_than value="18" />
+                <less_than value="100" />
             </validation>
         </property>
         <property name="email" type="string">

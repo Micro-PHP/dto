@@ -6,18 +6,18 @@ declare(strict_types=1);
 namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 
-use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\NotIdenticalTo;
 
-class DateStrategy extends AbstractConstraintStrategy
+class NotIdenticalToStrategy extends AbstractComparisonStrategy
 {
 
     protected function getValidatorProperty(): string
     {
-        return 'date';
+        return 'not_identical_to';
     }
 
     protected function getAttributeClassName(): string
     {
-        return Date::class;
+        return NotIdenticalTo::class;
     }
 }

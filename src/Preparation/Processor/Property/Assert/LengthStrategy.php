@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\Length;
 
-class LengthStrategy extends AbstractConstraintProcessor
+class LengthStrategy extends AbstractConstraintStrategy
 {
 
     protected function generateArguments(array $config): array

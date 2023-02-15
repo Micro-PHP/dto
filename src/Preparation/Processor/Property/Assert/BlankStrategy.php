@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\Blank;
 
-class BlankStrategy extends AbstractConstraintProcessor
+class BlankStrategy extends AbstractConstraintStrategy
 {
 
     protected function getValidatorProperty(): string

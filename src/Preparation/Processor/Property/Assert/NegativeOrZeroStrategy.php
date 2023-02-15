@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\NegativeOrZero;
 
-class NegativeOrZeroStrategy extends AbstractConstraintProcessor
+class NegativeOrZeroStrategy extends AbstractConstraintStrategy
 {
 
     protected function getValidatorProperty(): string

@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\Time;
 
-class TimeStrategy extends AbstractConstraintProcessor
+class TimeStrategy extends AbstractConstraintStrategy
 {
     protected function getValidatorProperty(): string
     {

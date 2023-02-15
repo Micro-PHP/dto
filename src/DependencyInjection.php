@@ -18,15 +18,24 @@ use Micro\Library\DTO\Preparation\Processor\Property\Assert\BlankStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\DateStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\DateTimeStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\EmailStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\EqualToStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\GreaterThanOrEqualStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\GreaterThanStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\HostnameStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\IdenticalToStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\IpStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\JsonStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\LengthStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\LessThanOrEqualStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\LessThanStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\NegativeOrZeroStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\NegativeStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\NotBlankStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\NotEqualToStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\NotIdenticalToStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\PositiveOrZeroStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\PositiveStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\RangeStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\RegexStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\TimeZoneStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\UrlStrategy;
@@ -167,6 +176,15 @@ class DependencyInjection implements DependencyInjectionInterface
             new NegativeOrZeroStrategy(),
             new PositiveStrategy(),
             new PositiveOrZeroStrategy(),
+            new EqualToStrategy(),
+            new GreaterThanStrategy(),
+            new GreaterThanOrEqualStrategy(),
+            new LessThanStrategy(),
+            new LessThanOrEqualStrategy(),
+            new NotEqualToStrategy(),
+            new NotIdenticalToStrategy(),
+            new IdenticalToStrategy(),
+            new RangeStrategy(),
         ];
     }
 

@@ -7,7 +7,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\Email;
 
-class EmailStrategy extends AbstractConstraintProcessor
+class EmailStrategy extends AbstractConstraintStrategy
 {
     protected function generateArguments(array $config): array
     {

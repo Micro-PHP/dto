@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class NotBlankStrategy extends AbstractConstraintProcessor
+class NotBlankStrategy extends AbstractConstraintStrategy
 {
 
     protected function generateArguments(array $config): array

@@ -8,7 +8,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property\Assert;
 
 use Symfony\Component\Validator\Constraints\Positive;
 
-class PositiveStrategy extends AbstractConstraintProcessor
+class PositiveStrategy extends AbstractConstraintStrategy
 {
 
     protected function getValidatorProperty(): string

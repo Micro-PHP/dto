@@ -10,7 +10,7 @@ use Micro\Library\DTO\ClassDef\ClassDefinition;
 use Micro\Library\DTO\ClassDef\PropertyDefinition;
 use Micro\Library\DTO\Preparation\Processor\Property\PropertyProcessorInterface;
 
-abstract class AbstractConstraintProcessor implements PropertyProcessorInterface
+abstract class AbstractConstraintStrategy implements PropertyProcessorInterface
 {
     public function process(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $propertyData, array $classList): void
     {
