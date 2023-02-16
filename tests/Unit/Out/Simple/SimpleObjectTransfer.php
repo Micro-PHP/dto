@@ -13,7 +13,7 @@ use Micro\Library\DTO\Tests\Unit\Out\Simple\SimpleObjectTransfer as SimpleObject
 
 final class SimpleObjectTransfer extends \Micro\Library\DTO\Object\AbstractDto
 {
-    #[\Symfony\Component\Validator\Constraints\LessThan(groups: ['Default'], value: '10')]
+    #[\Symfony\Component\Validator\Constraints\LessThan(groups: ['Default'], value: 10)]
     protected int|null $weight = null;
 
     #[\Symfony\Component\Validator\Constraints\LessThan(groups: ['Default'], propertyPath: 'weight')]

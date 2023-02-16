@@ -152,11 +152,7 @@ class XmlReader implements ReaderInterface
                     $constraintAttributes = [];
                 }
 
-                if (!\array_key_exists('groups', $constraintAttributes)) {
-                    $constraintAttributes['groups'] = 'Default';
-                }
-
-                $groupConstraints[$constraintNode->nodeName] = $constraintAttributes;
+                $groupConstraints[] = [$constraintNode->nodeName, $constraintAttributes];
             }
 
             $constraints[] = $groupConstraints;

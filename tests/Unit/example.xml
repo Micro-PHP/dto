@@ -6,7 +6,7 @@
     <class name="Simple\SimpleObject">
         <property name="weight" type="int">
             <validation>
-                <less_than value="10"/>
+                <less_than value="10" />
             </validation>
         </property>
     </class>

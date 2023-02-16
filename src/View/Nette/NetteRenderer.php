@@ -94,8 +94,10 @@ class NetteRenderer implements RendererInterface
             $property->addComment($comment);
         }
 
-        foreach ($propertyDefinition->getAttributes() as $attribute => $arguments) {
-            $property->addAttribute($attribute, $arguments);
+        foreach ($propertyDefinition->getAttributes() as $attribute) {
+            foreach ($attribute as $attrName => $attrArgs) {
+                $property->addAttribute($attrName, $attrArgs);
+            }
         }
 
         $classType->addMember($property);
