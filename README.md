@@ -25,7 +25,7 @@ composer require micro/dto
     <class name="User\User">
         <property name="email" type="string">
             <validation>
-                <not_blank grou/>
+                <not_blank/>
                 <length min="6" max="50"/>
                 <regex pattern="/^(.[aA-zA]+)$/"/>
             </validation>
