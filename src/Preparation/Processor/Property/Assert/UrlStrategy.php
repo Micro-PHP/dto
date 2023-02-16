@@ -19,13 +19,11 @@ class UrlStrategy extends AbstractConstraintStrategy
 {
     protected function generateArguments(array $config): array
     {
-        $parentArgs = parent::generateArguments($config);
-        // TODO: protocols
+        $parent = parent::generateArguments($config);
 
-        return [
-            ...$parentArgs,
-            'relativeProtocol' => $this->stringToBool($config['is_relative'] ?? 'false'),
-        ];
+        $parent['relativeProtocol'] = $this->stringToBool($config['is_relative'] ?? 'false');
+
+        return $parent;
     }
 
     protected function getValidatorProperty(): string

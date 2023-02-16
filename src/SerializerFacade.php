@@ -21,7 +21,7 @@ class SerializerFacade implements SerializerFacadeInterface
     /**
      * @param SerializerFactoryInterface $serializerFactory
      */
-    public function __construct(private readonly SerializerFactoryInterface $serializerFactory)
+    public function __construct(private SerializerFactoryInterface $serializerFactory)
     {
     }
 

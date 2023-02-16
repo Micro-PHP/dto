@@ -19,11 +19,13 @@ class IssnStrategy extends AbstractConstraintStrategy
 {
     protected function generateArguments(array $config): array
     {
-        return array_filter([
-            ...parent::generateArguments($config),
+        $parent = parent::generateArguments($config);
+        $current = [
             'caseSensitive' => $this->stringToBool($config['case_sensitive'] ?? 'false'),
             'requireHyphen' => $this->stringToBool($config['require_hyphen'] ?? 'false'),
-        ]);
+        ];
+
+        return array_filter(array_merge($parent, $current));
     }
 
     protected function getValidatorProperty(): string

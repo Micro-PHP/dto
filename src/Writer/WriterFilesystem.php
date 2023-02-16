@@ -20,8 +20,8 @@ class WriterFilesystem implements WriterInterface
      * @param string $namespaceGeneral
      */
     public function __construct(
-        private readonly string $classFilePath,
-        private readonly string $namespaceGeneral,
+        private string $classFilePath,
+        private string $namespaceGeneral,
     ) {
     }
 

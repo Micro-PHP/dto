@@ -18,7 +18,7 @@ class Merger implements MergerInterface
     /**
      * @param array<int, mixed> $classCollection
      */
-    public function __construct(private readonly array $classCollection)
+    public function __construct(private array $classCollection)
     {
     }
 

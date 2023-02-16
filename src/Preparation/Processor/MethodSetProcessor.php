@@ -24,7 +24,7 @@ class MethodSetProcessor implements PreparationProcessorInterface
     /**
      * @param NameNormalizerInterface $nameNormalizer
      */
-    public function __construct(private readonly NameNormalizerInterface $nameNormalizer)
+    public function __construct(private NameNormalizerInterface $nameNormalizer)
     {
     }
 

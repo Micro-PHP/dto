@@ -21,8 +21,8 @@ use Symfony\Component\Validator\Validation;
 class ValidatorFactory implements ValidatorFactoryInterface
 {
     public function __construct(
-        private readonly CacheItemPoolInterface|null $cacheItemPool = null,
-        private readonly string|null $translationDomain = null
+        private CacheItemPoolInterface|null $cacheItemPool = null,
+        private string|null $translationDomain = null
     ) {
     }
 

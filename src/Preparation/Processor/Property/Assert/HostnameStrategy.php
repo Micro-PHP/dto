@@ -19,14 +19,10 @@ class HostnameStrategy extends AbstractConstraintStrategy
 {
     protected function generateArguments(array $config): array
     {
-        $arguments = parent::generateArguments($config);
+        $parent = parent::generateArguments($config);
+        $parent['requireTld'] = $this->stringToBool($config['ltd_required'] ?? 'false');
 
-        return [
-            ...$arguments,
-            ...[
-                'requireTld' => $this->stringToBool($config['ltd_required'] ?? 'false'),
-            ],
-        ];
+        return $parent;
     }
 
     protected function getValidatorProperty(): string

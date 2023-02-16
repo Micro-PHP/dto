@@ -21,7 +21,7 @@ use Micro\Library\DTO\Preparation\PreparationProcessorInterface;
 
 class MethodGetProcessor implements PreparationProcessorInterface
 {
-    public function __construct(private readonly NameNormalizerInterface $nameNormalizer)
+    public function __construct(private NameNormalizerInterface $nameNormalizer)
     {
     }
 

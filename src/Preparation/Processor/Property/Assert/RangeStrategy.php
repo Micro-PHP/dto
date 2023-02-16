@@ -19,14 +19,16 @@ class RangeStrategy extends LengthStrategy
 {
     protected function generateArguments(array $config): array
     {
-        return array_filter([
-            ...parent::generateArguments($config),
+        $parent = parent::generateArguments($config);
+        $current = [
             'invalidDateTimeMessage' => $config['invalid_datetime_message'] ?? null,
             'invalidMessage' => $config['invalid_message'] ?? null,
             'maxPropertyPath' => $config['property_path_max'] ?? null,
             'minPropertyPath' => $config['property_path_min'] ?? null,
             'notInRangeMessage' => $config['message_not_in_range'] ?? null,
-        ]);
+        ];
+
+        return array_filter(array_merge($parent, $current));
     }
 
     protected function getValidatorProperty(): string

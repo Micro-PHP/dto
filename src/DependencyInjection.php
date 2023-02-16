@@ -42,6 +42,7 @@ use Micro\Library\DTO\Preparation\Processor\Property\Assert\IdenticalToStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\IpStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\IsbnStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\IsinStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\IssnStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\JsonStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\LengthStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\LessThanOrEqualStrategy;
@@ -56,6 +57,7 @@ use Micro\Library\DTO\Preparation\Processor\Property\Assert\PositiveOrZeroStrate
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\PositiveStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\RangeStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\RegexStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\TimeStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\TimeZoneStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\UrlStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\UuidStrategy;
@@ -85,11 +87,11 @@ class DependencyInjection implements DependencyInjectionInterface
      * @param string[] $filesSchemeCollection
      */
     public function __construct(
-        private readonly array $filesSchemeCollection,
-        private readonly string $namespaceGeneral,
-        private readonly string $classSuffix,
-        private readonly string $outputPath,
-        private readonly ?LoggerInterface $logger
+        private array $filesSchemeCollection,
+        private string $namespaceGeneral,
+        private string $classSuffix,
+        private string $outputPath,
+        private ?LoggerInterface $logger
     ) {
     }
 
@@ -182,6 +184,7 @@ class DependencyInjection implements DependencyInjectionInterface
             new JsonStrategy(),
             new UuidStrategy(),
             new DateStrategy(),
+            new TimeStrategy(),
             new DateTimeStrategy(),
             new TimeZoneStrategy(),
             new NegativeStrategy(),
@@ -204,6 +207,7 @@ class DependencyInjection implements DependencyInjectionInterface
             new IbanStrategy(),
             new IsbnStrategy(),
             new IsinStrategy(),
+            new IssnStrategy(),
         ];
     }
 }

@@ -37,11 +37,15 @@ class UuidStrategy extends AbstractConstraintStrategy
     protected function generateArguments(array $config): array
     {
         /** @psalm-suppress PossiblyInvalidArgument */
-        return array_filter([
-            ...parent::generateArguments($config),
-            'versions' => $this->parseVersions(trim($config['versions'] ?? '')),
-            'strict' => $this->stringToBool($config['strict'] ?? 'true'),
-        ]);
+        return array_filter(
+            array_merge(
+                parent::generateArguments($config),
+                [
+                    'versions' => $this->parseVersions(trim($config['versions'] ?? '')),
+                    'strict' => $this->stringToBool($config['strict'] ?? 'true'),
+                ]
+            )
+        );
     }
 
     protected function getValidatorProperty(): string

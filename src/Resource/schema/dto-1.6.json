@@ -1,0 +1,736 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "micro:dto-1.6#",
+    "definitions": {
+        "ConstraintAbstractGroups": {
+            "type": "object",
+            "properties": {
+                "groups": {
+                    "type": "string",
+                    "default": "Default"
+                }
+            }
+        },
+        "ConstraintAbstract": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstractGroups"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "message": {"type": "string"}
+                    }
+                }
+            ]
+        },
+        "ConstraintPositive": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {}
+                }
+            ]
+        },
+        "ConstraintAbstractComparison": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "propertyPath": {"type": "string"},
+                        "value": {"type": "string"}
+                    }
+                }
+            ]
+        },
+        "ConstraintIsNull": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {}
+                }
+            ]
+        },
+        "ConstraintNegativeOrZero": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {}
+                }
+            ]
+        },
+        "ConstraintSize": {
+            "required": [
+                "min",
+                "max"
+            ],
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstractGroups"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "min": {"type": "integer"},
+                        "max": {"type": "integer"},
+                        "messageMin": {"type": "string"},
+                        "messageMax": {"type": "string"}
+                    }
+                }
+            ]
+        },
+        "ConstraintRange": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintSize"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "propertyPathMin": {"type": "string"},
+                        "propertyPathMax": {"type": "string"},
+                        "messageNotInRange": {"type": "string"}
+                    }
+                }
+            ]
+        },
+        "ConstraintBlank": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {}
+                }
+            ]
+        },
+        "ConstraintDateTime": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "format": {
+                            "type": [
+                                "string",
+                                "number",
+                                "integer",
+                                "boolean",
+                                "null"
+                            ],
+                            "default": "Y-m-d H:i:s"
+                        }
+                    }
+                }
+            ]
+        },
+        "ConstraintTimeZone": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "intlCompatible": {
+                            "type": "boolean",
+                            "default": "false"
+                        },
+                        "countryCode": {
+                            "type": "string",
+                            "default": ""
+                        },
+                        "zone": {
+                            "type": "integer",
+                            "default": "2047"
+                        }
+                    }
+                }
+            ]
+        },
+        "ConstraintPositiveOrZero": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {}
+                }
+            ]
+        },
+        "ConstraintIssn": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "caseSensitive": {
+                            "type": "boolean",
+                            "default": "false"
+                        },
+                        "requireHyphen": {
+                            "type": "boolean",
+                            "default": "false"
+                        }
+                    }
+                }
+            ]
+        },
+        "ConstraintNegative": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {}
+                }
+            ]
+        },
+        "ConstraintUuid": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "strict": {
+                            "type": [
+                                "string",
+                                "number",
+                                "integer",
+                                "boolean",
+                                "null"
+                            ],
+                            "default": "true"
+                        },
+                        "versions": {
+                            "type": [
+                                "string",
+                                "number",
+                                "integer",
+                                "boolean",
+                                "null"
+                            ],
+                            "default": "1,2,3,4,5,6,7"
+                        }
+                    }
+                }
+            ]
+        },
+        "ConstraintDate": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {}
+                }
+            ]
+        },
+        "ConstraintCardScheme": {
+            "required": ["schemes"],
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "schemes": {
+                            "type": [
+                                "string",
+                                "number",
+                                "integer",
+                                "boolean",
+                                "null"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "ConstraintUrl": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "isRelative": {
+                            "type": "boolean",
+                            "default": "false"
+                        }
+                    }
+                }
+            ]
+        },
+        "ConstraintBic": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "iban": {"type": "string"},
+                        "messageIban": {"type": "string"},
+                        "ibanPropertyPath": {"type": "string"}
+                    }
+                }
+            ]
+        },
+        "ConstraintIsbn": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "messageIsbn10": {"type": "string"},
+                        "messageIsbn13": {"type": "string"},
+                        "messageIsbnBoth": {"type": "string"},
+                        "type": {
+                            "type": "string",
+                            "default": "",
+                            "enum": [
+                                "",
+                                "isbn10",
+                                "isbn13"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "ConstraintIp": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "version": {
+                            "type": "string",
+                            "default": "4",
+                            "enum": [
+                                "4",
+                                "6",
+                                "all",
+                                "4_no_priv",
+                                "6_no_priv",
+                                "all_no_priv",
+                                "4_no_res",
+                                "6_no_res",
+                                "all_no_res",
+                                "4_public",
+                                "6_public",
+                                "all_public"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "ConstraintTime": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {}
+                }
+            ]
+        },
+        "ConstraintRegex": {
+            "required": ["pattern"],
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "pattern": {"type": "string"},
+                        "match": {
+                            "type": "boolean",
+                            "default": "true"
+                        }
+                    }
+                }
+            ]
+        },
+        "ConstraintJson": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {}
+                }
+            ]
+        },
+        "ConstraintNotBlank": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "allowNull": {
+                            "type": [
+                                "string",
+                                "number",
+                                "integer",
+                                "boolean",
+                                "null"
+                            ],
+                            "default": "false"
+                        }
+                    }
+                }
+            ]
+        },
+        "ConstraintHostname": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "ltdRequired": {
+                            "type": "boolean",
+                            "default": "false"
+                        }
+                    }
+                }
+            ]
+        },
+        "ConstraintEmail": {
+            "allOf": [
+                {"$ref": "#/definitions/ConstraintAbstract"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "mode": {
+                            "type": "string",
+                            "default": "html5",
+                            "enum": [
+                                "html5",
+                                "html5-allow-no-tld",
+                                "strict"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "ValidationType": {
+            "type": "object",
+            "required": ["dateOrDatetimeOrTime"],
+            "properties": {
+                "dateOrDatetimeOrTime": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "positive": {"$ref": "#/definitions/ConstraintPositive"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "identical_to": {"$ref": "#/definitions/ConstraintAbstractComparison"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "is_null": {"$ref": "#/definitions/ConstraintIsNull"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "negative_or_zero": {"$ref": "#/definitions/ConstraintNegativeOrZero"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "greater_than": {"$ref": "#/definitions/ConstraintAbstractComparison"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "range": {"$ref": "#/definitions/ConstraintRange"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "blank": {"$ref": "#/definitions/ConstraintBlank"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "datetime": {"$ref": "#/definitions/ConstraintDateTime"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "time_zone": {"$ref": "#/definitions/ConstraintTimeZone"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "positive_or_zero": {"$ref": "#/definitions/ConstraintPositiveOrZero"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "currency": {"$ref": "#/definitions/ConstraintAbstract"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "issn": {"$ref": "#/definitions/ConstraintIssn"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "greater_than_or_equal": {"$ref": "#/definitions/ConstraintAbstractComparison"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "negative": {"$ref": "#/definitions/ConstraintNegative"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "uuid": {"$ref": "#/definitions/ConstraintUuid"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "date": {"$ref": "#/definitions/ConstraintDate"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "not_equal_to": {"$ref": "#/definitions/ConstraintAbstractComparison"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "luhn": {"$ref": "#/definitions/ConstraintAbstract"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "card_scheme": {"$ref": "#/definitions/ConstraintCardScheme"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "url": {"$ref": "#/definitions/ConstraintUrl"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "bic": {"$ref": "#/definitions/ConstraintBic"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "less_than": {"$ref": "#/definitions/ConstraintAbstractComparison"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "less_than_or_equal": {"$ref": "#/definitions/ConstraintAbstractComparison"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "isbn": {"$ref": "#/definitions/ConstraintIsbn"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "iban": {"$ref": "#/definitions/ConstraintAbstract"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "isin": {"$ref": "#/definitions/ConstraintAbstract"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "ip": {"$ref": "#/definitions/ConstraintIp"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "equal_to": {"$ref": "#/definitions/ConstraintAbstractComparison"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "time": {"$ref": "#/definitions/ConstraintTime"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "regex": {"$ref": "#/definitions/ConstraintRegex"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "not_identical_to": {"$ref": "#/definitions/ConstraintAbstractComparison"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "json": {"$ref": "#/definitions/ConstraintJson"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "not_blank": {"$ref": "#/definitions/ConstraintNotBlank"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "length": {"$ref": "#/definitions/ConstraintSize"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "hostname": {"$ref": "#/definitions/ConstraintHostname"}
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "email": {"$ref": "#/definitions/ConstraintEmail"}
+                                }
+                            }
+                        ]
+                    },
+                    "minItems": 1
+                }
+            }
+        },
+        "PropertyType": {
+            "type": "object",
+            "required": [
+                "name",
+                "type"
+            ],
+            "properties": {
+                "content": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {"type": "string"},
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "validation": {"$ref": "#/definitions/ValidationType"}
+                                }
+                            }
+                        ]
+                    }
+                },
+                "name": {"type": "string"},
+                "type": {"type": "string"},
+                "description": {"type": "string"},
+                "deprecated": {"type": "string"},
+                "isCollection": {
+                    "type": "boolean",
+                    "default": "false"
+                },
+                "required": {
+                    "type": "boolean",
+                    "default": "false"
+                }
+            }
+        },
+        "ClassType": {
+            "type": "object",
+            "required": ["property"],
+            "properties": {
+                "property": {
+                    "type": "array",
+                    "items": {"$ref": "#/definitions/PropertyType"},
+                    "minItems": 1
+                },
+                "name": {"type": "string"},
+                "description": {"type": "string"},
+                "deprecated": {"type": "string"}
+            }
+        },
+        "DtoType": {
+            "type": "object",
+            "required": ["clazz"],
+            "properties": {
+                "clazz": {
+                    "type": "array",
+                    "items": {"$ref": "#/definitions/ClassType"},
+                    "minItems": 1
+                }
+            }
+        }
+    },
+    "properties": {
+        "dto": {"$ref": "#/definitions/DtoType"},
+        "validation": {"$ref": "#/definitions/ValidationType"},
+        "date": {"$ref": "#/definitions/ConstraintDate"},
+        "datetime": {"$ref": "#/definitions/ConstraintDateTime"},
+        "time": {"$ref": "#/definitions/ConstraintTime"},
+        "time_zone": {"$ref": "#/definitions/ConstraintTimeZone"},
+        "is_null": {"$ref": "#/definitions/ConstraintIsNull"},
+        "blank": {"$ref": "#/definitions/ConstraintBlank"},
+        "not_blank": {"$ref": "#/definitions/ConstraintNotBlank"},
+        "email": {"$ref": "#/definitions/ConstraintEmail"},
+        "ip": {"$ref": "#/definitions/ConstraintIp"},
+        "hostname": {"$ref": "#/definitions/ConstraintHostname"},
+        "url": {"$ref": "#/definitions/ConstraintUrl"},
+        "regex": {"$ref": "#/definitions/ConstraintRegex"},
+        "length": {"$ref": "#/definitions/ConstraintSize"},
+        "json": {"$ref": "#/definitions/ConstraintJson"},
+        "uuid": {"$ref": "#/definitions/ConstraintUuid"},
+        "positive": {"$ref": "#/definitions/ConstraintPositive"},
+        "negative": {"$ref": "#/definitions/ConstraintNegative"},
+        "negative_or_zero": {"$ref": "#/definitions/ConstraintNegativeOrZero"},
+        "positive_or_zero": {"$ref": "#/definitions/ConstraintPositiveOrZero"},
+        "equal_to": {"$ref": "#/definitions/ConstraintAbstractComparison"},
+        "not_equal_to": {"$ref": "#/definitions/ConstraintAbstractComparison"},
+        "greater_than": {"$ref": "#/definitions/ConstraintAbstractComparison"},
+        "greater_than_or_equal": {"$ref": "#/definitions/ConstraintAbstractComparison"},
+        "less_than": {"$ref": "#/definitions/ConstraintAbstractComparison"},
+        "less_than_or_equal": {"$ref": "#/definitions/ConstraintAbstractComparison"},
+        "identical_to": {"$ref": "#/definitions/ConstraintAbstractComparison"},
+        "not_identical_to": {"$ref": "#/definitions/ConstraintAbstractComparison"},
+        "range": {"$ref": "#/definitions/ConstraintRange"},
+        "card_scheme": {"$ref": "#/definitions/ConstraintCardScheme"},
+        "bic": {"$ref": "#/definitions/ConstraintBic"},
+        "currency": {"$ref": "#/definitions/ConstraintAbstract"},
+        "luhn": {"$ref": "#/definitions/ConstraintAbstract"},
+        "iban": {"$ref": "#/definitions/ConstraintAbstract"},
+        "isbn": {"$ref": "#/definitions/ConstraintIsbn"},
+        "issn": {"$ref": "#/definitions/ConstraintIssn"},
+        "isin": {"$ref": "#/definitions/ConstraintAbstract"}
+    }
+}

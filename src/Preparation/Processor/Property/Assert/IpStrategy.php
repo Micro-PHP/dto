@@ -20,11 +20,9 @@ class IpStrategy extends AbstractConstraintStrategy
     protected function generateArguments(array $config): array
     {
         $parent = parent::generateArguments($config);
+        $parent['version'] = $config['version'] ?? '4';
 
-        return [
-            ...$parent,
-            'version' => $config['version'] ?? '4',
-        ];
+        return $parent;
     }
 
     protected function getValidatorProperty(): string

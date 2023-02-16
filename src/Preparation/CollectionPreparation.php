@@ -21,7 +21,7 @@ class CollectionPreparation implements CollectionPreparationInterface
     /**
      * @param iterable<PreparationProcessorInterface> $preparationProcessor
      */
-    public function __construct(private readonly iterable $preparationProcessor)
+    public function __construct(private iterable $preparationProcessor)
     {
     }
 

@@ -110,7 +110,9 @@ class Serializer implements SerializerInterface
     {
         $reflectionDto = new \ReflectionClass($abstractDto);
         $attributesMetadataReflection = $reflectionDto->getMethod(PreparationProcessorInterface::CLASS_PROPS_META_METHOD);
-        $metadata = $attributesMetadataReflection->invoke($abstractDto);
+        $attributesMetadataReflection->setAccessible(true);
+        $metadata = $attributesMetadataReflection->invoke($reflectionDto);
+        $attributesMetadataReflection->setAccessible(false);
         $resultArray = [];
         foreach ($metadata as $propertyName => $propertyMeta) {
             $value = $abstractDto->offsetGet($propertyName);
@@ -158,14 +160,17 @@ class Serializer implements SerializerInterface
     {
         $reflectionDto = new \ReflectionClass($abstractDto);
         $attributesMetadataReflection = $reflectionDto->getMethod(PreparationProcessorInterface::CLASS_PROPS_META_METHOD);
-
+        $attributesMetadataReflection->setAccessible(true);
         $result = $attributesMetadataReflection->invoke($abstractDto);
+        $attributesMetadataReflection->setAccessible(false);
         $resultProperties = [];
 
         foreach ($result as $propName => $meta) {
             $propertyConfig = [];
             $reflectionProperty = $reflectionDto->getProperty($propName);
+            $reflectionProperty->setAccessible(true);
             $value = $reflectionProperty->getValue($abstractDto);
+            $reflectionProperty->setAccessible(false);
 
             $propertyConfig[self::SECTION_TYPE] = $this->getPropertyType($value);
             if ($value instanceof AbstractDto) {

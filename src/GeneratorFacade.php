@@ -18,7 +18,7 @@ use Micro\Library\DTO\Generator\Generator;
 class GeneratorFacade implements GeneratorFacadeInterface
 {
     public function __construct(
-        private readonly DependencyInjectionInterface $dependencyInjection
+        private DependencyInjectionInterface $dependencyInjection
     ) {
     }
 

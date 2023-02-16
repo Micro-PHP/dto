@@ -6,7 +6,7 @@
     <class name="Simple\SimpleObject">
         <property name="weight" type="int">
             <validation>
-                <less_than value="10" />
+                <less_than value="10"/>
             </validation>
         </property>
     </class>
@@ -84,6 +84,12 @@
         <property name="updated_at" type="string">
             <validation>
                 <date />
+            </validation>
+        </property>
+        <property name="time" type="string" >
+            <validation>
+                <not_blank />
+                <time />
             </validation>
         </property>
         <property name="timezone" type="string">

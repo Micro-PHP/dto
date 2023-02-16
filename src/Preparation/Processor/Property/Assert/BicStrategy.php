@@ -19,12 +19,14 @@ class BicStrategy extends AbstractConstraintStrategy
 {
     protected function generateArguments(array $config): array
     {
-        return array_filter([
-            ...parent::generateArguments($config),
+        $parent = parent::generateArguments($config);
+        $current = [
             'iban' => $config['iban'] ?? null,
             'ibanMessage' => $config['message_iban'] ?? null,
             'ibanPropertyPath' => $config['iban_property_path'] ?? null,
-        ]);
+        ];
+
+        return array_filter(array_merge($parent, $current));
     }
 
     protected function getValidatorProperty(): string

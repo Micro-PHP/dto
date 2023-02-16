@@ -20,11 +20,9 @@ class NotBlankStrategy extends AbstractConstraintStrategy
     protected function generateArguments(array $config): array
     {
         $parent = parent::generateArguments($config);
+        $parent['allowNull'] = $this->stringToBool($config['allow_null'] ?? 'false');
 
-        return [
-            ...$parent,
-            'allowNull' => $this->stringToBool($config['allow_null'] ?? 'false'),
-        ];
+        return $parent;
     }
 
     protected function getValidatorProperty(): string

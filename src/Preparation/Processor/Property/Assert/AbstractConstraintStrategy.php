@@ -64,7 +64,7 @@ abstract class AbstractConstraintStrategy implements PropertyProcessorInterface
     /**
      * @param array<string|mixed> $config
      *
-     * @return array<string|mixed>
+     * @return array<string, mixed>
      */
     protected function generateArguments(array $config): array
     {

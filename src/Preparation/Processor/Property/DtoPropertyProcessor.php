@@ -19,7 +19,7 @@ use Micro\Library\DTO\Helper\ClassMetadataHelperInterface;
 
 class DtoPropertyProcessor implements PropertyProcessorInterface
 {
-    public function __construct(private readonly ClassMetadataHelperInterface $classMetadataHelper)
+    public function __construct(private ClassMetadataHelperInterface $classMetadataHelper)
     {
     }
 

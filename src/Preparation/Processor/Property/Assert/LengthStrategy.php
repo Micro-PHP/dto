@@ -29,13 +29,14 @@ class LengthStrategy extends AbstractConstraintStrategy
             $config[$attribute] = (int) $config[$attribute];
         }
 
-        return array_filter([
-            ...$parent,
+        $current = [
             'max' => $config['max'] ?? null,
             'min' => $config['min'] ?? null,
             'minMessage' => $config['min_message'] ?? null,
             'maxMessage' => $config['max_message'] ?? null,
-        ]);
+        ];
+
+        return array_filter(array_merge($parent, $current));
     }
 
     protected function getValidatorProperty(): string
