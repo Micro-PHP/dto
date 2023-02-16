@@ -52,7 +52,7 @@ $classGenerator = new \Micro\Library\DTO\ClassGeneratorFacadeDefault(
 $classGenerator->generate();
 
 // Usage example
-$user = new \User\User();
+$user = new \User\UserTransfer();
 $user
     ->setAge(19)
     ->setEmail('demo@micro-php.net');
