@@ -19,12 +19,24 @@ composer require micro/dto
 
 ``` xml
 <?xml version="1.0"?>
-<dto xmlns="micro:dto-01"
+<dto xmlns="micro:dto-1.6"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:schemaLocation="micro:dto-01 https://raw.githubusercontent.com/Micro-PHP/dto/master/src/Resource/schema/dto-01.xsd">
+     xsi:schemaLocation="micro:dto-1.6 https://raw.githubusercontent.com/Micro-PHP/dto/master/src/Resource/schema/dto-1.6.xsd">
     <class name="User\User">
-        <property name="email" type="string"/>
-        <property name="age" type="int"/>
+        <property name="email" type="string">
+            <validation>
+                <not_blank grou/>
+                <length min="6" max="50"/>
+                <regex pattern="/^(.[aA-zA]+)$/"/>
+            </validation>
+        </property>
+        <property name="age" type="int">
+            <validation>
+                <not_blank groups="put"/>
+                <greater_than value="18" />
+                <less_than value="100" groups="put, patch" />
+            </validation>
+        </property>
         <property name="updatedAt" type="datetime" />
         <property name="parent" type="User\User" /> 
     </class>
@@ -32,15 +44,36 @@ composer require micro/dto
 ```
  * And run generator
 ```php
-use Micro\Library\DTO\ClassGeneratorFacadeDefault;
-
-$classGenerator = new ClassGeneratorFacadeDefault(
+$classGenerator = new \Micro\Library\DTO\ClassGeneratorFacadeDefault(
     ['./example.xml'],    // List of class declaration files
     './out',              // Path to the folder where to generate 
     'Transfer'            // Suffix for the all DTO classes (optional)
 );
-
 $classGenerator->generate();
+
+// Usage example
+$user = new \User\User();
+$user
+    ->setAge(19)
+    ->setEmail('demo@micro-php.net');
+// OR
+//
+$user['age'] = 19;
+$user['email'] = 'demo@micro-php.net';
+
+// Validation example
+$validator = new \Micro\Library\DTO\ValidatorFacadeDefault(); 
+$validator->validate($user); // Validation groups by default ["Default"]   
+$validator->validate($user, ['patch', 'put']); // Set validation groups ["patch", "put"]
+
+// Serialize example
+$serializer = new \Micro\Library\DTO\SerializerFacadeDefault();
+$serializer->toArray($user); // Simple array
+$serializer->toJson($user); // Simple Json
+
+// Deserialize example
+$serialized = $serializer->toJsonTransfer($user);
+$deserialized = $serializer->fromJsonTransfer($serialized);
 
 ```
 
