@@ -15,7 +15,7 @@ composer require micro/dto
 #### Declare all required classes in the XML Schemes
 
 * example.xml
-* See the full list of possible options in the [XSD scheme](src/Resource/schema/dto-01.xsd)
+* See the full list of possible options in the [XSD scheme](src/Resource/schema/dto-1.6.xsd)
 
 ``` xml
 <?xml version="1.0"?>
