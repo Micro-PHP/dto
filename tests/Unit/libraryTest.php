@@ -65,6 +65,7 @@ class libraryTest extends TestCase
     public function testValidateSuccessDto(): void
     {
         $validatorFacade = new ValidatorFacadeDefault();
+
         $this->assertEquals(0, \count($validatorFacade->validate($this->createValidDto())));
     }
 
@@ -89,21 +90,6 @@ class libraryTest extends TestCase
         $this->testSerialize($this->createValidDto(), $json);
     }
 
-    protected function testSerialize(AbstractDto $dtoTransfer, string $exceptedJson): void
-    {
-        $serializer = new SerializerFacadeDefault();
-
-        $json = $serializer->toJsonTransfer($dtoTransfer);
-        $arrayTransfer = $serializer->toArrayTransfer($dtoTransfer);
-
-        $this->assertEquals($dtoTransfer, $serializer->fromArrayTransfer($arrayTransfer));
-
-        $simpleJson = $serializer->toJson($dtoTransfer);
-        $this->assertEquals($exceptedJson, $simpleJson);
-
-        $this->assertEquals($dtoTransfer, $serializer->fromJsonTransfer($json));
-    }
-
     public function testIterableDto(): void
     {
         $simpleUser = new SimpleUserTransfer();
@@ -125,6 +111,21 @@ class libraryTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(sprintf('Property "%s" is not declared in the class "%s".', $invalidProperty, SimpleUserTransfer::class));
         $simpleUser[$invalidProperty];
+    }
+
+    protected function testSerialize(AbstractDto $dtoTransfer, string $exceptedJson): void
+    {
+        $serializer = new SerializerFacadeDefault();
+
+        $json = $serializer->toJsonTransfer($dtoTransfer);
+        $arrayTransfer = $serializer->toArrayTransfer($dtoTransfer);
+
+        $this->assertEquals($dtoTransfer, $serializer->fromArrayTransfer($arrayTransfer));
+
+        $simpleJson = $serializer->toJson($dtoTransfer);
+        $this->assertEquals($exceptedJson, $simpleJson);
+
+        $this->assertEquals($dtoTransfer, $serializer->fromJsonTransfer($json));
     }
 
     protected function createEmptyDto(): SimpleUserTransfer

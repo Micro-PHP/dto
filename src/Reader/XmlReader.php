@@ -17,7 +17,6 @@ use Micro\Library\DTO\Merger\MergerFactoryInterface;
 
 /**
  * @TODO: Temporary solution. MVP
- *
  * @TODO: Get XSD api version
  */
 class XmlReader implements ReaderInterface

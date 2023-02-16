@@ -21,8 +21,6 @@ interface ValidatorInterface
     /**
      * @param AbstractDto     $dto
      * @param string[]|string $groups
-     *
-     * @return ConstraintViolationListInterface
      */
     public function validate(AbstractDto $dto, array|string $groups = 'Default'): ConstraintViolationListInterface;
 }
