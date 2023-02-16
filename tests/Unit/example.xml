@@ -86,6 +86,12 @@
                 <date />
             </validation>
         </property>
+        <property name="time" type="string" >
+            <validation>
+                <not_blank />
+                <time />
+            </validation>
+        </property>
         <property name="timezone" type="string">
             <validation>
                 <time_zone intl_compatible="true" country_code="BY" zone="4096"/>

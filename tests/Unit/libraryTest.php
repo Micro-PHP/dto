@@ -73,20 +73,20 @@ class libraryTest extends TestCase
     {
         $validatorFacade = new ValidatorFacadeDefault();
 
-        $this->assertEquals(11, \count($validatorFacade->validate($this->createEmptyDto())));
+        $this->assertEquals(12, \count($validatorFacade->validate($this->createEmptyDto())));
     }
 
     public function testSerializeEmpty(): void
     {
         $empty = $this->createEmptyDto();
-        $json = '{"parent":null,"username":null,"age":null,"email":null,"ip":null,"hostname":null,"sometext":null,"url":null,"json":null,"uuid":null,"created_at":null,"updated_at":null,"timezone":null,"card_scheme":null,"bic":null,"currency":null,"iban":null,"isbn":null,"issn":null,"isin":null}';
+        $json = '{"parent":null,"username":null,"age":null,"email":null,"ip":null,"hostname":null,"sometext":null,"url":null,"json":null,"uuid":null,"created_at":null,"updated_at":null,"time":null,"timezone":null,"card_scheme":null,"bic":null,"currency":null,"iban":null,"isbn":null,"issn":null,"isin":null}';
 
         $this->testSerialize($empty, $json);
     }
 
     public function testSerializeValid(): void
     {
-        $json = '{"parent":{"weight":9,"height":8,"parent":null},"username":"Asisyas","age":19,"email":"test@example.com","ip":"192.168.0.1","hostname":"localhost","sometext":"azds","url":"\/\/abc","json":"{\"test\": 123}","uuid":"ffd4ff99-33ed-4a13-88cf-47e22de29dcc","created_at":"2002-08-11 20:08:01","updated_at":"2002-08-11","timezone":"Europe\/Minsk","card_scheme":"5555555555554444","bic":"MIDLGB22","currency":"USD","iban":"BY 13 NBRB 3600900000002Z00AB00","isbn":"978-0-545-01022-1","issn":"0378-5955","isin":"US0378331005"}';
+        $json = '{"parent":{"weight":9,"height":8,"parent":null},"username":"Asisyas","age":19,"email":"test@example.com","ip":"192.168.0.1","hostname":"localhost","sometext":"azds","url":"\/\/abc","json":"{\"test\": 123}","uuid":"ffd4ff99-33ed-4a13-88cf-47e22de29dcc","created_at":"2002-08-11 20:08:01","updated_at":"2002-08-11","time":"14:04:01","timezone":"Europe\/Minsk","card_scheme":"5555555555554444","bic":"MIDLGB22","currency":"USD","iban":"BY 13 NBRB 3600900000002Z00AB00","isbn":"978-0-545-01022-1","issn":"0378-5955","isin":"US0378331005"}';
         $this->testSerialize($this->createValidDto(), $json);
     }
 
@@ -98,7 +98,7 @@ class libraryTest extends TestCase
             $keys[] = $key;
         }
 
-        $this->assertEquals(20, \count($keys));
+        $this->assertEquals(21, \count($keys));
 
         $simpleUser['username'] = 'test';
         $this->assertEquals('test', $simpleUser['username']);
@@ -150,6 +150,7 @@ class libraryTest extends TestCase
             ->setHostname('localhost')
             ->setUsername('Asisyas')
             ->setSometext('azds')
+            ->setTime('14:04:01')
             ->setUrl('//abc')
             ->setJson('{"test": 123}')
             ->setUuid('ffd4ff99-33ed-4a13-88cf-47e22de29dcc')

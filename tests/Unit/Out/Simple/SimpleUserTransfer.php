@@ -44,7 +44,7 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
     protected string|null $json = null;
 
     #[\Symfony\Component\Validator\Constraints\NotBlank(groups: ['Default'], allowNull: false)]
-    #[\Symfony\Component\Validator\Constraints\Uuid(groups: ['Default'], versions: [1, 2, 3, 4, 5, 6, 7], strict: true)]
+    #[\Symfony\Component\Validator\Constraints\Uuid(groups: ['Default'], versions: [1, 2, 3, 4, 5, 6], strict: true)]
     protected string|null $uuid = null;
 
     #[\Symfony\Component\Validator\Constraints\DateTime(groups: ['Default'], format: 'Y-m-d H:i:s')]
@@ -52,6 +52,10 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
 
     #[\Symfony\Component\Validator\Constraints\Date(groups: ['Default'])]
     protected string|null $updated_at = null;
+
+    #[\Symfony\Component\Validator\Constraints\NotBlank(groups: ['Default'], allowNull: false)]
+    #[\Symfony\Component\Validator\Constraints\Time(groups: ['Default'])]
+    protected string|null $time = null;
 
     #[\Symfony\Component\Validator\Constraints\Timezone(groups: ['Default'], countryCode: 'BY', intlCompatible: true, zone: 4096)]
     protected string|null $timezone = null;
@@ -143,6 +147,11 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
     public function getUpdatedAt(): string|null
     {
         return $this->updated_at;
+    }
+
+    public function getTime(): string|null
+    {
+        return $this->time;
     }
 
     public function getTimezone(): string|null
@@ -265,6 +274,13 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
     public function setUpdatedAt(string|null $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function setTime(string|null $time): self
+    {
+        $this->time = $time;
 
         return $this;
     }
@@ -447,6 +463,16 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
             ),
             'required' => false,
             'actionName' => 'updatedAt',
+          ),
+          'time' =>
+          array (
+            'type' =>
+            array (
+              0 => 'string',
+              1 => 'null',
+            ),
+            'required' => false,
+            'actionName' => 'time',
           ),
           'timezone' =>
           array (
