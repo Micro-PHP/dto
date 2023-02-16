@@ -17,15 +17,22 @@ use Symfony\Component\Validator\Constraints\Uuid;
 
 class UuidStrategy extends AbstractConstraintStrategy
 {
-    public const ALLOWED_VERSIONS = [
-        Uuid::V1_MAC,
-        Uuid::V2_DCE,
-        Uuid::V3_MD5,
-        Uuid::V4_RANDOM,
-        Uuid::V5_SHA1,
-        Uuid::V6_SORTABLE,
-        Uuid::V7_MONOTONIC,
-    ];
+    /**
+     * @return array<int>
+     */
+    public function getAvailableVersions(): array
+    {
+        // Supports 5.4 version
+        $constants = [
+            'V1_MAC', 'V2_DCE', 'V3_MD5', 'V4_RANDOM', 'V5_SHA1', 'V6_SORTABLE', 'V7_MONOTONIC',
+        ];
+
+        return array_filter(array_map(function (string $constName) {
+            $cName = sprintf('%s::%s', Uuid::class, $constName);
+
+            return \defined($cName) ? \constant($cName) : null;
+        }, $constants));
+    }
 
     protected function generateArguments(array $config): array
     {
@@ -54,8 +61,9 @@ class UuidStrategy extends AbstractConstraintStrategy
      */
     private function parseVersions(array|string $original): array
     {
+        $availableVersions = $this->getAvailableVersions();
         if ('' === $original) {
-            return self::ALLOWED_VERSIONS;
+            return $availableVersions;
         }
 
         $versions = $original;
@@ -64,11 +72,11 @@ class UuidStrategy extends AbstractConstraintStrategy
         }
 
         $versions = array_map('intval', $versions);
-        $isValid = !array_diff($versions, self::ALLOWED_VERSIONS);
+        $isValid = !array_diff($versions, $availableVersions);
         if ($isValid) {
             return $versions;
         }
 
-        throw new \InvalidArgumentException(sprintf('UUID versions is not allowed. Actual: `%s`, Available: `%s`', \is_array($original) ? implode(', ', $original) : $original, implode(',', self::ALLOWED_VERSIONS)));
+        throw new \InvalidArgumentException(sprintf('UUID versions is not allowed. Actual: `%s`, Available: `%s`', \is_array($original) ? implode(', ', $original) : $original, implode(',', $availableVersions)));
     }
 }
