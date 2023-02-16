@@ -21,12 +21,11 @@ class TimeZoneStrategy extends AbstractConstraintStrategy
     {
         $parent = parent::generateArguments($config);
 
-        return array_filter([
-            ...$parent,
-            'countryCode' => $config['country_code'] ?? null,
-            'intlCompatible' => $this->stringToBool($config['intl_compatible'] ?? 'false'),
-            'zone' => (int) ($config['zone'] ?? \DateTimeZone::ALL),
-        ]);
+        $parent['countryCode'] = $config['country_code'] ?? null;
+        $parent['intlCompatible'] = $this->stringToBool($config['intl_compatible'] ?? 'false');
+        $parent['zone'] = (int) ($config['zone'] ?? \DateTimeZone::ALL);
+
+        return array_filter($parent);
     }
 
     protected function getValidatorProperty(): string

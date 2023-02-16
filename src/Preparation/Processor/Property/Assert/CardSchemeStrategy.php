@@ -19,10 +19,10 @@ class CardSchemeStrategy extends AbstractConstraintStrategy
 {
     protected function generateArguments(array $config): array
     {
-        return array_filter([
-            ...parent::generateArguments($config),
-            'schemes' => $this->extractSchemes($config),
-        ]);
+        $parent = parent::generateArguments($config);
+        $parent['schemes'] = $this->extractSchemes($config);
+
+        return array_filter($parent);
     }
 
     /**

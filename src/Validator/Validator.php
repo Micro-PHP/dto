@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface as SymfonyValidator
 
 class Validator implements ValidatorInterface
 {
-    public function __construct(private readonly SymfonyValidator $validator)
+    public function __construct(private SymfonyValidator $validator)
     {
     }
 

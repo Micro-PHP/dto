@@ -18,11 +18,11 @@ abstract class AbstractComparisonStrategy extends AbstractConstraintStrategy
     protected function generateArguments(array $config): array
     {
         $parent = parent::generateArguments($config);
-
-        return array_filter([
-            ...$parent,
+        $current = [
             'propertyPath' => $config['property_path'] ?? null,
             'value' => $config['value'] ?? null,
-        ]);
+        ];
+
+        return array_filter(array_merge($parent, $current));
     }
 }

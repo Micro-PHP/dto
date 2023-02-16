@@ -17,6 +17,7 @@ use Micro\Library\DTO\Merger\MergerFactoryInterface;
 
 /**
  * @TODO: Temporary solution. MVP
+ *
  * @TODO: Get XSD api version
  */
 class XmlReader implements ReaderInterface
@@ -25,8 +26,8 @@ class XmlReader implements ReaderInterface
      * @param iterable<string> $classDefinitionFilesCollection
      */
     public function __construct(
-        private readonly iterable $classDefinitionFilesCollection,
-        private readonly MergerFactoryInterface $mergerFactory
+        private iterable $classDefinitionFilesCollection,
+        private MergerFactoryInterface $mergerFactory
     ) {
     }
 

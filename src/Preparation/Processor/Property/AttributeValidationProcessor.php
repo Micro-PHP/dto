@@ -22,7 +22,7 @@ class AttributeValidationProcessor implements PropertyProcessorInterface
      * @param iterable<PropertyProcessorInterface> $validatorProcessor
      */
     public function __construct(
-        private readonly iterable $validatorProcessor
+        private iterable $validatorProcessor
     ) {
     }
 

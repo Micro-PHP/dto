@@ -22,8 +22,8 @@ class ClassMetadataHelper implements ClassMetadataHelperInterface
      * @param string $classSuffix
      */
     public function __construct(
-        private readonly string $namespaceGeneral,
-        private readonly string $classSuffix
+        private string $namespaceGeneral,
+        private string $classSuffix
     ) {
     }
 

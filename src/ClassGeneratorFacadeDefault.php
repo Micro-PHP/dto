@@ -26,11 +26,11 @@ class ClassGeneratorFacadeDefault extends GeneratorFacade
      * @param LoggerInterface|null $logger
      */
     public function __construct(
-        private readonly array $filesSchemeCollection,
-        private readonly string $outputPath,
-        private readonly string $namespaceGeneral = '',
-        private readonly string $classSuffix = 'Transfer',
-        private readonly null|LoggerInterface $logger = new NullLogger(),
+        private array $filesSchemeCollection,
+        private string $outputPath,
+        private string $namespaceGeneral = '',
+        private string $classSuffix = 'Transfer',
+        private null|LoggerInterface $logger = new NullLogger(),
     ) {
         parent::__construct($this->createDefaultDependencyInjectionObject());
     }

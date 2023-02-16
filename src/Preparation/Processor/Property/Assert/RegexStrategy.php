@@ -19,15 +19,12 @@ class RegexStrategy extends AbstractConstraintStrategy
 {
     protected function generateArguments(array $config): array
     {
-        $parentArgs = parent::generateArguments($config);
+        $parent = parent::generateArguments($config);
 
-        $match = $config['match'] ?? 'true';
+        $parent['pattern'] = $config['pattern'];
+        $parent['match'] = $this->stringToBool($config['match'] ?? 'true');
 
-        return [
-            ...$parentArgs,
-            'pattern' => $config['pattern'],
-            'match' => $this->stringToBool($match),
-        ];
+        return $parent;
     }
 
     protected function getValidatorProperty(): string

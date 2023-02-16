@@ -20,7 +20,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 class ValidatorFacade implements ValidatorFacadeInterface
 {
     public function __construct(
-        private readonly ValidatorFactoryInterface $validatorFactory
+        private ValidatorFactoryInterface $validatorFactory
     ) {
     }
 

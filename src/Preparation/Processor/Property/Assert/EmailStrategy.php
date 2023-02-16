@@ -19,12 +19,10 @@ class EmailStrategy extends AbstractConstraintStrategy
 {
     protected function generateArguments(array $config): array
     {
-        $parentArgs = parent::generateArguments($config);
+        $parent = parent::generateArguments($config);
+        $parent['mode'] = $config['mode'] ?? 'html5';
 
-        return [
-            ...$parentArgs,
-            'mode' => $config['mode'] ?? 'html5',
-        ];
+        return $parent;
     }
 
     protected function getValidatorProperty(): string

@@ -19,7 +19,7 @@ use Micro\Library\DTO\Preparation\PreparationProcessorInterface;
 
 class ClassNameProcessor implements PreparationProcessorInterface
 {
-    public function __construct(private readonly ClassMetadataHelperInterface $classMetadataHelper)
+    public function __construct(private ClassMetadataHelperInterface $classMetadataHelper)
     {
     }
 

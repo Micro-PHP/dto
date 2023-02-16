@@ -23,7 +23,7 @@ class ClassPropertyProcessor implements PreparationProcessorInterface
     /**
      * @param iterable<PropertyProcessorInterface> $propertyProcessorCollection
      */
-    public function __construct(private readonly iterable $propertyProcessorCollection)
+    public function __construct(private iterable $propertyProcessorCollection)
     {
     }
 

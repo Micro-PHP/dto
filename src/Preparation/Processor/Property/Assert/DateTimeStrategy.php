@@ -20,11 +20,9 @@ class DateTimeStrategy extends AbstractConstraintStrategy
     protected function generateArguments(array $config): array
     {
         $parent = parent::generateArguments($config);
+        $parent['format'] = $config['format'] ?? 'Y-m-d H:i:s';
 
-        return [
-            ...$parent,
-            'format' => $config['format'] ?? 'Y-m-d H:i:s',
-        ];
+        return $parent;
     }
 
     protected function getValidatorProperty(): string
