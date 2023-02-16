@@ -25,6 +25,7 @@ composer require micro/dto
     <class name="User\User">
         <property name="email" type="string">
             <validation>
+<<<<<<< HEAD
                 <not_blank/>
                 <email/>
             </validation>
@@ -35,6 +36,13 @@ composer require micro/dto
                <regex pattern="/^(.[aA-zA]+)$/"/>
           </validation>
         </property>
+=======
+                <not_blank grou/>
+                <length min="6" max="50"/>
+                <regex pattern="/^(.[aA-zA]+)$/"/>
+            </validation>
+        </property>
+>>>>>>> c7aa98c (v1.6.0 [doc] Update README.md)
         <property name="age" type="int">
             <validation>
                 <not_blank groups="put"/>
@@ -57,7 +65,11 @@ $classGenerator = new \Micro\Library\DTO\ClassGeneratorFacadeDefault(
 $classGenerator->generate();
 
 // Usage example
+<<<<<<< HEAD
 $user = new \User\UserTransfer();
+=======
+$user = new \User\User();
+>>>>>>> c7aa98c (v1.6.0 [doc] Update README.md)
 $user
     ->setAge(19)
     ->setEmail('demo@micro-php.net');
