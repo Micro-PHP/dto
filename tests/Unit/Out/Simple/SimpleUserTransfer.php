@@ -14,13 +14,13 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
 {
     protected SimpleObjectTransfer|null $parent = null;
 
-    #[\Symfony\Component\Validator\Constraints\Regex(groups: ['Default'], pattern: '/^(.[aA-zA]+)$/', match: true)]
     #[\Symfony\Component\Validator\Constraints\Length(groups: ['Default'], max: 50, min: 6)]
+    #[\Symfony\Component\Validator\Constraints\Regex(groups: ['Default'], pattern: '/^(.[aA-zA]+)$/', match: true)]
     protected string|null $username = null;
 
     #[\Symfony\Component\Validator\Constraints\NotBlank(groups: ['Default'], allowNull: false)]
-    #[\Symfony\Component\Validator\Constraints\GreaterThan(groups: ['Default'], value: '18')]
-    #[\Symfony\Component\Validator\Constraints\LessThan(groups: ['Default'], value: '100')]
+    #[\Symfony\Component\Validator\Constraints\GreaterThan(groups: ['Default'], value: 18)]
+    #[\Symfony\Component\Validator\Constraints\LessThan(groups: ['Default'], value: 100)]
     protected int|null $age = null;
 
     #[\Symfony\Component\Validator\Constraints\Email(groups: ['Default'], mode: 'html5')]
@@ -30,6 +30,7 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
     #[\Symfony\Component\Validator\Constraints\Ip(groups: ['Default'], version: '4')]
     protected string|null $ip = null;
 
+    #[\Symfony\Component\Validator\Constraints\Hostname(groups: ['Default'], requireTld: false)]
     #[\Symfony\Component\Validator\Constraints\Hostname(groups: ['test'], requireTld: true)]
     protected string|null $hostname = null;
 

@@ -27,7 +27,7 @@ class PropertyDefinition
     private array $types = [];
 
     /**
-     * @var array<string, mixed>
+     * @var array<array<string, mixed>>
      */
     private array $attributes = [];
 
@@ -126,11 +126,9 @@ class PropertyDefinition
      */
     public function addAttribute(string $attributeName, array $arguments): self
     {
-        if (!\array_key_exists($attributeName, $this->attributes)) {
-            $this->attributes[$attributeName] = [];
-        }
-
-        $this->attributes[$attributeName] = array_merge($this->attributes[$attributeName], $arguments);
+        $this->attributes[] = [
+            $attributeName => $arguments,
+        ];
 
         return $this;
     }

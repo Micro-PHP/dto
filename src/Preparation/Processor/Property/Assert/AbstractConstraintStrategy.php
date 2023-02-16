@@ -21,14 +21,14 @@ abstract class AbstractConstraintStrategy implements PropertyProcessorInterface
 {
     public function process(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $propertyData, array $classList): void
     {
-        foreach ($propertyData as $config) {
-            $validatorData = $config[$this->getValidatorProperty()] ?? null;
-            if (null === $validatorData) {
-                continue;
-            }
-
-            $this->addAttribute($propertyDefinition, $this->getAttributeClassName(), $this->generateArguments($validatorData));
+        $validatorProperty = $this->getValidatorProperty();
+        if (!isset($propertyData[$validatorProperty])) {
+            return;
         }
+
+        $validatorData = $propertyData[$validatorProperty] ?? [];
+
+        $this->addAttribute($propertyDefinition, $this->generateArguments($validatorData));
     }
 
     protected function stringToBool(string $boolValue): bool
@@ -56,7 +56,7 @@ abstract class AbstractConstraintStrategy implements PropertyProcessorInterface
     /**
      * @param array<string|mixed> $arguments
      */
-    protected function addAttribute(PropertyDefinition $propertyDefinition, string $attributeClass, array $arguments): void
+    protected function addAttribute(PropertyDefinition $propertyDefinition, array $arguments): void
     {
         $propertyDefinition->addAttribute($this->getAttributeClassName(), $arguments);
     }
@@ -70,7 +70,7 @@ abstract class AbstractConstraintStrategy implements PropertyProcessorInterface
     {
         return array_filter([
             'message' => $config['message'] ?? null,
-            'groups' => $this->explodeString($config['groups']),
+            'groups' => $this->explodeString($config['groups'] ?? 'Default'),
         ]);
     }
 
