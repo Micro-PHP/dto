@@ -44,7 +44,7 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
     protected string|null $json = null;
 
     #[\Symfony\Component\Validator\Constraints\NotBlank(groups: ['Default'], allowNull: false)]
-    #[\Symfony\Component\Validator\Constraints\Uuid(groups: ['Default'], versions: [1, 2, 3, 4, 5, 6, 7], strict: true)]
+    #[\Symfony\Component\Validator\Constraints\Uuid(groups: ['Default'], versions: [1, 2, 3, 4, 5, 6], strict: true)]
     protected string|null $uuid = null;
 
     #[\Symfony\Component\Validator\Constraints\DateTime(groups: ['Default'], format: 'Y-m-d H:i:s')]
@@ -78,6 +78,7 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
     protected string|null $isbn = null;
 
     #[\Symfony\Component\Validator\Constraints\NotBlank(groups: ['Default'], allowNull: false)]
+    #[\Symfony\Component\Validator\Constraints\Issn(groups: ['Default'])]
     protected string|null $issn = null;
 
     #[\Symfony\Component\Validator\Constraints\NotBlank(groups: ['Default'], allowNull: false)]

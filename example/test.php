@@ -2,86 +2,95 @@
 
 require dirname(__FILE__) . '/../vendor/autoload.php';
 
-// Create Logger
-$logger = new class extends \Psr\Log\NullLogger {
-    public function debug(\Stringable|string $message, array $context = []): void
-    {
-        print_r("$message\r\n");
-    }
-};
-
-// Create default class generator facade
+/**
+ *  Create default class generator facade
+ */
 $classGenerator = new \Micro\Library\DTO\ClassGeneratorFacadeDefault(
     ['./example.xml'],
     './out',
     'Transfer',
     'Transfer',
-    $logger
 );
 
 $classGenerator->generate();
 
-// Require generated classes
+/**
+ * Require generated classes
+ */
 require_once 'out/Simple/SimpleObjectTransfer.php';
 require_once 'out/Simple/SimpleUserTransfer.php';
 require_once 'out/UserTransfer.php';
 
+use Transfer\UserTransfer;
+use Transfer\Simple\SimpleObjectTransfer;
+use Micro\Library\DTO\SerializerFacadeDefault;
+use Micro\Library\DTO\ValidatorFacadeDefault;
+use Transfer\Simple\SimpleUserTransfer;
 
-$user = new \Transfer\UserTransfer();
+/**
+ * Iterate DTO values
+ */
+$user = new UserTransfer();
 $user
     ->setFirstName('Stas')
     ->setUsername('Asisyas')
     ->setUpdatedAt(new DateTime('11.08.1989'))
     ->setBooks(
         [
-            (new Transfer\Simple\SimpleObjectTransfer())
+            (new SimpleObjectTransfer())
                 ->setHeight(1)
                 ->setWeight(20)
                 ->setParent(
-                    (new Transfer\Simple\SimpleObjectTransfer())
+                    (new SimpleObjectTransfer())
                         ->setHeight(100)
                         ->setWeight(2000)
                 )
         ])
     ->setSomeclass(
-        (new \Transfer\Simple\SimpleObjectTransfer())
+        (new SimpleObjectTransfer())
             ->setWeight(1)
             ->setHeight(2)
     )
 ;
 
-// Iterate as array
 foreach ($user as $key => $value) {
-//    print_r("\r\nPROPERTY: " . $key . " ==== " . (is_scalar($value) ? $value : serialize($value)));
+    print_r("\r\nPROPERTY: " . $key . " ==== " . (is_scalar($value) ? $value : serialize($value)));
 }
 
-//
-//print_r('FISRT BOOK HEIGHT : ' . $user['books'][0]['height'] . "\r\n");
-//print_r('FISRT BOOK PARENT HEIGHT : ' . $user['books'][0]['parent']['height'] . "\r\n");
 
+/**
+ * Array access example
+ */
+print_r("\r\n\r\nFISRT BOOK HEIGHT : " . $user['books'][0]['height'] . "\r\n");
+print_r('FISRT BOOK PARENT HEIGHT : ' . $user['books'][0]['parent']['height'] . "\r\n\r\n");
+// Allowed too
+$user['books'][0]['height'] = 12;
 
-$classSerializerFacade = new \Micro\Library\DTO\SerializerFacadeDefault();
+/**
+ * Serialization example
+ */
+$classSerializerFacade = new SerializerFacadeDefault();
+$jsonDto = $classSerializerFacade->toJsonTransfer($user);
+$json = $classSerializerFacade->toJson($user);
 
+print_r('Serialized DTO: ' . $jsonDto . "\r\n\r\n");
+print_r('Serialize DTO as JSON: ' . $json . "\r\n\r\n");
 
-$json = $classSerializerFacade->toJsonTransfer($user);
+$deserialized = $classSerializerFacade->fromJsonTransfer($jsonDto);
 
-//dump($json);
+$className = get_class($user);
+$okNo = get_class($deserialized) === $className ?'true' : 'false';
+print_r( "Deserialize $className: $okNo \r\n");
 
-$result = $classSerializerFacade->fromJsonTransfer($json);
-
-$mf = new \Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader());
-
-$vb = \Symfony\Component\Validator\Validation::createValidatorBuilder();
-$vb->setMetadataFactory($mf);
-$vb->disableAnnotationMapping();
-$validator = $vb->getValidator();
-
-$simpleUserParent = new \Transfer\Simple\SimpleObjectTransfer();
+/**
+ * Validate DTO example
+ */
+$simpleUserParent = new SimpleObjectTransfer();
 $simpleUserParent
     ->setWeight(9)
     ->setHeight(8);
 
-$simpleUser = new \Transfer\Simple\SimpleUserTransfer();
+$simpleUser = new SimpleUserTransfer();
 $simpleUser
     ->setParent($simpleUserParent)
     ->setIp('192.168.0.1')
@@ -105,10 +114,10 @@ $simpleUser
     ->setIsin('US0378331005')
 ;
 
+$validator = new ValidatorFacadeDefault();
 $constraints = $validator->validate($simpleUser);
 
-dump($constraints);
+$validationStatus = !count($constraints) ? 'Validated': 'Validation error';
 
-//dump($result);
-
+print_r("Validation status: $validationStatus\r\n");
 
