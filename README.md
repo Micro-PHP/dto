@@ -26,9 +26,14 @@ composer require micro/dto
         <property name="email" type="string">
             <validation>
                 <not_blank/>
-                <length min="6" max="50"/>
-                <regex pattern="/^(.[aA-zA]+)$/"/>
+                <email/>
             </validation>
+        </property>
+        <property name="username" type="string">
+          <validation>
+               <length min="6" max="50"/>
+               <regex pattern="/^(.[aA-zA]+)$/"/>
+          </validation>
         </property>
         <property name="age" type="int">
             <validation>
