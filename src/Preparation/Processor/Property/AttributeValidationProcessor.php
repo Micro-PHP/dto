@@ -48,14 +48,33 @@ class AttributeValidationProcessor implements PropertyProcessorInterface
      */
     protected function processAddConstraints(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $constraints, array $classList): void
     {
-        foreach ($constraints as $constraintName => $constraintConfig) {
+        foreach ($constraints as $constraintName => $constraintConfigs) {
+            $this->processAddConstraint($propertyDefinition, $classDefinition, $constraintName, $constraintConfigs, $classList);
+        }
+    }
+
+    /**
+     * @param PropertyDefinition          $propertyDefinition
+     * @param ClassDefinition             $classDefinition
+     * @param string                      $constraintName
+     * @param array<array<string, mixed>> $constraintConfigs
+     * @param string[]                    $classList
+     *
+     * @return void
+     */
+    protected function processAddConstraint(
+        PropertyDefinition $propertyDefinition,
+        ClassDefinition $classDefinition,
+        string $constraintName,
+        array $constraintConfigs,
+        array $classList
+    ): void {
+        foreach ($constraintConfigs as $config) {
             foreach ($this->validatorProcessor as $processor) {
                 /**
-                 * @phpstan-ignore-next-line
-                 *
                  * @psalm-suppress InvalidArrayOffset
                  */
-                $processor->process($propertyDefinition, $classDefinition, [$constraintName => $constraintConfig[0]], $classList);
+                $processor->process($propertyDefinition, $classDefinition, [$constraintName => $config], $classList);
             }
         }
     }
