@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
     name: "Tests ${{ matrix.php-version }} deps ${{ matrix.dependency-versions }}"
     strategy:
@@ -29,18 +29,17 @@ jobs:
           - php-version: '8.2'
             dependency-versions: 'highest'
           - php-version: '8.1'
-            dependency-versions: 'c'
+            dependency-versions: 'highest'
           - php-version: '8.0'
             dependency-versions: 'highest'
     steps:
     - uses: actions/checkout@v3
 
     - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
+        uses: shivammathur/setup-php@v2
         with:
           coverage: "xdebug"
-          php-version: "${{ matrix.php-version }}"
-          
+          php-version: "${{ matrix.php-version }}" 
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v3
