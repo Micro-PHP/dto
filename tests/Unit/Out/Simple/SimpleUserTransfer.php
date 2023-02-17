@@ -6,9 +6,16 @@
 
 declare(strict_types=1);
 
-namespace Micro\Library\DTO\Tests\Unit\Out\Simple;
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
 
-use DateTimeInterface;
+namespace Micro\Library\DTO\Tests\Unit\Out\Simple;
 
 final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
 {
@@ -89,6 +96,13 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
     #[\Symfony\Component\Validator\Constraints\NotBlank(groups: ['Default'], allowNull: false)]
     #[\Symfony\Component\Validator\Constraints\Isin(groups: ['Default'])]
     protected string|null $isin = null;
+
+    #[\Symfony\Component\Validator\Constraints\NotBlank(groups: ['Default'], allowNull: false)]
+    #[\Symfony\Component\Validator\Constraints\Choice(groups: ['Default'], choices: [1, 'example', 1.001])]
+    #[\Symfony\Component\Validator\Constraints\Choice(groups: ['multiple'], choices: [1, 'example', 1.001], multiple: true)]
+    #[\Symfony\Component\Validator\Constraints\Choice(groups: ['multiple-max-2'], choices: [1, 'example', 1.001], multiple: true)]
+    #[\Symfony\Component\Validator\Constraints\Choice(groups: ['multiple-min-2'], choices: [1, 'example', 1.001], multiple: true)]
+    protected string|int|null $choice = null;
 
     public function getParent(): SimpleObjectTransfer|null
     {
@@ -193,6 +207,11 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
     public function getIsin(): string|null
     {
         return $this->isin;
+    }
+
+    public function getChoice(): string|int|null
+    {
+        return $this->choice;
     }
 
     public function setParent(SimpleObjectTransfer|null $parent): self
@@ -342,219 +361,193 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
         return $this;
     }
 
+    public function setChoice(string|int|null $choice): self
+    {
+        $this->choice = $choice;
+
+        return $this;
+    }
+
     protected static function attributesMetadata(): array
     {
-        return array (
-          'parent' =>
-          array (
-            'type' =>
-            array (
-              0 => 'Micro\\Library\\DTO\\Tests\\Unit\\Out\\Simple\\SimpleObjectTransfer',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'parent',
-          ),
-          'username' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'username',
-          ),
-          'age' =>
-          array (
-            'type' =>
-            array (
-              0 => 'int',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'age',
-          ),
-          'email' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'email',
-          ),
-          'ip' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'ip',
-          ),
-          'hostname' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'hostname',
-          ),
-          'sometext' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'sometext',
-          ),
-          'url' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'url',
-          ),
-          'json' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'json',
-          ),
-          'uuid' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'uuid',
-          ),
-          'created_at' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'createdAt',
-          ),
-          'updated_at' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'updatedAt',
-          ),
-          'time' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'time',
-          ),
-          'timezone' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'timezone',
-          ),
-          'card_scheme' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'cardScheme',
-          ),
-          'bic' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'bic',
-          ),
-          'currency' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'currency',
-          ),
-          'iban' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'iban',
-          ),
-          'isbn' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'isbn',
-          ),
-          'issn' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'issn',
-          ),
-          'isin' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'isin',
-          ),
-        );
+        return [
+            'parent' => [
+                'type' => [
+                    0 => 'Micro\\Library\\DTO\\Tests\\Unit\\Out\\Simple\\SimpleObjectTransfer',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'parent',
+            ],
+            'username' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'username',
+            ],
+            'age' => [
+                'type' => [
+                    0 => 'int',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'age',
+            ],
+            'email' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'email',
+            ],
+            'ip' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'ip',
+            ],
+            'hostname' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'hostname',
+            ],
+            'sometext' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'sometext',
+            ],
+            'url' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'url',
+            ],
+            'json' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'json',
+            ],
+            'uuid' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'uuid',
+            ],
+            'created_at' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'createdAt',
+            ],
+            'updated_at' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'updatedAt',
+            ],
+            'time' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'time',
+            ],
+            'timezone' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'timezone',
+            ],
+            'card_scheme' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'cardScheme',
+            ],
+            'bic' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'bic',
+            ],
+            'currency' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'currency',
+            ],
+            'iban' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'iban',
+            ],
+            'isbn' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'isbn',
+            ],
+            'issn' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'issn',
+            ],
+            'isin' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'isin',
+            ],
+            'choice' => [
+                'type' => [
+                    0 => 'string',
+                    1 => 'int',
+                    2 => 'null',
+                ],
+                'required' => false,
+                'actionName' => 'choice',
+            ],
+        ];
     }
 }

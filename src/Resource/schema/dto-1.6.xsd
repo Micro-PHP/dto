@@ -73,11 +73,34 @@
                 <xs:element name="issn" type="mic:constraint_issn" xmlns:mic="micro:dto-1.6" />
                 <!-- https://en.wikipedia.org/wiki/International_Securities_Identification_Number -->
                 <xs:element name="isin" type="mic:constraint_abstract" xmlns:mic="micro:dto-1.6" />
+                <xs:element name="choice" type="mic:constraint_choice" xmlns:mic="micro:dto-1.6" />
+                <xs:element name="expression" type="mic:constraint_expression" xmlns:mic="micro:dto-1.6" />
             </xs:choice>
         </xs:sequence>
     </xs:complexType>
     <!-- End validation nodes -->
     <!-- Constraints types -->
+    <xs:complexType name="constraint_choice">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract_min_max" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="callback" type="xs:string" />
+                <xs:attribute name="choices" type="xs:string" /> <!-- A comma-separated list of available choices -->
+                <xs:attribute name="match" type="xs:boolean" />
+                <xs:attribute name="multiple" type="xs:boolean" />
+                <xs:attribute name="message_multiple" type="xs:string" />
+                <xs:attribute name="message" type="xs:string" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_expression">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract_expression" xmlns:mic="micro:dto-1.6">
+                <xs:choice>
+                    <xs:element name="variable" type="mic:variable_type" maxOccurs="unbounded" minOccurs="0" />
+                </xs:choice>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
     <xs:complexType name="constraint_email">
         <xs:complexContent>
             <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
@@ -216,10 +239,8 @@
     <xs:complexType name="constraint_size">
         <xs:complexContent>
             <xs:extension base="mic:constraint_abstract_groups" xmlns:mic="micro:dto-1.6">
-                <xs:attribute type="xs:int" name="min" use="required"/>
-                <xs:attribute type="xs:int" name="max" use="required"/>
-                <xs:attribute type="xs:string" name="message_min" />
-                <xs:attribute type="xs:string" name="message_max"/>
+                <xs:attribute type="xs:double" name="min" use="required"/>
+                <xs:attribute type="xs:double" name="max" use="required"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -295,7 +316,7 @@
             <xs:extension base="mic:constraint_abstract"  xmlns:mic="micro:dto-1.6">
                 <!-- Comma separated schemes names -->
                 <!-- Available: AMEX, CHINA_UNIONPAY, DINERS, DISCOVER, INSTAPAYMENT, JCB, LASER, MAESTRO, MASTERCARD, MIR, UATP, VISA -->
-                <xs:attribute name="schemes" use="required"/>
+                <xs:attribute name="schemes" use="required" />
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -318,5 +339,28 @@
     <xs:complexType name="constraint_abstract_groups">
         <xs:attribute type="xs:string" name="groups" default="Default" />
     </xs:complexType>
+    <xs:complexType name="constraint_abstract_min_max">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract_groups" xmlns:mic="micro:dto-1.6">
+                <xs:attribute type="xs:double" name="min"/>
+                <xs:attribute type="xs:double" name="max"/>
+                <xs:attribute type="xs:string" name="message_min" />
+                <xs:attribute type="xs:string" name="message_max"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="constraint_abstract_expression">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="expression" type="xs:string" use="required" />
+                <xs:attribute name="negate" type="xs:boolean" default="true" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
     <!-- Constraints types END -->
+
+    <xs:complexType name="variable_type">
+        <xs:attribute name="name" use="required"/>
+        <xs:attribute name="value" use="required"/>
+    </xs:complexType>
 </xs:schema>

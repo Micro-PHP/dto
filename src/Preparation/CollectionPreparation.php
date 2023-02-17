@@ -37,7 +37,7 @@ class CollectionPreparation implements CollectionPreparationInterface
 
         $classList = $this->createClassList($classCollection);
 
-        foreach ($classCollection as $className => $classDef) {
+        foreach ($classCollection as $classDef) {
             $classDefObj = new ClassDefinition();
             foreach ($this->preparationProcessor as $processor) {
                 $processor->process($classDef, $classDefObj, $classList);

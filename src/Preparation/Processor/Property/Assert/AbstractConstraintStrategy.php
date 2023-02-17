@@ -74,6 +74,33 @@ abstract class AbstractConstraintStrategy implements PropertyProcessorInterface
         ]);
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @return string|int|bool|float|null
+     */
+    protected function sanitize(mixed $value): string|int|bool|float|null
+    {
+        if ('string' !== \gettype($value)) {
+            return $value;
+        }
+
+        $boolValues = ['true', 'false'];
+        $valueLowercase = mb_strtolower($value);
+        if (\in_array($valueLowercase, $boolValues)) {
+            return 'true' === $valueLowercase;
+        }
+
+        if (is_numeric($value)) {
+            $double = (float) $value;
+            $int = (int) $value;
+
+            return $int == $double ? $int : $double;
+        }
+
+        return $value;
+    }
+
     abstract protected function getValidatorProperty(): string;
 
     /**

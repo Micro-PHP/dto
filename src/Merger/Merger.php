@@ -46,15 +46,17 @@ class Merger implements MergerInterface
     protected function mergeClass(string $className, array $classData): array
     {
         $properties = [];
+        $propertiesExisted = [];
 
         foreach ($classData as $declaration) {
-            if (!\array_key_exists('properties', $declaration)) {
+            if (!\array_key_exists('property', $declaration)) {
                 continue;
             }
 
-            foreach ($declaration['properties'] as $propName => $propertyDef) {
-                if (!\array_key_exists($propName, $properties)) {
-                    $properties[$propName] = $propertyDef;
+            foreach ($declaration['property'] as $propertyDef) {
+                $propName = $propertyDef['name'];
+                if (!\array_key_exists($propName, $propertiesExisted)) {
+                    $properties[] = $propertyDef;
 
                     continue;
                 }
@@ -65,7 +67,7 @@ class Merger implements MergerInterface
 
         return [
             'name' => $className,
-            'properties' => $properties,
+            'property' => $properties,
         ];
     }
 

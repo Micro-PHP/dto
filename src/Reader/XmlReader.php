@@ -69,6 +69,9 @@ class XmlReader implements ReaderInterface
      */
     protected function parseClass(\DOMNode $classDef): array
     {
+        return $this->parseBody($classDef);
+        // dump($this->parseBody($classDef)); exit;
+
         $class = [];
         $props = [];
         if (null === $classDef->attributes) {
@@ -159,6 +162,35 @@ class XmlReader implements ReaderInterface
         }
 
         return $constraints;
+    }
+
+    protected function parseBody(\DOMNode $node): array
+    {
+        $childNodes = [];
+        $attributes = [];
+
+        if ($node->hasAttributes()) {
+            /**
+             * @var \DOMAttr $tmpAttribute
+             */
+            foreach ($node->attributes as $tmpAttribute) {
+                $attributes[$tmpAttribute->nodeName] = $tmpAttribute->nodeValue;
+            }
+        }
+
+        if ($node->hasChildNodes()) {
+            /** @var \DOMNode $child */
+            foreach ($node->childNodes as $child) {
+                $childName = $child->nodeName;
+                if ('#text' === $childName) {
+                    continue;
+                }
+
+                $attributes[$childName][] = $this->parseBody($child);
+            }
+        }
+
+        return $attributes;
     }
 
     protected function createDom(string $filePath): \DOMDocument
