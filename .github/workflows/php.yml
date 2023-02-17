@@ -10,16 +10,36 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
+  tests:
     runs-on: ubuntu-latest
-
+    name: "Tests ${{ matrix.php-version }} deps ${{ matrix.dependency-versions }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        # normal, highest, non-dev installs
+        php-version: [ '8.2', '8.1', '8.0' ]
+        dependency-versions: [ 'highest', 'lowest' ]
+        include:
+#          - php-version: '8.2'
+#            dependency-versions: 'lowest'
+          - php-version: '8.1'
+            dependency-versions: 'lowest'
+          - php-version: '8.0'
+            dependency-versions: 'lowest'
+          - php-version: '8.2'
+            dependency-versions: 'highest'
+          - php-version: '8.1'
+            dependency-versions: 'highest'
+          - php-version: '8.0'
+            dependency-versions: 'highest'
     steps:
     - uses: actions/checkout@v3
 
-#    - name: Validate composer.json and composer.lock
-#      run: composer validate --strict
-
+    - name: "Install PHP"
+      uses: shivammathur/setup-php@v2
+      with:
+        coverage: "xdebug"
+        php-version: "${{ matrix.php-version }}" 
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v3
@@ -29,8 +49,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+    - name: "Composer install"
+      uses: "ramsey/composer-install@v2"
+      with:
+        dependency-versions: "${{ matrix.dependency-versions }}"
+        composer-options: "--prefer-dist --no-cache --no-progress"
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md

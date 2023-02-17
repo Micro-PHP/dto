@@ -81,13 +81,13 @@ class libraryTest extends TestCase
         $empty = $this->createEmptyDto();
         $json = file_get_contents(__DIR__.'/json_empty.json');
 
-        $this->testSerialize($empty, $json);
+        $this->serializeTest($empty, $json);
     }
 
     public function testSerializeValid(): void
     {
         $json = file_get_contents(__DIR__.'/json_valid.json');
-        $this->testSerialize($this->createValidDto(), $json);
+        $this->serializeTest($this->createValidDto(), $json);
     }
 
     public function testIterableDto(): void
@@ -113,7 +113,7 @@ class libraryTest extends TestCase
         $simpleUser[$invalidProperty];
     }
 
-    protected function testSerialize(AbstractDto $dtoTransfer, string $exceptedJson): void
+    private function serializeTest(AbstractDto $dtoTransfer, string $exceptedJson): void
     {
         $serializer = new SerializerFacadeDefault();
 
