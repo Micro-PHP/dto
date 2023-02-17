@@ -50,10 +50,10 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: "Composer install"
-        uses: "ramsey/composer-install@v2"
-        with:
-          dependency-versions: "${{ matrix.dependency-versions }}"
-          composer-options: "--prefer-dist --no-cache --no-progress"
+      uses: "ramsey/composer-install@v2"
+      with:
+        dependency-versions: "${{ matrix.dependency-versions }}"
+        composer-options: "--prefer-dist --no-cache --no-progress"
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
