@@ -28,7 +28,13 @@ class ExpressionStrategy extends AbstractConstraintStrategy
         return $parent;
     }
 
-    protected function provideValues(array &$args, array &$config): void
+    /**
+     * @param array<string, mixed> $args
+     * @param array<string, mixed> $config
+     *
+     * @return void
+     */
+    protected function provideValues(array &$args, array $config): void
     {
         if (empty($config['variable'])) {
             return;

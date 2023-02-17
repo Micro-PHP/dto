@@ -16,7 +16,7 @@ namespace Micro\Library\DTO\Merger;
 class Merger implements MergerInterface
 {
     /**
-     * @param array<int, mixed> $classCollection
+     * @param array<mixed, mixed> $classCollection
      */
     public function __construct(private array $classCollection)
     {
@@ -73,7 +73,7 @@ class Merger implements MergerInterface
     }
 
     /**
-     * @param iterable<int, mixed> $classCollection
+     * @param iterable<mixed, mixed> $classCollection
      *
      * @return array<string, mixed>
      */

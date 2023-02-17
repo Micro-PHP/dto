@@ -26,7 +26,6 @@
         "ext-libxml": "*",
         "nette/php-generator": "^4",
         "psr/log": "^1 || ^2 || ^3",
-        "symfony/intl": "^5.4 || ^6",
         "symfony/property-access": "^5.4 || ^6",
         "symfony/validator": "^5.4.15 || ^6"
     },
@@ -36,8 +35,15 @@
         "phpstan/phpstan": "^1.9",
         "phpunit/php-code-coverage": "^9.2",
         "phpunit/phpunit": "^9.5",
+        "symfony/expression-language": "^5.4 || ^6",
+        "symfony/intl": "^5.4 || ^6",
         "symfony/var-dumper": "^5.4 || ^6",
         "vimeo/psalm": "^5.2"
+    },
+    "suggest": {
+        "ext-intl": "You need this PHP extension if you will be using `time_zone` alidator with option `intl_compatible`",
+        "symfony/expression-language": "You need this package if you will be using `Expression` alidator",
+        "symfony/intl": "You need this package if you will be using `time_zone` alidator with option `intl_compatible`"
     },
     "autoload": {
         "psr-4": {

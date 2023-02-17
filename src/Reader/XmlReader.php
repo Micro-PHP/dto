@@ -16,7 +16,6 @@ namespace Micro\Library\DTO\Reader;
 use Micro\Library\DTO\Merger\MergerFactoryInterface;
 
 /**
- * @TODO: Temporary solution. MVP
  * @TODO: Get XSD api version
  */
 class XmlReader implements ReaderInterface
@@ -66,7 +65,8 @@ class XmlReader implements ReaderInterface
 
     /**
      * @param \DOMNode $node
-     * @return array
+     *
+     * @return array<mixed, mixed>
      */
     protected function parse(\DOMNode $node): array
     {
@@ -75,6 +75,10 @@ class XmlReader implements ReaderInterface
         if ($node->hasAttributes()) {
             /**
              * @var \DOMAttr $tmpAttribute
+             *
+             * Ignored psalm because hasAttribute() checks `attributes` on NULL
+             *
+             * @psalm-suppress PossiblyNullIterator
              */
             foreach ($node->attributes as $tmpAttribute) {
                 $attributes[$tmpAttribute->nodeName] = $tmpAttribute->nodeValue;
@@ -87,6 +91,10 @@ class XmlReader implements ReaderInterface
                 $childName = $child->nodeName;
                 if ('#text' === $childName) {
                     continue;
+                }
+
+                if (!isset($attributes[$childName]) || !\is_array($attributes[$childName])) {
+                    $attributes[$childName] = [];
                 }
 
                 $attributes[$childName][] = $this->parse($child);

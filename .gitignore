@@ -8,3 +8,4 @@ phpunit.xml
 coverage/
 .php-cs-fixer.php
 phpstan.neon
+tests/Unit/Out/

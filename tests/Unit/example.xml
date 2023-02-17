@@ -149,6 +149,13 @@
                 <choice choices="1, example, 1.001" multiple="true" min="2" groups="multiple-min-2"/>
             </validation>
         </property>
+        <property name="expression" type="int|string">
+            <validation>
+                <expression expression="this.getChoice() === excepted">
+                    <variable name="excepted" value="example" />
+                </expression>
+            </validation>
+        </property>
     </class>
 
     <class name="User" description="Example class description" deprecated="Please, use gSON">
