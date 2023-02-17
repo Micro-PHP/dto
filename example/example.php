@@ -54,7 +54,7 @@ $user
 ;
 
 foreach ($user as $key => $value) {
-    print_r("\r\nPROPERTY: " . $key . " ==== " . (is_scalar($value) ? $value : serialize($value)));
+    print_r("\r\nPROPERTY: " . $key . " ==== " . (is_scalar($value) ? $value : (is_null($value) ? 'NULL' : serialize($value))));
 }
 
 
@@ -112,6 +112,7 @@ $simpleUser
     ->setIsbn('978-0-545-01022-1')
     ->setIssn('0378-5955')
     ->setIsin('US0378331005')
+    ->setChoice('example')
 ;
 
 $validator = new ValidatorFacadeDefault();
