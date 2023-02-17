@@ -13,7 +13,25 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    strategy:
+      fail-fast: false
+      matrix:
+        # normal, highest, non-dev installs
+        php-version: [ '8.2', '8.1', '8.0' ]
+        dependency-versions: [ 'highest' ]
+        include:
+          - php-version: '8.2'
+            dependency-versions: 'lowest'
+          - php-version: '8.1'
+            dependency-versions: 'lowest'
+          - php-version: '8.0'
+            dependency-versions: 'lowest'
+          - php-version: '8.2'
+            dependency-versions: 'highest'
+          - php-version: '8.1'
+            dependency-versions: 'c'
+          - php-version: '8.0'
+            dependency-versions: 'highest'
     steps:
     - uses: actions/checkout@v3
 
