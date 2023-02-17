@@ -36,10 +36,10 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: "Install PHP"
-        uses: shivammathur/setup-php@v2
-        with:
-          coverage: "xdebug"
-          php-version: "${{ matrix.php-version }}" 
+      uses: shivammathur/setup-php@v2
+      with:
+        coverage: "xdebug"
+        php-version: "${{ matrix.php-version }}" 
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v3
