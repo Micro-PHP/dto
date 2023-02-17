@@ -55,7 +55,8 @@ class Merger implements MergerInterface
 
             foreach ($declaration['property'] as $propertyDef) {
                 $propName = $propertyDef['name'];
-                if (!\array_key_exists($propName, $propertiesExisted)) {
+                if (!\in_array($propName, $propertiesExisted)) {
+                    $propertiesExisted[] = $propName;
                     $properties[] = $propertyDef;
 
                     continue;

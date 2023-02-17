@@ -37,7 +37,7 @@ class XmlReader implements ReaderInterface
             $xml = $this->createDom($filePath);
 
             foreach ($xml->getElementsByTagName(self::TAG_CLASS_DEFINITION) as $classDef) {
-                $classCollection[] = $this->parseClass($classDef);
+                $classCollection[] = $this->parse($classDef);
             }
         }
 
@@ -65,108 +65,11 @@ class XmlReader implements ReaderInterface
     }
 
     /**
-     * @return array<string, mixed>
+     * @param \DOMNode $node
+     * @return array
      */
-    protected function parseClass(\DOMNode $classDef): array
+    protected function parse(\DOMNode $node): array
     {
-        return $this->parseBody($classDef);
-        // dump($this->parseBody($classDef)); exit;
-
-        $class = [];
-        $props = [];
-        if (null === $classDef->attributes) {
-            return $class;
-        }
-
-        /** @var \DOMNode $attribute */
-        foreach ($classDef->attributes as $attribute) {
-            $class[$attribute->nodeName] = $attribute->nodeValue;
-        }
-
-        /** @var \DOMNode $node */
-        foreach ($classDef->childNodes as $node) {
-            if (str_starts_with($node->nodeName, '#')) {
-                continue;
-            }
-
-            $propCfg = [];
-            $validation = $this->parseValidation($node);
-            if ($validation) {
-                $propCfg['validation'] = $validation;
-            }
-
-            if (null === $node->attributes) {
-                continue;
-            }
-
-            foreach ($node->attributes as $attribute) {
-                $propCfg[$attribute->nodeName] = $attribute->nodeValue;
-            }
-            /**
-             * @psalm-suppress PossiblyInvalidArgument
-             * @psalm-suppress InvalidArgument
-             */
-            if (\array_key_exists($propCfg[self::PROP_PROP_NAME], $props)) {
-                throw new \RuntimeException(sprintf('Property "%s" already defined. Location: %s" ',  $propCfg[self::PROP_PROP_NAME], $classDef->baseURI));
-            }
-
-            /** @psalm-suppress PossiblyNullArrayOffset  */
-            $props[$propCfg[self::PROP_PROP_NAME]] = $propCfg;
-        }
-
-        $class[self::PATH_PROP] = $props;
-
-        return $class;
-    }
-
-    /**
-     * @param \DOMNode $attribute
-     *
-     * @return mixed[]
-     */
-    protected function parseValidation(\DOMNode $attribute): array|null
-    {
-        if (!$attribute->childNodes->count()) {
-            return null;
-        }
-
-        $constraints = [];
-        /** @var \DOMNode $validationNode */
-        foreach ($attribute->childNodes as $validationNode) {
-            if (!$validationNode->childNodes->count() || 'validation' !== $validationNode->nodeName) {
-                continue;
-            }
-            $groupConstraints = [];
-            /** @var \DOMNode $constraintNode */
-            foreach ($validationNode->childNodes as $constraintNode) {
-                if ('#text' === $constraintNode->nodeName) {
-                    continue;
-                }
-
-                $constraintAttributes = [];
-                /** @var \DOMAttr $constraintItemAttribute */
-                if ($constraintNode->attributes) {
-                    foreach ($constraintNode->attributes as $constraintItemAttribute) {
-                        $constraintAttributes[$constraintItemAttribute->nodeName] = $constraintItemAttribute->nodeValue;
-                    }
-                }
-
-                if (empty($constraintAttributes)) {
-                    $constraintAttributes = [];
-                }
-
-                $groupConstraints[] = [$constraintNode->nodeName, $constraintAttributes];
-            }
-
-            $constraints[] = $groupConstraints;
-        }
-
-        return $constraints;
-    }
-
-    protected function parseBody(\DOMNode $node): array
-    {
-        $childNodes = [];
         $attributes = [];
 
         if ($node->hasAttributes()) {
@@ -186,7 +89,7 @@ class XmlReader implements ReaderInterface
                     continue;
                 }
 
-                $attributes[$childName][] = $this->parseBody($child);
+                $attributes[$childName][] = $this->parse($child);
             }
         }
 
