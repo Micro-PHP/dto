@@ -16,7 +16,7 @@ namespace Micro\Library\DTO\Merger;
 class Merger implements MergerInterface
 {
     /**
-     * @param array<int, mixed> $classCollection
+     * @param array<mixed, mixed> $classCollection
      */
     public function __construct(private array $classCollection)
     {
@@ -46,15 +46,18 @@ class Merger implements MergerInterface
     protected function mergeClass(string $className, array $classData): array
     {
         $properties = [];
+        $propertiesExisted = [];
 
         foreach ($classData as $declaration) {
-            if (!\array_key_exists('properties', $declaration)) {
+            if (!\array_key_exists('property', $declaration)) {
                 continue;
             }
 
-            foreach ($declaration['properties'] as $propName => $propertyDef) {
-                if (!\array_key_exists($propName, $properties)) {
-                    $properties[$propName] = $propertyDef;
+            foreach ($declaration['property'] as $propertyDef) {
+                $propName = $propertyDef['name'];
+                if (!\in_array($propName, $propertiesExisted)) {
+                    $propertiesExisted[] = $propName;
+                    $properties[] = $propertyDef;
 
                     continue;
                 }
@@ -65,12 +68,12 @@ class Merger implements MergerInterface
 
         return [
             'name' => $className,
-            'properties' => $properties,
+            'property' => $properties,
         ];
     }
 
     /**
-     * @param iterable<int, mixed> $classCollection
+     * @param iterable<mixed, mixed> $classCollection
      *
      * @return array<string, mixed>
      */

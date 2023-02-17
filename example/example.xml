@@ -134,6 +134,19 @@
                 <isin />
             </validation>
         </property>
+        <property name="choice" type="string|int|float|array">
+            <validation>
+                <not_blank />
+                <choice choices="1, example, 0.001, true" />
+            </validation>
+        </property>
+        <property name="expression" type="string|int">
+            <validation>
+                <expression expression="this.getChoice() === excepted">
+                    <variable name="excepted" value="example" />
+                </expression>
+            </validation>
+        </property>
     </class>
 
     <class name="User" description="Example class description" deprecated="Please, use gSON">

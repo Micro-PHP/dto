@@ -29,11 +29,13 @@ use Micro\Library\DTO\Preparation\Processor\MethodSetProcessor;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\BicStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\BlankStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\CardSchemeStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\ChoiceStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\CurrencyStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\DateStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\DateTimeStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\EmailStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\EqualToStrategy;
+use Micro\Library\DTO\Preparation\Processor\Property\Assert\ExpressionStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\GreaterThanOrEqualStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\GreaterThanStrategy;
 use Micro\Library\DTO\Preparation\Processor\Property\Assert\HostnameStrategy;
@@ -208,6 +210,8 @@ class DependencyInjection implements DependencyInjectionInterface
             new IsbnStrategy(),
             new IsinStrategy(),
             new IssnStrategy(),
+            new ChoiceStrategy(),
+            new ExpressionStrategy(),
         ];
     }
 }

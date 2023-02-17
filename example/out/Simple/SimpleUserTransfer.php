@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Micro\Library\DTO\Tests\Unit\Out\Simple;
+namespace Transfer\Simple;
 
 use DateTimeInterface;
 
@@ -31,7 +31,6 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
     protected string|null $ip = null;
 
     #[\Symfony\Component\Validator\Constraints\Hostname(groups: ['Default'], requireTld: false)]
-    #[\Symfony\Component\Validator\Constraints\Hostname(groups: ['test'], requireTld: true)]
     protected string|null $hostname = null;
 
     #[\Symfony\Component\Validator\Constraints\Regex(groups: ['Default'], pattern: '/^(.[a-z])+$/', match: true)]
@@ -53,10 +52,6 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
 
     #[\Symfony\Component\Validator\Constraints\Date(groups: ['Default'])]
     protected string|null $updated_at = null;
-
-    #[\Symfony\Component\Validator\Constraints\NotBlank(groups: ['Default'], allowNull: false)]
-    #[\Symfony\Component\Validator\Constraints\Time(groups: ['Default'])]
-    protected string|null $time = null;
 
     #[\Symfony\Component\Validator\Constraints\Timezone(groups: ['Default'], countryCode: 'BY', intlCompatible: true, zone: 4096)]
     protected string|null $timezone = null;
@@ -89,6 +84,13 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
     #[\Symfony\Component\Validator\Constraints\NotBlank(groups: ['Default'], allowNull: false)]
     #[\Symfony\Component\Validator\Constraints\Isin(groups: ['Default'])]
     protected string|null $isin = null;
+
+    #[\Symfony\Component\Validator\Constraints\NotBlank(groups: ['Default'], allowNull: false)]
+    #[\Symfony\Component\Validator\Constraints\Choice(groups: ['Default'], choices: [1, 'example', 0.001, true])]
+    protected string|int|float|array|null $choice = null;
+
+    #[\Symfony\Component\Validator\Constraints\Expression(groups: ['Default'], expression: 'this.getChoice() === excepted', values: ['excepted' => 'example'])]
+    protected string|int|null $expression = null;
 
     public function getParent(): SimpleObjectTransfer|null
     {
@@ -150,11 +152,6 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
         return $this->updated_at;
     }
 
-    public function getTime(): string|null
-    {
-        return $this->time;
-    }
-
     public function getTimezone(): string|null
     {
         return $this->timezone;
@@ -193,6 +190,16 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
     public function getIsin(): string|null
     {
         return $this->isin;
+    }
+
+    public function getChoice(): string|int|float|array|null
+    {
+        return $this->choice;
+    }
+
+    public function getExpression(): string|int|null
+    {
+        return $this->expression;
     }
 
     public function setParent(SimpleObjectTransfer|null $parent): self
@@ -279,13 +286,6 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
         return $this;
     }
 
-    public function setTime(string|null $time): self
-    {
-        $this->time = $time;
-
-        return $this;
-    }
-
     public function setTimezone(string|null $timezone): self
     {
         $this->timezone = $timezone;
@@ -342,6 +342,20 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
         return $this;
     }
 
+    public function setChoice(string|int|float|array|null $choice): self
+    {
+        $this->choice = $choice;
+
+        return $this;
+    }
+
+    public function setExpression(string|int|null $expression): self
+    {
+        $this->expression = $expression;
+
+        return $this;
+    }
+
     protected static function attributesMetadata(): array
     {
         return array (
@@ -349,7 +363,7 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
           array (
             'type' =>
             array (
-              0 => 'Micro\\Library\\DTO\\Tests\\Unit\\Out\\Simple\\SimpleObjectTransfer',
+              0 => 'Transfer\\Simple\\SimpleObjectTransfer',
               1 => 'null',
             ),
             'required' => false,
@@ -465,16 +479,6 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
             'required' => false,
             'actionName' => 'updatedAt',
           ),
-          'time' =>
-          array (
-            'type' =>
-            array (
-              0 => 'string',
-              1 => 'null',
-            ),
-            'required' => false,
-            'actionName' => 'time',
-          ),
           'timezone' =>
           array (
             'type' =>
@@ -554,6 +558,30 @@ final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
             ),
             'required' => false,
             'actionName' => 'isin',
+          ),
+          'choice' =>
+          array (
+            'type' =>
+            array (
+              0 => 'string',
+              1 => 'int',
+              2 => 'float',
+              3 => 'array',
+              4 => 'null',
+            ),
+            'required' => false,
+            'actionName' => 'choice',
+          ),
+          'expression' =>
+          array (
+            'type' =>
+            array (
+              0 => 'string',
+              1 => 'int',
+              2 => 'null',
+            ),
+            'required' => false,
+            'actionName' => 'expression',
           ),
         );
     }

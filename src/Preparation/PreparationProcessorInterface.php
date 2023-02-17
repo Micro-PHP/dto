@@ -17,7 +17,7 @@ use Micro\Library\DTO\ClassDef\ClassDefinition;
 
 interface PreparationProcessorInterface
 {
-    public const SECTION_PROPERTIES = 'properties';
+    public const SECTION_PROPERTIES = 'property';
 
     public const PROP_ACTION_NAME = 'actionName';
     public const PROP_NAME = 'name';

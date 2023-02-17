@@ -16,7 +16,6 @@ namespace Micro\Library\DTO\Reader;
 use Micro\Library\DTO\Merger\MergerFactoryInterface;
 
 /**
- * @TODO: Temporary solution. MVP
  * @TODO: Get XSD api version
  */
 class XmlReader implements ReaderInterface
@@ -37,7 +36,7 @@ class XmlReader implements ReaderInterface
             $xml = $this->createDom($filePath);
 
             foreach ($xml->getElementsByTagName(self::TAG_CLASS_DEFINITION) as $classDef) {
-                $classCollection[] = $this->parseClass($classDef);
+                $classCollection[] = $this->parse($classDef);
             }
         }
 
@@ -65,100 +64,44 @@ class XmlReader implements ReaderInterface
     }
 
     /**
-     * @return array<string, mixed>
-     */
-    protected function parseClass(\DOMNode $classDef): array
-    {
-        $class = [];
-        $props = [];
-        if (null === $classDef->attributes) {
-            return $class;
-        }
-
-        /** @var \DOMNode $attribute */
-        foreach ($classDef->attributes as $attribute) {
-            $class[$attribute->nodeName] = $attribute->nodeValue;
-        }
-
-        /** @var \DOMNode $node */
-        foreach ($classDef->childNodes as $node) {
-            if (str_starts_with($node->nodeName, '#')) {
-                continue;
-            }
-
-            $propCfg = [];
-            $validation = $this->parseValidation($node);
-            if ($validation) {
-                $propCfg['validation'] = $validation;
-            }
-
-            if (null === $node->attributes) {
-                continue;
-            }
-
-            foreach ($node->attributes as $attribute) {
-                $propCfg[$attribute->nodeName] = $attribute->nodeValue;
-            }
-            /**
-             * @psalm-suppress PossiblyInvalidArgument
-             * @psalm-suppress InvalidArgument
-             */
-            if (\array_key_exists($propCfg[self::PROP_PROP_NAME], $props)) {
-                throw new \RuntimeException(sprintf('Property "%s" already defined. Location: %s" ',  $propCfg[self::PROP_PROP_NAME], $classDef->baseURI));
-            }
-
-            /** @psalm-suppress PossiblyNullArrayOffset  */
-            $props[$propCfg[self::PROP_PROP_NAME]] = $propCfg;
-        }
-
-        $class[self::PATH_PROP] = $props;
-
-        return $class;
-    }
-
-    /**
-     * @param \DOMNode $attribute
+     * @param \DOMNode $node
      *
-     * @return mixed[]
+     * @return array<mixed, mixed>
      */
-    protected function parseValidation(\DOMNode $attribute): array|null
+    protected function parse(\DOMNode $node): array
     {
-        if (!$attribute->childNodes->count()) {
-            return null;
+        $attributes = [];
+
+        if ($node->hasAttributes()) {
+            /**
+             * @var \DOMAttr $tmpAttribute
+             *
+             * Ignored psalm because hasAttribute() checks `attributes` on NULL
+             *
+             * @psalm-suppress PossiblyNullIterator
+             */
+            foreach ($node->attributes as $tmpAttribute) {
+                $attributes[$tmpAttribute->nodeName] = $tmpAttribute->nodeValue;
+            }
         }
 
-        $constraints = [];
-        /** @var \DOMNode $validationNode */
-        foreach ($attribute->childNodes as $validationNode) {
-            if (!$validationNode->childNodes->count() || 'validation' !== $validationNode->nodeName) {
-                continue;
-            }
-            $groupConstraints = [];
-            /** @var \DOMNode $constraintNode */
-            foreach ($validationNode->childNodes as $constraintNode) {
-                if ('#text' === $constraintNode->nodeName) {
+        if ($node->hasChildNodes()) {
+            /** @var \DOMNode $child */
+            foreach ($node->childNodes as $child) {
+                $childName = $child->nodeName;
+                if ('#text' === $childName) {
                     continue;
                 }
 
-                $constraintAttributes = [];
-                /** @var \DOMAttr $constraintItemAttribute */
-                if ($constraintNode->attributes) {
-                    foreach ($constraintNode->attributes as $constraintItemAttribute) {
-                        $constraintAttributes[$constraintItemAttribute->nodeName] = $constraintItemAttribute->nodeValue;
-                    }
+                if (!isset($attributes[$childName]) || !\is_array($attributes[$childName])) {
+                    $attributes[$childName] = [];
                 }
 
-                if (empty($constraintAttributes)) {
-                    $constraintAttributes = [];
-                }
-
-                $groupConstraints[] = [$constraintNode->nodeName, $constraintAttributes];
+                $attributes[$childName][] = $this->parse($child);
             }
-
-            $constraints[] = $groupConstraints;
         }
 
-        return $constraints;
+        return $attributes;
     }
 
     protected function createDom(string $filePath): \DOMDocument

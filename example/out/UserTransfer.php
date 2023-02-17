@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Micro\Library\DTO\Tests\Unit\Out;
+namespace Transfer;
 
 use DateTimeInterface;
 use Micro\Library\DTO\Object\AbstractDto;
