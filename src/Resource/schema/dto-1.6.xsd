@@ -135,31 +135,10 @@
     </xs:complexType>
     <xs:complexType name="constraint_time_zone">
         <xs:complexContent>
-            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
-                <xs:attribute name="intl_compatible" type="xs:boolean" default="false" />
-                <!-- The value of this option must be a valid ISO 3166-1 alpha-2 country code (e.g. CN for China) -->
-                <xs:attribute name="country_code" type="xs:string" default="" />
-                <xs:attribute name="zone" default="2047">
-                    <xs:simpleType>
-                        <xs:restriction base="xs:integer">
-                            <!-- \DateTimeZone::{ name } -->
-                            <xs:enumeration value="1" /> <!-- AFRICA -->
-                            <xs:enumeration value="2" /> <!-- AMERICA -->
-                            <xs:enumeration value="4" /> <!-- ANTARCTICA -->
-                            <xs:enumeration value="8" /> <!-- ARCTIC -->
-                            <xs:enumeration value="16" /> <!-- ASIA -->
-                            <xs:enumeration value="32" /> <!-- ATLANTIC -->
-                            <xs:enumeration value="64" /> <!-- AUSTRALIA -->
-                            <xs:enumeration value="128" /> <!-- EUROPE -->
-                            <xs:enumeration value="256" /> <!-- INDIAN -->
-                            <xs:enumeration value="512" /> <!-- PACIFIC -->
-                            <xs:enumeration value="1024" /> <!-- UTC -->
-                            <xs:enumeration value="2047" /> <!-- ALL -->
-                            <xs:enumeration value="4095" /> <!-- ALL_WITH_BC -->
-                            <xs:enumeration value="4096" /> <!-- PER_COUNTRY -->
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:attribute>
+            <xs:extension base="mic:constraint_abstract_timezone" xmlns:mic="micro:dto-1.6">
+                <xs:choice>
+                    <xs:element name="zone" type="mic:time_zone" maxOccurs="unbounded" minOccurs="0" />
+                </xs:choice>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -362,5 +341,37 @@
     <xs:complexType name="variable_type">
         <xs:attribute name="name" use="required"/>
         <xs:attribute name="value" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="constraint_abstract_timezone">
+        <xs:complexContent>
+            <xs:extension base="mic:constraint_abstract" xmlns:mic="micro:dto-1.6">
+                <xs:attribute name="intl_compatible" type="xs:boolean" default="false" />
+                <!-- The value of this option must be a valid ISO 3166-1 alpha-2 country code (e.g. CN for China) -->
+                <xs:attribute name="country_code" type="xs:string" default="" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="time_zone">
+        <xs:attribute name="value" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <!-- \DateTimeZone::{ name } -->
+                    <xs:enumeration value="AFRICA" />
+                    <xs:enumeration value="AMERICA" />
+                    <xs:enumeration value="ANTARCTICA" />
+                    <xs:enumeration value="ARCTIC" />
+                    <xs:enumeration value="ASIA" />
+                    <xs:enumeration value="ATLANTIC" />
+                    <xs:enumeration value="AUSTRALIA" />
+                    <xs:enumeration value="EUROPE" />
+                    <xs:enumeration value="INDIAN" />
+                    <xs:enumeration value="PACIFIC" />
+                    <xs:enumeration value="UTC" />
+                    <xs:enumeration value="ALL" />
+                    <xs:enumeration value="ALL_WITH_BC" />
+                    <xs:enumeration value="PER_COUNTRY" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
     </xs:complexType>
 </xs:schema>

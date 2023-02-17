@@ -89,7 +89,9 @@
         </property>
         <property name="timezone" type="string">
             <validation>
-                <time_zone intl_compatible="true" country_code="BY" zone="4096"/>
+                <time_zone intl_compatible="true" country_code="BY" >
+                    <zone value="PER_COUNTRY"/>
+                </time_zone>
             </validation>
         </property>
         <property name="card_scheme" type="string">
