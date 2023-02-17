@@ -22,7 +22,6 @@
     "require": {
         "php": ">= 8.0",
         "ext-dom": "*",
-        "ext-intl": "*",
         "ext-libxml": "*",
         "nette/php-generator": "^4",
         "psr/log": "^1 || ^2 || ^3",
