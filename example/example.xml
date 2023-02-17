@@ -35,6 +35,7 @@
                 <not_blank />
                 <greater_than value="18" />
                 <less_than value="100" />
+                <less_than value="200" groups="extended"/>
             </validation>
         </property>
         <property name="email" type="string">
