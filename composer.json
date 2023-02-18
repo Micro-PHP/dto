@@ -33,11 +33,11 @@
         "friendsofphp/php-cs-fixer": "^3.13",
         "phpstan/phpstan": "^1.9",
         "phpunit/php-code-coverage": "^9.2",
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "^9",
         "symfony/expression-language": "^5.4 || ^6",
         "symfony/intl": "^5.4 || ^6",
         "symfony/var-dumper": "^5.4 || ^6",
-        "vimeo/psalm": "^5.2"
+        "vimeo/psalm": "^5"
     },
     "suggest": {
         "ext-intl": "You need this PHP extension if you will be using `time_zone` alidator with option `intl_compatible`",
