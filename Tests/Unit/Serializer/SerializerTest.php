@@ -19,7 +19,7 @@ use Micro\Library\DTO\Serializer\Serializer;
 use Micro\Library\DTO\Serializer\SerializerInterface;
 use PHPUnit\Framework\TestCase;
 use TransferTest\Simple\SimpleObjectTransfer;
-use TransferTest\UserTransfer;
+use Micro\Library\DTO\Tests\Simple\UserTransfer;
 
 class SerializerTest extends TestCase
 {
