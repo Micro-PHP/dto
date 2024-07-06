@@ -17,10 +17,11 @@ use Micro\Library\DTO\ClassDef\ClassDefinition;
 use Micro\Library\DTO\ClassDef\PropertyDefinition;
 use Micro\Library\DTO\Helper\ClassMetadataHelperInterface;
 
-class DtoPropertyProcessor implements PropertyProcessorInterface
+readonly class DtoPropertyProcessor implements PropertyProcessorInterface
 {
-    public function __construct(private ClassMetadataHelperInterface $classMetadataHelper)
-    {
+    public function __construct(
+        private ClassMetadataHelperInterface $classMetadataHelper
+    ) {
     }
 
     public function process(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $propertyData, array $classList): void

@@ -18,13 +18,10 @@ use Micro\Library\DTO\Generator\Generator;
 class GeneratorFacade implements GeneratorFacadeInterface
 {
     public function __construct(
-        private DependencyInjectionInterface $dependencyInjection
+        private readonly DependencyInjectionInterface $dependencyInjection
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function generate(): void
     {
         $generator = new Generator(

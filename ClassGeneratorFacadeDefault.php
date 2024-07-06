@@ -18,25 +18,18 @@ use Psr\Log\LoggerInterface;
 class ClassGeneratorFacadeDefault extends GeneratorFacade
 {
     /**
-     * @param array<string>        $filesSchemeCollection
-     * @param string               $outputPath
-     * @param string               $namespaceGeneral
-     * @param string               $classSuffix
-     * @param LoggerInterface|null $logger
+     * @param array<string>    $filesSchemeCollection
      */
     public function __construct(
-        private array $filesSchemeCollection,
-        private string $outputPath,
-        private string $namespaceGeneral = '',
-        private string $classSuffix = 'Transfer',
-        private null|LoggerInterface $logger = null
+        private readonly array $filesSchemeCollection,
+        private readonly string $outputPath,
+        private readonly string $namespaceGeneral = '',
+        private readonly string $classSuffix = 'Transfer',
+        private readonly ?LoggerInterface $logger = null
     ) {
         parent::__construct($this->createDefaultDependencyInjectionObject());
     }
 
-    /**
-     * @return DependencyInjectionInterface
-     */
     protected function createDefaultDependencyInjectionObject(): DependencyInjectionInterface
     {
         return new DependencyInjection(

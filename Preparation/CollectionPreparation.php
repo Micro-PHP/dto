@@ -16,13 +16,14 @@ namespace Micro\Library\DTO\Preparation;
 use Micro\Library\DTO\ClassDef\ClassDefinition;
 use Micro\Library\DTO\Reader\ReaderInterface;
 
-class CollectionPreparation implements CollectionPreparationInterface
+readonly class CollectionPreparation implements CollectionPreparationInterface
 {
     /**
      * @param iterable<PreparationProcessorInterface> $preparationProcessor
      */
-    public function __construct(private iterable $preparationProcessor)
-    {
+    public function __construct(
+        private iterable $preparationProcessor
+    ) {
     }
 
     /**

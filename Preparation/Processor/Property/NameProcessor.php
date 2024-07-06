@@ -19,8 +19,12 @@ use Micro\Library\DTO\Preparation\PreparationProcessorInterface;
 
 class NameProcessor implements PropertyProcessorInterface
 {
-    public function process(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $propertyData, array $classList): void
-    {
+    public function process(
+        PropertyDefinition $propertyDefinition,
+        ClassDefinition $classDefinition,
+        array $propertyData,
+        array $classList
+    ): void {
         $propertyName = $propertyData[PreparationProcessorInterface::PROP_NAME];
 
         if (!preg_match('/^\w+$/i', $propertyName)) {

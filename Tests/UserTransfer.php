@@ -15,7 +15,7 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Library\DTO\Tests\Simple;
+namespace Micro\Library\DTO\Tests;
 
 use Micro\Library\DTO\Object\AbstractDto;
 use Micro\Library\DTO\Object\Collection;

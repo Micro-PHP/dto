@@ -13,12 +13,8 @@ declare(strict_types=1);
 
 namespace Micro\Library\DTO\Writer;
 
-class WriterFilesystem implements WriterInterface
+readonly class WriterFilesystem implements WriterInterface
 {
-    /**
-     * @param string $classFilePath
-     * @param string $namespaceGeneral
-     */
     public function __construct(
         private string $classFilePath,
         private string $namespaceGeneral,
@@ -26,12 +22,7 @@ class WriterFilesystem implements WriterInterface
     }
 
     /**
-     * @param string $classnameFull
-     * @param string $renderedClassData
-     *
      * @throws \Exception
-     *
-     * @return void
      */
     public function write(string $classnameFull, string $renderedClassData): void
     {
@@ -45,8 +36,6 @@ class WriterFilesystem implements WriterInterface
     }
 
     /**
-     * @param string $classnameFull
-     *
      * @return array<string, string>
      */
     protected function getClassFileMeta(string $classnameFull): array
@@ -69,11 +58,7 @@ class WriterFilesystem implements WriterInterface
     }
 
     /**
-     * @param string $path
-     *
      * @throws \Exception
-     *
-     * @return void
      */
     protected function createPath(string $path): void
     {

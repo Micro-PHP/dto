@@ -16,12 +16,12 @@ namespace Micro\Library\DTO\Tests\Unit;
 use Micro\Library\DTO\ClassGeneratorFacadeDefault;
 use Micro\Library\DTO\Object\AbstractDto;
 use Micro\Library\DTO\SerializerFacadeDefault;
-use Micro\Library\DTO\Tests\Unit\Out\Simple\SimpleObjectTransfer;
-use Micro\Library\DTO\Tests\Unit\Out\Simple\SimpleUserTransfer;
+use Micro\Library\DTO\Tests\Simple\SimpleObjectTransfer;
+use Micro\Library\DTO\Tests\Simple\SimpleUserTransfer;
 use Micro\Library\DTO\ValidatorFacadeDefault;
 use PHPUnit\Framework\TestCase;
 
-class libraryTest extends TestCase
+class LibraryTest extends TestCase
 {
     public function testLibrary(): void
     {

@@ -24,8 +24,12 @@ class TypeProcessor implements PropertyProcessorInterface
         'array', 'null',
     ];
 
-    public function process(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $propertyData, array $classList): void
-    {
+    public function process(
+        PropertyDefinition $propertyDefinition,
+        ClassDefinition $classDefinition,
+        array $propertyData,
+        array $classList
+    ): void {
         $propTypeSource = $propertyData[PreparationProcessorInterface::PROP_TYPE] ?? 'mixed';
         $exploded = explode('|', $propTypeSource);
         $isRequired = $propertyData[PreparationProcessorInterface::PROP_REQUIRED] ?? false;

@@ -13,16 +13,15 @@ declare(strict_types=1);
 
 namespace Micro\Library\DTO;
 
+use Micro\Library\DTO\Exception\UnserializeException;
 use Micro\Library\DTO\Object\AbstractDto;
 use Micro\Library\DTO\Serializer\SerializerFactoryInterface;
 
 class SerializerFacade implements SerializerFacadeInterface
 {
-    /**
-     * @param SerializerFactoryInterface $serializerFactory
-     */
-    public function __construct(private SerializerFactoryInterface $serializerFactory)
-    {
+    public function __construct(
+        private readonly SerializerFactoryInterface $serializerFactory
+    ) {
     }
 
     /**
@@ -54,9 +53,7 @@ class SerializerFacade implements SerializerFacadeInterface
     /**
      * @param array<string, mixed> $itemData
      *
-     * @throws Exception\UnserializeException
-     *
-     * @return AbstractDto
+     * @throws UnserializeException
      */
     public function fromArrayTransfer(array $itemData): AbstractDto
     {

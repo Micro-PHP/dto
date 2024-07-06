@@ -19,8 +19,12 @@ use Micro\Library\DTO\Helper\ClassMetadataHelperInterface;
 
 class PropertyAbstractProcessor implements PropertyProcessorInterface
 {
-    public function process(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $propertyData, array $classList): void
-    {
+    public function process(
+        PropertyDefinition $propertyDefinition,
+        ClassDefinition $classDefinition,
+        array $propertyData,
+        array $classList
+    ): void {
         $types = $propertyDefinition->getTypes();
 
         foreach ($types as $pos => $type) {

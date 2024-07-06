@@ -18,7 +18,7 @@ use Micro\Library\DTO\Merger\MergerFactoryInterface;
 /**
  * @TODO: Get XSD api version
  */
-class XmlReader implements ReaderInterface
+readonly class XmlReader implements ReaderInterface
 {
     /**
      * @param iterable<string> $classDefinitionFilesCollection
@@ -66,7 +66,7 @@ class XmlReader implements ReaderInterface
     /**
      * @param \DOMNode $node
      *
-     * @return array<mixed, mixed>
+     * @return array
      */
     protected function parse(\DOMNode $node): array
     {

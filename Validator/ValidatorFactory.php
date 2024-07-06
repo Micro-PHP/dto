@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory;
 use Symfony\Component\Validator\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Validator\Validation;
 
-class ValidatorFactory implements ValidatorFactoryInterface
+readonly class ValidatorFactory implements ValidatorFactoryInterface
 {
     public function __construct(
         private CacheItemPoolInterface|null $cacheItemPool = null,

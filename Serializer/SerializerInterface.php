@@ -23,9 +23,6 @@ interface SerializerInterface
     public const SECTION_D = 'd';
 
     /**
-     * @param AbstractDto $abstractDto
-     * @param bool        $serializeEmptyValues
-     *
      * @throws SerializeException
      *
      * @return array<string|int, mixed>
@@ -36,23 +33,15 @@ interface SerializerInterface
      * @param array<string, mixed> $itemData
      *
      * @throws UnserializeException
-     *
-     * @return AbstractDto
      */
     public function fromArrayTransfer(array $itemData): AbstractDto;
 
     /**
-     * @param string $jsonDto
-     *
      * @throws UnserializeException
-     *
-     * @return AbstractDto
      */
     public function fromJsonTransfer(string $jsonDto): AbstractDto;
 
     /**
-     * @param AbstractDto $abstractDto
-     *
      * @throws SerializeException
      *
      * @return array<string, mixed>
@@ -60,23 +49,14 @@ interface SerializerInterface
     public function toArrayTransfer(AbstractDto $abstractDto): array;
 
     /**
-     * @param AbstractDto $abstractDto
-     * @param int         $flags       JSON_* serialization parameters.
+     * @param int $flags JSON_* serialization parameters.
      *
      * @throws SerializeException
-     *
-     * @return string
      */
     public function toJsonTransfer(AbstractDto $abstractDto, int $flags = 0): string;
 
     /**
-     * @param AbstractDto $abstractDto
-     * @param bool        $serializeEmptyValues
-     * @param int         $flags
-     *
      * @throws SerializeException
-     *
-     * @return string
      */
     public function toJson(AbstractDto $abstractDto, bool $serializeEmptyValues = true, int $flags = 0): string;
 }

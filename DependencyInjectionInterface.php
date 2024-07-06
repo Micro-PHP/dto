@@ -22,33 +22,15 @@ use Psr\Log\LoggerInterface;
 
 interface DependencyInjectionInterface
 {
-    /**
-     * @return LoggerInterface
-     */
     public function getLogger(): LoggerInterface;
 
-    /**
-     * @return CollectionPreparationInterface
-     */
     public function createClassPreparationProcessor(): CollectionPreparationInterface;
 
-    /**
-     * @return ClassMetadataHelper
-     */
     public function createClassMetadataHelper(): ClassMetadataHelper;
 
-    /**
-     * @return WriterInterface
-     */
     public function createWriter(): WriterInterface;
 
-    /**
-     * @return ReaderInterface
-     */
     public function createReader(): ReaderInterface;
 
-    /**
-     * @return RendererInterface
-     */
     public function createRenderer(): RendererInterface;
 }

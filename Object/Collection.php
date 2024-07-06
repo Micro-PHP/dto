@@ -19,9 +19,6 @@ namespace Micro\Library\DTO\Object;
  */
 class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
 {
-    /**
-     * @var mixed[]
-     */
     private array $items;
 
     public function __construct()
@@ -29,11 +26,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
         $this->items = [];
     }
 
-    /**
-     * @param mixed $item
-     *
-     * @return $this
-     */
     public function add(mixed $item): self
     {
         $this->validateItem($item);
@@ -43,11 +35,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate, \Countable
         return $this;
     }
 
-    /**
-     * @param mixed $item
-     *
-     * @return self
-     */
     public function remove(mixed $item): self
     {
         foreach ($this as $pos => $currItem) {

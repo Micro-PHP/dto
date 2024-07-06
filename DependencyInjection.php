@@ -83,7 +83,7 @@ use Micro\Library\DTO\Writer\WriterInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class DependencyInjection implements DependencyInjectionInterface
+readonly class DependencyInjection implements DependencyInjectionInterface
 {
     /**
      * @param string[] $filesSchemeCollection

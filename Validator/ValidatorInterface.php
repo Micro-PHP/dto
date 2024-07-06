@@ -19,7 +19,6 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 interface ValidatorInterface
 {
     /**
-     * @param AbstractDto     $dto
      * @param string[]|string $groups
      */
     public function validate(AbstractDto $dto, array|string $groups = 'Default'): ConstraintViolationListInterface;
