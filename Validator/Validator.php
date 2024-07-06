@@ -17,10 +17,11 @@ use Micro\Library\DTO\Object\AbstractDto;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface as SymfonyValidator;
 
-class Validator implements ValidatorInterface
+readonly class Validator implements ValidatorInterface
 {
-    public function __construct(private SymfonyValidator $validator)
-    {
+    public function __construct(
+        private SymfonyValidator $validator
+    ) {
     }
 
     public function validate(AbstractDto $dto, array|string $groups = 'Default'): ConstraintViolationListInterface

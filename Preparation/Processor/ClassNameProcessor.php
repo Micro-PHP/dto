@@ -17,10 +17,11 @@ use Micro\Library\DTO\ClassDef\ClassDefinition;
 use Micro\Library\DTO\Helper\ClassMetadataHelperInterface;
 use Micro\Library\DTO\Preparation\PreparationProcessorInterface;
 
-class ClassNameProcessor implements PreparationProcessorInterface
+readonly class ClassNameProcessor implements PreparationProcessorInterface
 {
-    public function __construct(private ClassMetadataHelperInterface $classMetadataHelper)
-    {
+    public function __construct(
+        private ClassMetadataHelperInterface $classMetadataHelper
+    ) {
     }
 
     public function process(array $classDef, ClassDefinition $classDefinition, array $classList): void

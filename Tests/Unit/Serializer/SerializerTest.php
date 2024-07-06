@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace Micro\Library\DTO\Tests\Unit\Serializer;
 
+use Micro\Library\DTO\Exception\SerializeException;
 use Micro\Library\DTO\Object\AbstractDto;
 use Micro\Library\DTO\Object\Collection;
 use Micro\Library\DTO\Serializer\Serializer;
 use Micro\Library\DTO\Serializer\SerializerInterface;
+use Micro\Library\DTO\Tests\Simple\SimpleObjectTransfer;
 use PHPUnit\Framework\TestCase;
-use TransferTest\Simple\SimpleObjectTransfer;
 use Micro\Library\DTO\Tests\Simple\UserTransfer;
 
 class SerializerTest extends TestCase
@@ -33,7 +34,7 @@ class SerializerTest extends TestCase
         $this->assertEquals($exceptedArray, $actualArray);
     }
 
-    public function testFromArrayTransfer()
+    public function testFromArrayTransfer(): void
     {
         $dto = $this->createDtoForTest();
         $dtoArray = $this->createSerializer()->toArrayTransfer($dto);
@@ -44,7 +45,7 @@ class SerializerTest extends TestCase
         $this->assertTrue($this->compareDto($dto, $actualDto));
     }
 
-    public function testFromJsonTransfer()
+    public function testFromJsonTransfer(): void
     {
         $dtoActual = $this->createDtoForTest();
         $json = $this->createSerializer()->toJsonTransfer($dtoActual);
@@ -53,14 +54,14 @@ class SerializerTest extends TestCase
         $this->assertInstanceOf(AbstractDto::class, $dtoUnserialized);
     }
 
-    public function testToArrayTransfer()
+    public function testToArrayTransfer(): void
     {
         $actual = $this->createSerializer()->toArray($this->createDtoForTest());
 
         $this->assertIsArray($actual);
     }
 
-    public function testToJsonTransfer()
+    public function testToJsonTransfer(): void
     {
         $actual = $this->createSerializer()->toJsonTransfer($this->createDtoForTest());
 
@@ -70,11 +71,9 @@ class SerializerTest extends TestCase
     }
 
     /**
-     * @throws \Micro\Library\DTO\Exception\SerializeException
-     *
-     * @return void
+     * @throws SerializeException
      */
-    public function testToJson()
+    public function testToJson(): void
     {
         $dto = $this->createDtoForTest();
         $serialized = $this->createSerializer()->toJson($dto);
@@ -83,15 +82,7 @@ class SerializerTest extends TestCase
         $this->assertEquals($exceptedJson, $serialized);
     }
 
-    /**
-     * @dataProvider
-     */
-    public function dataProvider(): bool
-    {
-        return [];
-    }
-
-    protected function compareDto(AbstractDto $excepted, AbstractDto $actual)
+    protected function compareDto(AbstractDto $excepted, AbstractDto $actual): bool
     {
         foreach ($excepted as $keyExcept => $valueExcept) {
             $valueActual = $actual[$keyExcept];
@@ -152,7 +143,7 @@ class SerializerTest extends TestCase
         return '{"username":"Asisyas","books":[{"weight":20,"height":1,"parent":{"weight":2000,"height":100,"parent":null}}],"first_name":"Stas","updatedAt":{"date":"1989-08-11 00:00:00.000000","timezone_type":3,"timezone":"UTC"},"someclass":{"weight":1,"height":2,"parent":null},"testMixed":null}';
     }
 
-    protected function createDtoForTest()
+    protected function createDtoForTest(): UserTransfer
     {
         $user = new UserTransfer();
         $user

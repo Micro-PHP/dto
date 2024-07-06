@@ -19,13 +19,11 @@ use Micro\Library\DTO\ClassDef\PropertyDefinition;
 use Micro\Library\DTO\Helper\NameNormalizerInterface;
 use Micro\Library\DTO\Preparation\PreparationProcessorInterface;
 
-class MethodSetProcessor implements PreparationProcessorInterface
+readonly class MethodSetProcessor implements PreparationProcessorInterface
 {
-    /**
-     * @param NameNormalizerInterface $nameNormalizer
-     */
-    public function __construct(private NameNormalizerInterface $nameNormalizer)
-    {
+    public function __construct(
+        private NameNormalizerInterface $nameNormalizer
+    ) {
     }
 
     public function process(array $classDef, ClassDefinition $classDefinition, array $classList): void

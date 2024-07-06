@@ -17,19 +17,10 @@ use Micro\Library\DTO\Helper\ClassMetadataHelperInterface;
 
 class ClassDefinition
 {
-    /**
-     * @var string
-     */
     private string $extends = ClassMetadataHelperInterface::PROPERTY_TYPE_ABSTRACT_CLASS;
 
-    /**
-     * @var string
-     */
     private string $namespace = '';
 
-    /**
-     * @var string
-     */
     private string $name = '';
 
     /**
@@ -52,49 +43,31 @@ class ClassDefinition
      */
     private array $comments = [];
 
-    /**
-     * @return string
-     */
     public function getExtends(): string
     {
         return $this->extends;
     }
 
-    /**
-     * @param string $extends
-     */
     public function setExtends(string $extends): void
     {
         $this->extends = $extends;
     }
 
-    /**
-     * @return string
-     */
     public function getNamespace(): string
     {
         return $this->namespace;
     }
 
-    /**
-     * @param string $namespace
-     */
     public function setNamespace(string $namespace): void
     {
         $this->namespace = $namespace;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -108,11 +81,6 @@ class ClassDefinition
         return $this->properties;
     }
 
-    /**
-     * @param PropertyDefinition $propertyDefinition
-     *
-     * @return $this
-     */
     public function addProperty(PropertyDefinition $propertyDefinition): self
     {
         $this->properties[] = $propertyDefinition;
@@ -145,11 +113,6 @@ class ClassDefinition
         return $this->comments;
     }
 
-    /**
-     * @param string $comment
-     *
-     * @return $this
-     */
     public function addComment(string $comment): self
     {
         if (!\in_array($comment, $this->comments)) {

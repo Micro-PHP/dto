@@ -18,7 +18,11 @@ use Micro\Library\DTO\ClassDef\PropertyDefinition;
 
 class ValueProcessor implements PropertyProcessorInterface
 {
-    public function process(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $propertyData, array $classList): void
-    {
+    public function process(
+        PropertyDefinition $propertyDefinition,
+        ClassDefinition $classDefinition,
+        array $propertyData,
+        array $classList
+    ): void {
     }
 }

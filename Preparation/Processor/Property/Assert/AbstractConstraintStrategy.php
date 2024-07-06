@@ -37,9 +37,6 @@ abstract class AbstractConstraintStrategy implements PropertyProcessorInterface
     }
 
     /**
-     * @param string $string
-     * @param string $separator
-     *
      * @return array<string>
      */
     protected function explodeString(string $string, string $separator = ','): array

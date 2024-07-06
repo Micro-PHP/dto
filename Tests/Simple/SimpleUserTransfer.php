@@ -17,7 +17,9 @@ declare(strict_types=1);
 
 namespace Micro\Library\DTO\Tests\Simple;
 
-final class SimpleUserTransfer extends \Micro\Library\DTO\Object\AbstractDto
+use Micro\Library\DTO\Object\AbstractDto;
+
+final class SimpleUserTransfer extends AbstractDto
 {
     protected SimpleObjectTransfer|null $parent = null;
 

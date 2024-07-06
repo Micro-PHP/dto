@@ -18,49 +18,41 @@ class MethodDefinition
     private string $visibility = 'public';
 
     private string $name = '';
+
     /**
      * @var string[]
      */
     private array $typesReturn = [];
+
     /**
      * @var PropertyDefinition[]
      */
     private array $args = [];
 
     private string $body = '';
+
     /**
      * @var string[]
      */
     private array $comments = [];
+
     private bool $isStatic = false;
 
-    /**
-     * @return string
-     */
     public function getVisibility(): string
     {
         return $this->visibility;
     }
 
-    /**
-     * @param string $visibility
-     */
     public function setVisibility(string $visibility): void
     {
         $this->visibility = $visibility;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -98,17 +90,11 @@ class MethodDefinition
         $this->args = $args;
     }
 
-    /**
-     * @return string
-     */
     public function getBody(): string
     {
         return $this->body;
     }
 
-    /**
-     * @param string $body
-     */
     public function setBody(string $body): void
     {
         $this->body = $body;
@@ -122,17 +108,11 @@ class MethodDefinition
         return $this->comments;
     }
 
-    /**
-     * @return bool
-     */
     public function isStatic(): bool
     {
         return $this->isStatic;
     }
 
-    /**
-     * @param bool $isStatic
-     */
     public function setIsStatic(bool $isStatic): void
     {
         $this->isStatic = $isStatic;

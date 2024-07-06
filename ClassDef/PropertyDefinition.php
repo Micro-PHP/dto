@@ -15,12 +15,13 @@ namespace Micro\Library\DTO\ClassDef;
 
 class PropertyDefinition
 {
-    private string $name;
+    private string $name = '';
 
     /**
      * @var string[]
      */
     private array $comments = [];
+
     /**
      * @var string[]
      */
@@ -32,24 +33,14 @@ class PropertyDefinition
     private array $attributes = [];
 
     private bool $isRequired = false;
+
     private bool $isCollection = false;
 
-    public function __construct()
-    {
-        $this->name = '';
-    }
-
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -86,43 +77,28 @@ class PropertyDefinition
         $this->types = $types;
     }
 
-    /**
-     * @return bool
-     */
     public function isRequired(): bool
     {
         return $this->isRequired;
     }
 
-    /**
-     * @param bool $isRequired
-     */
     public function setIsRequired(bool $isRequired): void
     {
         $this->isRequired = $isRequired;
     }
 
-    /**
-     * @return bool
-     */
     public function isCollection(): bool
     {
         return $this->isCollection;
     }
 
-    /**
-     * @param bool $isCollection
-     */
     public function setIsCollection(bool $isCollection): void
     {
         $this->isCollection = $isCollection;
     }
 
     /**
-     * @param string               $attributeName
      * @param array<string, mixed> $arguments
-     *
-     * @return $this
      */
     public function addAttribute(string $attributeName, array $arguments): self
     {

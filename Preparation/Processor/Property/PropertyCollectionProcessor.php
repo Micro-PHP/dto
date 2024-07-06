@@ -21,15 +21,15 @@ use Micro\Library\DTO\Preparation\PreparationProcessorInterface;
 class PropertyCollectionProcessor implements PropertyProcessorInterface
 {
     /**
-     * @param PropertyDefinition   $propertyDefinition
-     * @param ClassDefinition      $classDefinition
      * @param array<string, mixed> $propertyData
      * @param array<string>        $classList
-     *
-     * @return void
      */
-    public function process(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $propertyData, array $classList): void
-    {
+    public function process(
+        PropertyDefinition $propertyDefinition,
+        ClassDefinition $classDefinition,
+        array $propertyData,
+        array $classList
+    ): void {
         $isCollection = $propertyData[PreparationProcessorInterface::PROP_TYPE_IS_COLLECTION] ?? false;
         $isRequired = $propertyDefinition->isRequired();
         if (!$isCollection) {

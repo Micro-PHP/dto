@@ -16,7 +16,7 @@ namespace Micro\Library\DTO\Preparation\Processor\Property;
 use Micro\Library\DTO\ClassDef\ClassDefinition;
 use Micro\Library\DTO\ClassDef\PropertyDefinition;
 
-class AttributeValidationProcessor implements PropertyProcessorInterface
+readonly class AttributeValidationProcessor implements PropertyProcessorInterface
 {
     /**
      * @param iterable<PropertyProcessorInterface> $validatorProcessor
@@ -39,12 +39,8 @@ class AttributeValidationProcessor implements PropertyProcessorInterface
     }
 
     /**
-     * @param PropertyDefinition          $propertyDefinition
-     * @param ClassDefinition             $classDefinition
      * @param array<array<string, mixed>> $constraints
      * @param string[]                    $classList
-     *
-     * @return void
      */
     protected function processAddConstraints(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $constraints, array $classList): void
     {
@@ -54,13 +50,8 @@ class AttributeValidationProcessor implements PropertyProcessorInterface
     }
 
     /**
-     * @param PropertyDefinition          $propertyDefinition
-     * @param ClassDefinition             $classDefinition
-     * @param string                      $constraintName
      * @param array<array<string, mixed>> $constraintConfigs
      * @param string[]                    $classList
-     *
-     * @return void
      */
     protected function processAddConstraint(
         PropertyDefinition $propertyDefinition,

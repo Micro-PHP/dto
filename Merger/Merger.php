@@ -13,13 +13,11 @@ declare(strict_types=1);
 
 namespace Micro\Library\DTO\Merger;
 
-class Merger implements MergerInterface
+readonly class Merger implements MergerInterface
 {
-    /**
-     * @param array<mixed, mixed> $classCollection
-     */
-    public function __construct(private array $classCollection)
-    {
+    public function __construct(
+        private array $classCollection
+    ) {
     }
 
     public function merge(): \Generator
@@ -38,7 +36,6 @@ class Merger implements MergerInterface
     }
 
     /**
-     * @param string               $className
      * @param array<string, mixed> $classData
      *
      * @return array<string, mixed>

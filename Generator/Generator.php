@@ -20,7 +20,7 @@ use Micro\Library\DTO\View\RendererInterface;
 use Micro\Library\DTO\Writer\WriterInterface;
 use Psr\Log\LoggerInterface;
 
-class Generator
+readonly class Generator
 {
     public function __construct(
         private ReaderInterface $reader,
@@ -31,9 +31,6 @@ class Generator
     ) {
     }
 
-    /**
-     * @return void
-     */
     public function generate(): void
     {
         /** @var ClassDefinition $classDef */

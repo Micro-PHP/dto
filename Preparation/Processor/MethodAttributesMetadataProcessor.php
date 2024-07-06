@@ -18,10 +18,11 @@ use Micro\Library\DTO\ClassDef\MethodDefinition;
 use Micro\Library\DTO\Helper\NameNormalizerInterface;
 use Micro\Library\DTO\Preparation\PreparationProcessorInterface;
 
-class MethodAttributesMetadataProcessor implements PreparationProcessorInterface
+readonly class MethodAttributesMetadataProcessor implements PreparationProcessorInterface
 {
-    public function __construct(private NameNormalizerInterface $nameNormalizer)
-    {
+    public function __construct(
+        private NameNormalizerInterface $nameNormalizer
+    ) {
     }
 
     public function process(array $classDef, ClassDefinition $classDefinition, array $classList): void

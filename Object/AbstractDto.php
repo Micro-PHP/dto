@@ -13,12 +13,9 @@ declare(strict_types=1);
 
 namespace Micro\Library\DTO\Object;
 
-use ArrayAccess;
-use IteratorAggregate;
-
 /**
- * @template-implements ArrayAccess<string, mixed>
- * @template-implements IteratorAggregate<string, mixed>
+ * @template-implements \ArrayAccess<string, mixed>
+ * @template-implements \IteratorAggregate<string, mixed>
  */
 abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
 {
@@ -75,11 +72,6 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
      */
     abstract protected static function attributesMetadata(): array;
 
-    /**
-     * @param string $attribute
-     *
-     * @return mixed[]|null
-     */
     protected function getAttributeMetadata(string $attribute): ?array
     {
         $meta = static::attributesMetadata();
@@ -87,13 +79,6 @@ abstract class AbstractDto implements \ArrayAccess, \IteratorAggregate
         return $meta[$attribute] ?? null;
     }
 
-    /**
-     * @param string $method
-     * @param string $property
-     * @param mixed  $value
-     *
-     * @return mixed
-     */
     protected function executeMethod(string $method, string $property, mixed $value): mixed
     {
         $meta = $this->getAttributeMetadata($property);

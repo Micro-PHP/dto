@@ -15,10 +15,5 @@ namespace Micro\Library\DTO\Merger;
 
 interface MergerFactoryInterface
 {
-    /**
-     * @param array<mixed, mixed> $classCollection
-     *
-     * @return MergerInterface
-     */
     public function create(array $classCollection): MergerInterface;
 }

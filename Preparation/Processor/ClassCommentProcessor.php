@@ -35,13 +35,6 @@ class ClassCommentProcessor implements PreparationProcessorInterface
         }
     }
 
-    /**
-     * @param ClassDefinition $classDefinition
-     * @param string          $comment
-     * @param string|null     $commentPrefix
-     *
-     * @return void
-     */
     protected function addComment(ClassDefinition $classDefinition, string $comment, ?string $commentPrefix): void
     {
         $text = $commentPrefix ? $commentPrefix.' '.$comment : $comment;

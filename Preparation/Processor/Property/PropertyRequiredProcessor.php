@@ -19,8 +19,12 @@ use Micro\Library\DTO\Preparation\PreparationProcessorInterface;
 
 class PropertyRequiredProcessor implements PropertyProcessorInterface
 {
-    public function process(PropertyDefinition $propertyDefinition, ClassDefinition $classDefinition, array $propertyData, array $classList): void
-    {
+    public function process(
+        PropertyDefinition $propertyDefinition,
+        ClassDefinition $classDefinition,
+        array $propertyData,
+        array $classList
+    ): void {
         $required = 'true' === mb_strtolower($propertyData[PreparationProcessorInterface::PROP_REQUIRED] ?? 'false');
 
         $propertyDefinition->setIsRequired($required);

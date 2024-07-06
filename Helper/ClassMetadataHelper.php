@@ -15,12 +15,8 @@ namespace Micro\Library\DTO\Helper;
 
 use Micro\Library\DTO\Object\AbstractDto;
 
-class ClassMetadataHelper implements ClassMetadataHelperInterface
+readonly class ClassMetadataHelper implements ClassMetadataHelperInterface
 {
-    /**
-     * @param string $namespaceGeneral
-     * @param string $classSuffix
-     */
     public function __construct(
         private string $namespaceGeneral,
         private string $classSuffix
@@ -82,11 +78,6 @@ class ClassMetadataHelper implements ClassMetadataHelperInterface
         return array_pop($exploded).ucfirst($this->classSuffix);
     }
 
-    /**
-     * @param string $classname
-     *
-     * @return bool
-     */
     protected function shouldAddGeneralNamespace(string $classname): bool
     {
         if (self::PROPERTY_TYPE_ABSTRACT === mb_strtolower($classname)) {
